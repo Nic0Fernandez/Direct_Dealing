@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+
+<GridPane
+    xmlns:fx="http://javafx.com/fxml" alignment="center" vgap="10" fx:controller="eu.telecomnancy.labfx.CreateAccount"> 
+    <children>
+        <Text text="Criar Conta" 
+        GridPane.columnIndex="0" GridPane.rowIndex="0"
+        GridPane.columnSpan="2"/>
+
+        <TextField text="Nom" fx:id="nom" 
+        GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+
+        <TextField text="Prenom" fx:id="prenom"
+        GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+        <TextField text="Mot de Passe" fx:id="motdepasse"
+        GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+
+        <TextField text="Email" fx:id="email"
+        GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+
+        <TextField text="Adresse" fx:id="adresse"
+        GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+
+        <HBox alignment="center"
+        GridPane.columnIndex="0" GridPane.rowIndex="6">
+        <Button text="Create" onAction="#clickButton"/>
+        </HBox>
+
+    </children>
+</GridPane>
