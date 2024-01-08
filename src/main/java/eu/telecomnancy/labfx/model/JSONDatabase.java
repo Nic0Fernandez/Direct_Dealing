@@ -1,12 +1,18 @@
 package eu.telecomnancy.labfx.model;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
+import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTransient;
+import jakarta.json.bind.config.PropertyVisibilityStrategy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -20,12 +26,13 @@ public class JSONDatabase implements Database {
     }
     return instance;
   }
-
+  @JsonbProperty("users")
   private final Map<Integer, User> idToUser = new HashMap<>();
 
   @JsonbTransient
   private final Map<String, User> usernameToUser = new HashMap<>();
 
+  @JsonbProperty("ads")
   private final Map<Integer, Ad> ads = new HashMap<>();
 
   @JsonbTransient
@@ -106,6 +113,7 @@ public class JSONDatabase implements Database {
     return user.UID;
   }
 
+  @JsonbTransient
   @Override
   public ObservableList<Ad> getAdsAsList() {
     return FXCollections.observableArrayList(ads.values());
@@ -113,17 +121,35 @@ public class JSONDatabase implements Database {
 
   @Override
   public boolean isUsernameAvailable(String name) {
-    return !usernameToUser.containsKey(name);
+    return !(name == null || usernameToUser.containsKey(name));
   }
 
   private void save() {
+  }
 
+  public static class JSONDatabaseMemento {
+    public final Collection<Ad> ads;
+    public Collection<Ad> getAds() {
+      return ads;
+    }
+    public final Collection<User> users;
+    public Collection<User> getUsers() {
+      return users;
+    }
+    public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users) {
+      this.ads = ads;
+      this.users = users;
+    }
+  }
+
+  private JSONDatabaseMemento toMemento() {
+    return new JSONDatabaseMemento(ads.values(), idToUser.values());
   }
 
   public String asJSON() {
     Jsonb jsonb = JsonbBuilder.create();
 
-    return jsonb.toJson(this);
+    return jsonb.toJson(toMemento());
   }
 
 }

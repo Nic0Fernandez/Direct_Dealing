@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
 import javafx.collections.ObservableList;
 
 public class JSONDatabaseTest {
@@ -71,6 +73,16 @@ public class JSONDatabaseTest {
 
   @Test
   void testAsJSON() {
+    for (int i = 0; i < 3; ++i) {
+      Ad ad = new Ad();
+      ad.description = "ad number " + i;
+      db.addAd(ad);
+      User user = new User();
+      user.username = "user number " + i;
+      db.addUser(user);
+    }
+    String expected = "{\"ads\":[{\"ID\":1079697560,\"cost\":0,\"description\":\"ad number 0\",\"isOffer\":false,\"maxDistance\":0.0,\"offer\":false},{\"ID\":697695232,\"cost\":0,\"description\":\"ad number 1\",\"isOffer\":false,\"maxDistance\":0.0,\"offer\":false},{\"ID\":1103006306,\"cost\":0,\"description\":\"ad number 2\",\"isOffer\":false,\"maxDistance\":0.0,\"offer\":false}],\"users\":[{\"UID\":601182261,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 2\"},{\"UID\":1592540795,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 0\"},{\"UID\":1769761061,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 1\"}]}";
+    assertEquals(expected, db.asJSON());
 
   }
 
