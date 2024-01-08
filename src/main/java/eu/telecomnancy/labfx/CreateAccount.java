@@ -7,6 +7,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 public class CreateAccount {
+
+    public Main main;
+
     public User user;
 
     @FXML 
@@ -23,6 +26,10 @@ public class CreateAccount {
 
     @FXML
     TextField adresse;
+
+    public CreateAccount(Main main) {
+        this.main = main;
+    }
 
     public void clickButton() {
         if(JSONDatabase.getInstance().isUsernameAvailable(nom.getText() + " " + prenom.getText())) {
@@ -44,6 +51,8 @@ public class CreateAccount {
         user.address = adresse.getText();
         user.florains = 500;
         JSONDatabase.getInstance().addUser(user);
+        main.mainScreen();
+
     }
 
     private static void showAlert(Alert.AlertType alertType, String title, String message) {
