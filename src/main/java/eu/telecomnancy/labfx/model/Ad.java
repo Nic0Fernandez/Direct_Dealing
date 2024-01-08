@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Date;
 
 public class Ad {
+  public int ID;
   public String name;
   public boolean isOffer;
   public AdType type;
