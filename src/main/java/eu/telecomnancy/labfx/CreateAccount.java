@@ -1,5 +1,7 @@
 package eu.telecomnancy.labfx;
 
+import java.io.IOException;
+
 import eu.telecomnancy.labfx.model.User;
 import eu.telecomnancy.labfx.model.JSONDatabase;
 import javafx.fxml.FXML;
@@ -31,7 +33,7 @@ public class CreateAccount {
         this.main = main;
     }
 
-    public void clickButton() {
+    public void clickButton() throws IOException {
         if(JSONDatabase.getInstance().isUsernameAvailable(nom.getText() + " " + prenom.getText())) {
             addAccount();
         }
@@ -43,7 +45,7 @@ public class CreateAccount {
 
     }
 
-    public void addAccount() {
+    public void addAccount() throws IOException{
         user = new User();
         user.username = nom.getText() + " " + prenom.getText();
         user.password = motdepasse.getText();
@@ -51,7 +53,7 @@ public class CreateAccount {
         user.address = adresse.getText();
         user.florains = 500;
         JSONDatabase.getInstance().addUser(user);
-        main.mainScreen();
+        main.mainScreen(user);
 
     }
 
