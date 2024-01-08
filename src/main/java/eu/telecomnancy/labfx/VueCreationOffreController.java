@@ -1,9 +1,26 @@
-package main.java.eu.telecomnancy.labfx;
+package eu.telecomnancy.labfx;
 
-import eu.telecomnancy.labfx.model.Ad;
-import eu.telecomnancy.labfx.model.AdType;
+import java.io.IOException;
+
+import eu.telecomnancy.labfx.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
+
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class VueCreationOffreController {
     
@@ -21,21 +38,32 @@ public class VueCreationOffreController {
     @FXML private Button photo;
     @FXML private Button valider;
 
+    private Main main;
     private Ad offre;
     private String pathImage;
     private boolean isOffer;
     private AdType adType;
+    private User user;
+    private int adID = 0;
 
-    private boolean Offer(){
+    public void setMain(Main main){
+        this.main=main;
+    }
+
+    public void setUser(User user){
+        this.user=user;
+    }
+
+    public boolean Offer(){
         if(type.getValue().equals("Offre")){
-            return 1;
+            return true;
         }
         else{
-            return 0;
+            return false;
         }
     }
 
-    private AdType type(){
+    public AdType type(){
         if(nature.getValue().equals("Service")){
             return AdType.SERVICE;
         }
@@ -44,23 +72,65 @@ public class VueCreationOffreController {
         }
     }
 
+    public void initializeItems() {
+        type.getItems().removeAll(type.getItems());
+        type.getItems().addAll("Offre", "Demande");
+        nature.getItems().removeAll(nature.getItems());
+        nature.getItems().addAll("Service", "Bien");
+    }
+
+    @FXML 
+    private void validerPhoto(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une photo");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Images","*.png","*.jpg","*.jpeg"));
+        File file = fileChooser.showOpenDialog(null);
+        if(file != null){
+            this.pathImage=file.getAbsolutePath();
+
+            try{
+                BufferedImage image = ImageIO.read(new File(pathImage));
+                this.pathImage="src/main/resources/eu/telecomnancy/labfx/images/" + new File(pathImage).getName();
+                String extension = "";
+                int i = pathImage.lastIndexOf(".");
+                if (i>0){
+                    extension = pathImage.substring(i+1);
+                }
+                try{
+                    ImageIO.write((RenderedImage)image,extension,new File(pathImage));
+                } catch(Exception e) {
+                    System.out.println("Cannot write image");
+                }    
+            } catch(Exception e){
+                System.out.println("Cannot read image");
+            }  
+        }
+    }
+
+    public Date localDateToDate(LocalDate localDate){
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        return Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+    }
+
     @FXML
-    private void validerCreation(){
+    private void validerCreation() throws IOException{
         offre = new Ad();
-        offre.setName(nom.getText());
-        offre.setAddress(localisation.getText());
-        offre.setCost(cout.getText());
-        offre.setStart(dateDebut.getValue());
-        offre.setEnd(dateFin.getValue());
-        offre.setDisponibilities(disponibilites.getText());
-        offre.setDescription(description.getText());
-        offre.setImagePath(pathImage);
-        offre.isOffer(Offer());
-        offre.setType(type());
-        offre.setMaxDistance(distance.getText());
-
+        offre.userID = user.UID;
+        offre.name = nom.getText();
+        offre.address = localisation.getText();
+        offre.cost = Integer.parseInt(cout.getText());
+        offre.start = localDateToDate(dateDebut.getValue());
+        offre.end = localDateToDate(dateFin.getValue());
+        offre.disponibilities = disponibilites.getText();
+        offre.description = description.getText();
+        offre.imagePath = pathImage;
+        offre.isOffer= Offer();
+        offre.type = type();
+        offre.maxDistance = Integer.parseInt(distance.getText());
+        offre.adID = adID;
+        adID++;
         
-
+        main.mainScreen(user);
     }
 
 

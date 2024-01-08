@@ -1,0 +1,36 @@
+@startuml "model"
+
+skinparam linetype polyline
+class User {
+  String ID
+  String nom
+  String password
+  String adresse
+  String email
+  int florains
+  boolean sommeil
+}
+
+User o-- Offre
+
+Enum type {
+  service
+  bien
+}
+s
+class Offre {
+  String nom
+  boolean demande
+  boolean service
+  String description
+  String imagePath
+  int cost
+  String adress
+  double maxDistance
+  Date start
+  Date end
+  Duration duration
+}
+
+
+@enduml

@@ -1,14 +1,21 @@
 package eu.telecomnancy.labfx;
 
+import eu.telecomnancy.labfx.model.*;
+
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.application.Platform;
 
+import javafx.fxml.FXMLLoader;
+
 public class Main extends Application {
+
+    private Stage primaryStage;
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -16,20 +23,39 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setTitle("JavaFx Demo");
+        this.primaryStage = primaryStage;
 
-        Button button = new Button("Click Me!");
+        User user = new User(1);
+        mainScreen(user);
+    }
 
-        ImageView imageView = new ImageView(getClass().getResource("/eu/telecomnancy/labfx/images/kawai.png").toExternalForm());
-        button.setGraphic(imageView);
+    public void mainScreen(User user) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/MainScreen.fxml"));
+        Parent root = loader.load();
 
-        button.setOnAction(e -> {
-            System.out.println("Bye!");
-            Platform.exit();
-        });
+        MainScreenController controller = loader.getController();
+        controller.setUser(user);
+        controller.setMain(this);
 
-        Scene scene = new Scene(button, 400, 400);
+        Scene scene = new Scene(root,400,400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    public void vueCreationOffre(User user) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/VueCreationOffre.fxml"));
+        Parent root = loader.load();
+
+        VueCreationOffreController controller = loader.getController();
+        controller.setUser(user);
+        controller.setMain(this);
+        controller.initializeItems();
+
+        Scene scene = new Scene(root,400,400);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+
+
 }
