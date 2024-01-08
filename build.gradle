@@ -43,6 +43,10 @@ javafx {
 }
 
 dependencies {
+    implementation('jakarta.json.bind:jakarta.json.bind-api:3.0.0')
+    implementation('org.eclipse:yasson:3.0.3')
+    testImplementation('jakarta.json.bind:jakarta.json.bind-api:3.0.0')
+    testImplementation('org.eclipse:yasson:3.0.3')
 	testImplementation(platform('org.junit:junit-bom:5.10.1'))
 	testImplementation('org.junit.jupiter:junit-jupiter')
 }
