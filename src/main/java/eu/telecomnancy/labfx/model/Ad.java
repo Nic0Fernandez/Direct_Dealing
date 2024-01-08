@@ -6,6 +6,7 @@ import java.util.Date;
 public class Ad {
   public int adID;
   public int userID;
+  public int ID;
   public String name;
   public boolean isOffer;
   public AdType type;

@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 
 import javafx.fxml.FXMLLoader;
 
@@ -24,9 +25,20 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
+        primaryStage.setTitle("DirectDealing");
 
-        User user = new User(1);
-        mainScreen(user);
+        logingCreateScreen();
+    }
+
+
+    public void logingCreateScreen() throws IOException {
+        FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/create_compte.fxml"));
+
+        fxmloader.setControllerFactory((ic) -> new CreateAccount(this));
+
+        Scene scene = new Scene(fxmloader.load(), 400, 400);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public void mainScreen(User user) throws IOException{
@@ -41,6 +53,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
 
     public void vueCreationOffre(User user) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/VueCreationOffre.fxml"));

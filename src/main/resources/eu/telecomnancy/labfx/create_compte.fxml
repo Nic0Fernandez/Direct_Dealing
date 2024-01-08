@@ -7,32 +7,47 @@
 <?import javafx.scene.text.*?>
 
 
+
 <GridPane
-    xmlns:fx="http://javafx.com/fxml" alignment="center" vgap="10"> 
+    xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10" fx:controller="eu.telecomnancy.labfx.CreateAccount"> 
     <children>
         <Text text="Criar Conta" 
         GridPane.columnIndex="0" GridPane.rowIndex="0"
         GridPane.columnSpan="2"/>
 
-        <TextField text="Nom"
-        GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label text="Nom"
+        GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2"/>
 
-        <TextField text="Prenom"
-        GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="nom" 
+        GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-        <TextField text="Mot de Passe"
-        GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Label text="Prenom"
+        GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2"/>
 
-        <TextField text="Email"
-        GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <TextField fx:id="prenom"
+        GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-        <TextField text="Adresse"
-        GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <Label text="Password"
+        GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2"/>
+
+        <TextField fx:id="motdepasse"
+        GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Email"
+        GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2"/>
+
+        <TextField fx:id="email"
+        GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        <Label text="Adresse"
+        GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="2"/>
+
+        <TextField fx:id="adresse"
+        GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
         <HBox alignment="center"
         GridPane.columnIndex="0" GridPane.rowIndex="6">
-        <Button text="Create"/>
+        <Button text="Create" onAction="#clickButton"/>
         </HBox>
-
     </children>
 </GridPane>
