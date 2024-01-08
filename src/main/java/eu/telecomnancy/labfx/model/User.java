@@ -11,5 +11,6 @@ public class User {
   
   public User(String UID) {
     this.UID = UID;
+    sleepMode = false;
   }
 }
