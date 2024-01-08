@@ -9,6 +9,11 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    
+    implementation 'mysql:mysql-connector-java:8.0.23' 
+}
+
 group 'eu.telecomnancy'
 version '1.0-SNAPSHOT'
 
@@ -24,8 +29,7 @@ java {
 }
 
 application {
-    mainModule = 'eu.telecomnancy.labfx'
-    mainClass = 'eu.telecomnancy.labfx.Main'
+   mainClassName = 'eu.telecomnancy.labfx.login.Main'
 }
 
 
