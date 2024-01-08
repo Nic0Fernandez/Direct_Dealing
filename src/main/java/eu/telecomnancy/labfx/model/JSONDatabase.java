@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.annotation.JsonbTransient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -20,17 +23,20 @@ public class JSONDatabase implements Database {
 
   private final Map<Integer, User> idToUser = new HashMap<>();
 
+  @JsonbTransient
   private final Map<String, User> usernameToUser = new HashMap<>();
 
   private final Map<Integer, Ad> ads = new HashMap<>();
 
+  @JsonbTransient
   private final Random random = new Random();
 
   private int generateRandomPositiveInteger() {
     return random.nextInt() & Integer.MAX_VALUE;
   }
 
-  private JSONDatabase() {
+  // only for testing!!
+  public JSONDatabase() {
   }
 
   private int getNewUserID() {
@@ -105,12 +111,19 @@ public class JSONDatabase implements Database {
     return FXCollections.observableArrayList(ads.values());
   }
 
-  private void save() {
-  }
-
   @Override
   public boolean isUsernameAvailable(String name) {
     return !usernameToUser.containsKey(name);
+  }
+
+  private void save() {
+
+  }
+
+  public String asJSON() {
+    Jsonb jsonb = JsonbBuilder.create();
+
+    return jsonb.toJson(this);
   }
 
 }
