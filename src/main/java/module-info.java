@@ -3,6 +3,6 @@ module eu.telecomnancy.labfx {
     requires javafx.fxml;
 
 
-    opens eu.telecomnancy.labfx.login to javafx.fxml;
-    exports eu.telecomnancy.labfx.login;
+    opens eu.telecomnancy.labfx to javafx.fxml;
+    exports eu.telecomnancy.labfx;
 }
