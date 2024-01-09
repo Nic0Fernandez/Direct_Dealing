@@ -34,14 +34,17 @@ public class CreateAccount {
     }
 
     public void clickButton() throws IOException {
-        if(JSONDatabase.getInstance().isUsernameAvailable(nom.getText() + " " + prenom.getText())) {
+        if(nom.getText().isBlank() || prenom.getText().isBlank() || motdepasse.getText().isBlank() || email.getText().isBlank() || adresse.getText().isBlank()) {
+            showAlert(Alert.AlertType.ERROR, "Fields without information", "Please fill all the fields");
+            return;
+        } 
+        else if(JSONDatabase.getInstance().isUsernameAvailable(nom.getText() + " " + prenom.getText())) {
             addAccount();
         }
         else {
             showAlert(Alert.AlertType.ERROR, "Username already exists!", "Please enter a new username");
             return;
         }
-
 
     }
 
