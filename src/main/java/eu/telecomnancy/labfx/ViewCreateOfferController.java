@@ -141,9 +141,7 @@ public class ViewCreateOfferController {
                 offre.end = localDateToDate(dateFin.getValue());
             }
 
-            if(!duree.getText().equals("")){
-                offre.duration = Integer.parseInt(duree.getText()) ;
-            }
+           
 
 
             if(disponibilites.getText().isBlank()){
