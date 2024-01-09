@@ -136,7 +136,7 @@ public class JSONDatabase implements Database {
   private Path getPathToDbFile() {
     File dir;
     if (SystemUtils.IS_OS_WINDOWS) {
-      dir = new File("C:\\Program Files\\DirectDealing");
+      dir = new File(System.getenv("APPDATA")+ "\\DirectDealing");
     } else {
       dir = new File(System.getenv("HOME") + "/DirectDealing");
     }
