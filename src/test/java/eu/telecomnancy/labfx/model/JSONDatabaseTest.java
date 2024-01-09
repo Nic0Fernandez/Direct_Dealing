@@ -20,16 +20,17 @@ public class JSONDatabaseTest {
 
   private static class LinearIDSupplier implements IntSupplier {
     private int i = 0;
+
     @Override
     public int getAsInt() {
       return i++;
     }
-    
+
   }
 
   @BeforeEach
   void setUp() {
-    db = new JSONDatabase(new LinearIDSupplier());
+    db = new JSONDatabase(new LinearIDSupplier(), null, null);
   }
 
   @Test
@@ -90,8 +91,25 @@ public class JSONDatabaseTest {
       user.username = "user number " + i;
       db.addUser(user);
     }
-    String expected = "{\"ads\":[{\"ID\":0,\"cost\":0,\"description\":\"ad number 0\",\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":2,\"cost\":0,\"description\":\"ad number 1\",\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":4,\"cost\":0,\"description\":\"ad number 2\",\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0}],\"users\":[{\"UID\":1,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 0\"},{\"UID\":3,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 1\"},{\"UID\":5,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 2\"}]}";
+    String expected = "{\"ads\":[{\"ID\":0,\"cost\":0,\"description\":\"ad number 0\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":2,\"cost\":0,\"description\":\"ad number 1\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":4,\"cost\":0,\"description\":\"ad number 2\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0}],\"users\":[{\"UID\":1,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 0\"},{\"UID\":3,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 1\"},{\"UID\":5,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 2\"}]}";
     assertEquals(expected, db.asJSON());
+  }
+
+  @Test
+  void testFromJSON() {
+    String jsonString = "{\"ads\":[{\"ID\":0},\n" +
+        "{\"ID\":2},\n" +
+        "{\"ID\":4}],\n" +
+        "\"users\":[{\"UID\":1,\"username\":\"user number 0\"},\n" +
+        "{\"UID\":3,\"username\":\"user number 1\"},\n" +
+        "{\"UID\":5,\"username\":\"user number 2\"}]}";
+    db.loadFromJSON(jsonString);
+    assertNotNull(db.getAd(0));
+    assertNotNull(db.getAd(2));
+    assertNotNull(db.getAd(4));
+    assertNotNull(db.getUser(1));
+    assertNotNull(db.getUser(3));
+    assertNotNull(db.getUser(5));
   }
 
   @Test

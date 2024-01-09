@@ -13,6 +13,7 @@ import java.util.function.IntSupplier;
 import org.apache.commons.lang3.SystemUtils;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTransient;
 import javafx.collections.FXCollections;
@@ -33,7 +34,10 @@ public class JSONDatabase implements Database {
 
   static public JSONDatabase getInstance() {
     if (instance == null) {
-      instance = new JSONDatabase(new RandomIdSupplier());
+      instance = new JSONDatabase(new RandomIdSupplier(),
+          System.getenv("HOME") + "/DirectDealing",
+          "C:\\Program Files\\DirectDealing");
+      instance.load();
     }
     return instance;
   }
@@ -51,8 +55,10 @@ public class JSONDatabase implements Database {
   private final IntSupplier idProvider;
 
   // public only for testing!!
-  public JSONDatabase(IntSupplier idProvider) {
+  public JSONDatabase(IntSupplier idProvider, String linuxPath, String windowsPath) {
     this.idProvider = idProvider;
+    this.linuxPath = linuxPath;
+    this.windowsPath = windowsPath;
   }
 
   private int getNewUserID() {
@@ -111,11 +117,13 @@ public class JSONDatabase implements Database {
   @Override
   public int authenticate(String username, String password) {
     if (isUsernameAvailable(username)) {
+      System.out.println("username \"" + username + "\" not found!");
       return -1;
     }
 
     User user = usernameToUser.get(username);
-    if (user.password != password) {
+    if (!user.password.equals(password)) {
+      System.out.println("password is " + user.password + " not " + password);
       return -1;
     }
 
@@ -133,12 +141,19 @@ public class JSONDatabase implements Database {
     return !(name == null || usernameToUser.containsKey(name));
   }
 
+  private String windowsPath;
+  private String linuxPath;
+
   private Path getPathToDbFile() {
     File dir;
     if (SystemUtils.IS_OS_WINDOWS) {
-      dir = new File("C:\\Program Files\\DirectDealing");
+      if (windowsPath == null)
+        return null;
+      dir = new File(windowsPath);
     } else {
-      dir = new File(System.getenv("HOME") + "/DirectDealing");
+      if (linuxPath == null)
+        return null;
+      dir = new File(linuxPath);
     }
 
     if (!dir.exists()) {
@@ -165,16 +180,19 @@ public class JSONDatabase implements Database {
   }
 
   public static class JSONDatabaseMemento {
-    public final Collection<Ad> ads;
+    public Collection<Ad> ads;
 
     public Collection<Ad> getAds() {
       return ads;
     }
 
-    public final Collection<User> users;
+    public Collection<User> users;
 
     public Collection<User> getUsers() {
       return users;
+    }
+
+    public JSONDatabaseMemento() {
     }
 
     public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users) {
@@ -193,4 +211,39 @@ public class JSONDatabase implements Database {
     return jsonb.toJson(toMemento());
   }
 
+  private void load() {
+    Path dbFile = getPathToDbFile();
+    if (dbFile == null || !Files.exists(dbFile)) {
+      return;
+    }
+
+    try {
+      String dbString = Files.readString(dbFile);
+      loadFromJSON(dbString);
+    } catch (IOException e) {
+      System.out.println("programme n'a pas reussi à ouvrir le fichier à " + dbFile.toString());
+    }
+  }
+
+  void loadFromJSON(String dbString) {
+    try {
+      Jsonb jsonb = JsonbBuilder.create();
+      System.out.println(dbString);
+      JSONDatabaseMemento m = jsonb.fromJson(dbString, JSONDatabaseMemento.class);
+      System.out.println(m.getAds().size());
+      System.out.println(m.getUsers().size());
+      loadFromMemento(m);
+    } catch (JsonbException e) {
+      System.out.println(e.getMessage());
+      System.out.println("programme n'a pas reussi à interpreter le fichier json!");
+    }
+  }
+
+  private void loadFromMemento(JSONDatabaseMemento m) {
+    m.ads.forEach(ad -> ads.put(ad.ID, ad));
+    m.users.forEach(user -> {
+      idToUser.put(user.UID, user);
+      usernameToUser.put(user.username, user);
+    });
+  }
 }
