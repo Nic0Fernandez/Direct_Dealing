@@ -141,8 +141,10 @@ public class ViewCreateOfferController {
                 offre.end = localDateToDate(dateFin.getValue());
             }
 
-           
+           if(!duree.equals("")){
+                offre.duration = Integer.parseInt(duree.getText());
 
+            }
 
             if(disponibilites.getText().isBlank()){
                 showErrorMessage("Vous devez remplir tous les champs");
