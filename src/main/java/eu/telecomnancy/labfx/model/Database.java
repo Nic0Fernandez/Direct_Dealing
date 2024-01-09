@@ -16,4 +16,6 @@ public interface Database {
   int authenticate(String username, String password);
 
   ObservableList<Ad> getAdsAsList();
+
+  String saveImage(String path);
 }

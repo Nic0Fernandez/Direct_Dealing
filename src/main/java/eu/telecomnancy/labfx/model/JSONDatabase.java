@@ -19,6 +19,10 @@ import jakarta.json.bind.annotation.JsonbTransient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import javax.imageio.ImageIO;
+
 public class JSONDatabase implements Database {
 
   private static JSONDatabase instance;
@@ -32,11 +36,11 @@ public class JSONDatabase implements Database {
     }
   }
 
-  static public JSONDatabase getInstance() {
+  static public Database getInstance() {
     if (instance == null) {
       instance = new JSONDatabase(new RandomIdSupplier(),
           System.getenv("HOME") + "/DirectDealing",
-          "C:\\Program Files\\DirectDealing");
+          System.getenv("APPDATA") + "\\DirectDealing");
       instance.load();
     }
     return instance;
@@ -144,7 +148,7 @@ public class JSONDatabase implements Database {
   private String windowsPath;
   private String linuxPath;
 
-  private Path getPathToDbFile() {
+  private Path getPathToFile(String name) {
     File dir;
     if (SystemUtils.IS_OS_WINDOWS) {
       if (windowsPath == null)
@@ -163,12 +167,12 @@ public class JSONDatabase implements Database {
         return null;
       }
     }
-    return Path.of(dir.getAbsolutePath(), "db.json");
+    return Path.of(dir.getAbsolutePath(), name);
   }
 
   private void save() {
 
-    Path path = getPathToDbFile();
+    Path path = getPathToFile("db.json");
     if (path == null)
       return;
     try {
@@ -212,7 +216,7 @@ public class JSONDatabase implements Database {
   }
 
   private void load() {
-    Path dbFile = getPathToDbFile();
+    Path dbFile = getPathToFile("db.json");
     if (dbFile == null || !Files.exists(dbFile)) {
       return;
     }
@@ -230,8 +234,6 @@ public class JSONDatabase implements Database {
       Jsonb jsonb = JsonbBuilder.create();
       System.out.println(dbString);
       JSONDatabaseMemento m = jsonb.fromJson(dbString, JSONDatabaseMemento.class);
-      System.out.println(m.getAds().size());
-      System.out.println(m.getUsers().size());
       loadFromMemento(m);
     } catch (JsonbException e) {
       System.out.println(e.getMessage());
@@ -245,5 +247,29 @@ public class JSONDatabase implements Database {
       idToUser.put(user.UID, user);
       usernameToUser.put(user.username, user);
     });
+  }
+
+  @Override
+  public String saveImage(String path) {
+
+    try {
+      BufferedImage image = ImageIO.read(new File(path));
+      String copyPath = getPathToFile(Path.of(path).getFileName().toString()).toString();
+      String extension = "";
+      int i = path.lastIndexOf(".");
+      if (i > 0) {
+        extension = path.substring(i + 1);
+      }
+      try {
+        ImageIO.write((RenderedImage) image, extension, new File(copyPath));
+        return copyPath;
+      } catch (Exception e) {
+        System.out.println("Cannot write image");
+        return null;
+      }
+    } catch (Exception e) {
+      System.out.println("Cannot read image");
+      return null;
+    }
   }
 }

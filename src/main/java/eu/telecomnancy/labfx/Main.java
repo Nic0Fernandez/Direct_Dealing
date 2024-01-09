@@ -1,6 +1,6 @@
 package eu.telecomnancy.labfx;
 
-import eu.telecomnancy.labfx.model.User;
+import eu.telecomnancy.labfx.model.*;
 
 import java.io.IOException;
 import javafx.application.Application;
@@ -76,6 +76,20 @@ public class Main extends Application {
         controller.initializeItems();
 
         Scene scene = new Scene(root, 400, 400);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void viewOffer(User user, Ad offer) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/ViewOffer.fxml"));
+        Parent root = loader.load();
+
+        ViewOfferController controller = loader.getController();
+        controller.setUser(user);
+        controller.setMain(this);
+        controller.initializeItems();
+
+        Scene scene = new Scene(root, 600, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
