@@ -1,22 +1,18 @@
 package eu.telecomnancy.labfx;
 
-import eu.telecomnancy.labfx.model.*;
+import eu.telecomnancy.labfx.model.User;
 
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-
-import javafx.fxml.FXMLLoader;
 
 public class Main extends Application {
 
     private Stage primaryStage;
+    private User currentUser; 
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -27,21 +23,37 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("DirectDealing");
 
-        logingCreateScreen();
+        if (currentUser == null) {
+            loginScreen(); // Show login screen if no user is logged in
+        } else {
+            mainScreen(currentUser); // Show the main screen if a user is already logged in
+        }
     }
 
+    public void loginScreen() throws IOException {
+        FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/Login.fxml"));
 
-    public void logingCreateScreen() throws IOException {
-        FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/create_compte.fxml"));
-
-        fxmloader.setControllerFactory((ic) -> new CreateAccount(this));
+        // Assuming you have a LoginController class for the login screen
+        fxmloader.setControllerFactory(ic -> new Login(this));
 
         Scene scene = new Scene(fxmloader.load(), 400, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public void mainScreen(User user) throws IOException{
+    public void createAccountScreen() throws IOException {
+        FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/create_compte.fxml"));
+    
+        // Assuming you have a CreateAccountController class for the account creation screen
+        fxmloader.setControllerFactory(ic -> new CreateAccount(this));
+    
+        Scene scene = new Scene(fxmloader.load(), 400, 400);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+
+    public void mainScreen(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/MainScreen.fxml"));
         Parent root = loader.load();
 
@@ -49,13 +61,12 @@ public class Main extends Application {
         controller.setUser(user);
         controller.setMain(this);
 
-        Scene scene = new Scene(root,400,400);
+        Scene scene = new Scene(root, 400, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-
-    public void vueCreationOffre(User user) throws IOException{
+    public void vueCreationOffre(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/VueCreationOffre.fxml"));
         Parent root = loader.load();
 
@@ -64,11 +75,17 @@ public class Main extends Application {
         controller.setMain(this);
         controller.initializeItems();
 
-        Scene scene = new Scene(root,400,400);
+        Scene scene = new Scene(root, 400, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+    }
 
-
+    public User getCurrentUser() {
+        return currentUser;
+    }
 }

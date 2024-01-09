@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.model;
 
+
 import java.time.Duration;
 import java.util.Date;
 
