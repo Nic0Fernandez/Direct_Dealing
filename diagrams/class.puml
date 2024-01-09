@@ -1,4 +1,4 @@
-@startuml "class" 
+@startuml "class"
 
 skinparam linetype polyline
 package model {
@@ -43,19 +43,25 @@ package model {
     + int authenticate(String username, String password)
     + ObservableList<Ad> getAdsAsList()
     + boolean isUsernameAvailable(String name)
+    + String saveImage(String path)
   }
-
   class JSONDatabase {
     - {static} JSONDatabase instance
-    + {static} JSONDatabase getInstance()
+    + {static} Database getInstance()
     - int getNewUserID()
     - int getNewAdID()
     - Path getPathToDbFile()
     - void save()
     - JSONDatabaseMemento toMemento()
     + String asJSON()
-
+    - void load()
+    - void loadFromJSON(String dbString)
+    - void loadFromMemento(JSONDatabaseMemento m)
+    - Path getPathToFile(String name)
+    + String asJSON()
   }
+
+
   JSONDatabase --> IntSupplier
   JSONDatabase ..|> Database
   JSONDatabase --> User
@@ -64,11 +70,10 @@ package model {
     + int getAsInt()
   }
 
-  class JSONDatabaseMemento 
-  JSONDatabase --> User
-  JSONDatabase --> Ad
+  JSONDatabaseMemento --> User
+  JSONDatabaseMemento --> Ad
 
-  class RandomIDSupplier ..|> IntSupplier
+  RandomIDSupplier ..|> IntSupplier
 
 
 }
