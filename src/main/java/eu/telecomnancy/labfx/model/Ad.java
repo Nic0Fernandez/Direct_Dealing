@@ -17,7 +17,7 @@ public class Ad {
   public double maxDistance;
   public Date start;
   public Date end;
-  public Duration duration;
+  public int duration;
   public String disponibilities;
 
 }

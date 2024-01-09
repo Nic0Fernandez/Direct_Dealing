@@ -37,7 +37,7 @@
          <children>
             <DatePicker fx:id="dateDebut" promptText="Date du début" />
             <DatePicker fx:id="dateFin" promptText="Date de fin (optionnelle)" />
-            <TextField fx:id="duree" prefHeight="26.0" prefWidth="160.0" promptText="Durée du prêt (optionnelle)" />
+            <TextField fx:id="duree" prefHeight="26.0" prefWidth="160.0" promptText="Durée du prêt en jour(optionnelle)" />
          </children>
       </HBox>
       <TextField fx:id="disponibilites" promptText="Disponibilités horaires" />

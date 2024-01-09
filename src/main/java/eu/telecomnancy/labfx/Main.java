@@ -49,7 +49,7 @@ public class Main extends Application {
         controller.setUser(user);
         controller.setMain(this);
 
-        Scene scene = new Scene(root,400,400);
+        Scene scene = new Scene(root,600,600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

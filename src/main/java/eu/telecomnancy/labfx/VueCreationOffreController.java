@@ -11,6 +11,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
+import javax.swing.event.ChangeListener;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -22,6 +23,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.TextField;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 public class VueCreationOffreController {
     
     @FXML private TextField nom;
@@ -39,7 +45,7 @@ public class VueCreationOffreController {
     @FXML private Button valider;
 
     private Main main;
-    private Ad offre;
+    private Ad offre = new Ad();;
     private String pathImage;
     private boolean isOffer;
     private AdType adType;
@@ -77,6 +83,17 @@ public class VueCreationOffreController {
         type.getItems().addAll("Offre", "Demande");
         nature.getItems().removeAll(nature.getItems());
         nature.getItems().addAll("Service", "Bien");
+        restrictIntegers(cout);
+        restrictIntegers(distance);
+        restrictIntegers(duree);
+    }
+
+    public void restrictIntegers(TextField textField){
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                textField.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
     }
 
     @FXML 
@@ -114,25 +131,98 @@ public class VueCreationOffreController {
 
     @FXML
     private void validerCreation() throws IOException{
-        offre = new Ad();
-        offre.userID = user.UID;
-        offre.name = nom.getText();
-        offre.address = localisation.getText();
-        offre.cost = Integer.parseInt(cout.getText());
-        offre.start = localDateToDate(dateDebut.getValue());
-        offre.end = localDateToDate(dateFin.getValue());
-        offre.disponibilities = disponibilites.getText();
-        offre.description = description.getText();
-        offre.imagePath = pathImage;
-        offre.isOffer= Offer();
-        offre.type = type();
-        offre.maxDistance = Integer.parseInt(distance.getText());
-        offre.adID = adID;
-        adID++;
-        
-        main.mainScreen(user);
+        try {
+            offre.userID = user.UID;
+
+            if(nom.getText().isBlank()){
+                showErrorMessage("Vous devez remplir tous les champs");
+                return;
+            }
+            else{
+                offre.name = nom.getText();
+            }
+            
+            if(localisation.getText().isBlank()){
+                showErrorMessage("Vous devez remplir tous les champs");
+                return;
+            }
+            else{
+                offre.address = localisation.getText();
+            }
+            
+            if(cout.getText().isBlank()){
+                showErrorMessage("Vous devez remplir tous les champs");
+                return;
+            }
+            else{
+                offre.cost = Integer.parseInt(cout.getText());
+            }
+            
+            try {
+                offre.start = localDateToDate(dateDebut.getValue());
+                offre.isOffer= Offer();
+                offre.type = type();
+            } catch (Exception e) {
+                showErrorMessage("Vous devez remplir tous les champs");
+            }
+
+            if(dateFin.getValue() != null){
+                offre.end = localDateToDate(dateFin.getValue());
+            }
+
+            if(duree.getText() != null){
+                offre.duration = Integer.parseInt(duree.getText()) ;
+            }
+
+
+            if(disponibilites.getText().isBlank()){
+                showErrorMessage("Vous devez remplir tous les champs");
+                return;
+            }
+            else{
+                offre.disponibilities = disponibilites.getText();
+            }
+            
+            if(description.getText().isBlank()){
+                showErrorMessage("Vous devez remplir tous les champs");
+                return;
+            }
+            else{
+                offre.description= description.getText();
+            }
+
+            if(pathImage == null){
+                showErrorMessage("Vous devez remplir tous les champs");
+                return;
+            }
+            else{
+                offre.imagePath = pathImage;
+            }
+            
+            if(distance.getText().isBlank()){
+                showErrorMessage("Vous devez remplir tous les champs");
+                return;
+            }
+            else{
+                offre.maxDistance = Integer.parseInt(distance.getText());
+            }
+            
+            offre.adID = adID;
+            adID++;
+
+            main.mainScreen(user);
+        } catch (NumberFormatException e) {
+            showErrorMessage("Vous devez remplir tous les champs");
+            return;
+        } 
     }
 
-
+    public void showErrorMessage(String message){
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
 }
