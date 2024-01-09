@@ -2,6 +2,8 @@ package eu.telecomnancy.labfx;
 
 import javafx.fxml.FXML;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,6 +66,11 @@ public class ViewOfferController {
         duree.setText(Integer.toString(offer.duration));
         disponibilites.setText(offer.disponibilities);
 
+    }
+
+    @FXML
+    public void retourMainScreen() throws IOException{
+        main.mainScreen(user);
     }
 
     @FXML 

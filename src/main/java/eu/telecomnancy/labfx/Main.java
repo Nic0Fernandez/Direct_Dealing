@@ -86,6 +86,7 @@ public class Main extends Application {
 
         ViewOfferController controller = loader.getController();
         controller.setUser(user);
+        controller.setAd(offer);
         controller.setMain(this);
         controller.initializeItems();
 
