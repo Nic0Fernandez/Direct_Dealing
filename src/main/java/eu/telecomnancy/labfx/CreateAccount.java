@@ -45,17 +45,25 @@ public class CreateAccount {
 
     }
 
-    public void addAccount() throws IOException{
-        user = new User();
-        user.username = nom.getText() + " " + prenom.getText();
-        user.password = motdepasse.getText();
-        user.email = email.getText();
-        user.address = adresse.getText();
-        user.florains = 500;
-        JSONDatabase.getInstance().addUser(user);
-        main.mainScreen(user);
+    public void addAccount() throws IOException {
+    user = new User();
+    user.username = nom.getText() + " " + prenom.getText();
+    user.password = motdepasse.getText();
+    user.email = email.getText();
+    user.address = adresse.getText();
+    user.florains = 500;
 
+    int result = JSONDatabase.getInstance().addUser(user);
+
+    System.out.println("Add Account Result: " + result); // Add this line for debugging
+
+    if (result != -1) {
+        main.mainScreen(user);
+    } else {
+        showAlert(Alert.AlertType.ERROR, "Error creating account", "Please try again later");
     }
+}
+
 
     private static void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
