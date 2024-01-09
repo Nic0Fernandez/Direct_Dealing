@@ -28,7 +28,7 @@ import javafx.scene.control.TextField;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-public class VueCreationOffreController {
+public class ViewCreateOfferController {
     
     @FXML private TextField nom;
     @FXML private ComboBox type;
@@ -164,13 +164,14 @@ public class VueCreationOffreController {
                 offre.type = type();
             } catch (Exception e) {
                 showErrorMessage("Vous devez remplir tous les champs");
+                return;
             }
 
             if(dateFin.getValue() != null){
                 offre.end = localDateToDate(dateFin.getValue());
             }
 
-            if(duree.getText() != null){
+            if(!duree.getText().equals("")){
                 offre.duration = Integer.parseInt(duree.getText()) ;
             }
 

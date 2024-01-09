@@ -48,7 +48,7 @@ public class MainScreenController {
 
     @FXML
     private void ajouterOffre() throws IOException{
-        main.vueCreationOffre(user);
+        main.viewCreateOffer(user);
     }
 
     @FXML
