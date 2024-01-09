@@ -1,6 +1,5 @@
 package eu.telecomnancy.labfx.model;
 
-import java.time.Duration;
 import java.util.Date;
 
 public class Ad {
@@ -16,7 +15,7 @@ public class Ad {
   public double maxDistance;
   public Date start;
   public Date end;
-  public Duration duration;
+  public int duration;
   public String disponibilities;
 
 }
