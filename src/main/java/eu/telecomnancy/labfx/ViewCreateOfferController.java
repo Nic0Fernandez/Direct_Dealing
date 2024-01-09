@@ -210,7 +210,7 @@ public class ViewCreateOfferController {
             
             offre.adID = adID;
             adID++;
-
+            JSONDatabase.getInstance().addAd(offre);
             main.mainScreen(user);
         } catch (NumberFormatException e) {
             showErrorMessage("Vous devez remplir tous les champs");
