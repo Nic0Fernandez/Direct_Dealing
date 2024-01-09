@@ -127,8 +127,8 @@ public class VueCreationOffreController {
         offre.isOffer= Offer();
         offre.type = type();
         offre.maxDistance = Integer.parseInt(distance.getText());
-        offre.adID = adID;
-        adID++;
+        Database db = JSONDatabase.getInstance();
+        db.addAd(offre);
         
         main.mainScreen(user);
     }

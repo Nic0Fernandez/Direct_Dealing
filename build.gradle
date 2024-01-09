@@ -24,7 +24,6 @@ java {
 }
 
 application {
-    mainModule = 'eu.telecomnancy.labfx'
     mainClass = 'eu.telecomnancy.labfx.Main'
 }
 
@@ -45,6 +44,7 @@ javafx {
 dependencies {
     implementation('jakarta.json.bind:jakarta.json.bind-api:3.0.0')
     implementation('org.eclipse:yasson:3.0.3')
+    implementation('org.apache.commons:commons-lang3:3.14.0')
     testImplementation('jakarta.json.bind:jakarta.json.bind-api:3.0.0')
     testImplementation('org.eclipse:yasson:3.0.3')
 	testImplementation(platform('org.junit:junit-bom:5.10.1'))

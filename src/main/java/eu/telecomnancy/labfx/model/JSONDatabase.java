@@ -1,18 +1,20 @@
 package eu.telecomnancy.labfx.model;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.IntSupplier;
 
+import org.apache.commons.lang3.SystemUtils;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
-import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTransient;
-import jakarta.json.bind.config.PropertyVisibilityStrategy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -20,12 +22,22 @@ public class JSONDatabase implements Database {
 
   private static JSONDatabase instance;
 
+  private static class RandomIdSupplier implements IntSupplier {
+    private final Random random = new Random();
+
+    @Override
+    public int getAsInt() {
+      return random.nextInt() & Integer.MAX_VALUE;
+    }
+  }
+
   static public JSONDatabase getInstance() {
     if (instance == null) {
-      instance = new JSONDatabase();
+      instance = new JSONDatabase(new RandomIdSupplier());
     }
     return instance;
   }
+
   @JsonbProperty("users")
   private final Map<Integer, User> idToUser = new HashMap<>();
 
@@ -36,20 +48,17 @@ public class JSONDatabase implements Database {
   private final Map<Integer, Ad> ads = new HashMap<>();
 
   @JsonbTransient
-  private final Random random = new Random();
+  private final IntSupplier idProvider;
 
-  private int generateRandomPositiveInteger() {
-    return random.nextInt() & Integer.MAX_VALUE;
-  }
-
-  // only for testing!!
-  public JSONDatabase() {
+  // public only for testing!!
+  public JSONDatabase(IntSupplier idProvider) {
+    this.idProvider = idProvider;
   }
 
   private int getNewUserID() {
     int i;
     do {
-      i = generateRandomPositiveInteger();
+      i = idProvider.getAsInt();
 
     } while (idToUser.containsKey(i));
     return i;
@@ -58,7 +67,7 @@ public class JSONDatabase implements Database {
   private int getNewAdID() {
     int i;
     do {
-      i = generateRandomPositiveInteger();
+      i = idProvider.getAsInt();
     } while (ads.containsKey(i));
     return i;
   }
@@ -124,18 +133,50 @@ public class JSONDatabase implements Database {
     return !(name == null || usernameToUser.containsKey(name));
   }
 
+  private Path getPathToDbFile() {
+    File dir;
+    if (SystemUtils.IS_OS_WINDOWS) {
+      dir = new File("C:\\Program Files\\DirectDealing");
+    } else {
+      dir = new File(System.getenv("HOME") + "/DirectDealing");
+    }
+
+    if (!dir.exists()) {
+      System.out.println("attempting to create directory at " + dir.getAbsolutePath());
+      if (!dir.mkdir()) {
+        System.out.println("failed to create directory");
+        return null;
+      }
+    }
+    return Path.of(dir.getAbsolutePath(), "db.json");
+  }
+
   private void save() {
+
+    Path path = getPathToDbFile();
+    if (path == null)
+      return;
+    try {
+      Files.write(path, asJSON().getBytes());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
   }
 
   public static class JSONDatabaseMemento {
     public final Collection<Ad> ads;
+
     public Collection<Ad> getAds() {
       return ads;
     }
+
     public final Collection<User> users;
+
     public Collection<User> getUsers() {
       return users;
     }
+
     public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users) {
       this.ads = ads;
       this.users = users;

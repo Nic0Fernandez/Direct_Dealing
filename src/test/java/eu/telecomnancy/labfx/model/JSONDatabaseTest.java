@@ -7,20 +7,29 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.function.IntSupplier;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import jakarta.json.bind.Jsonb;
-import jakarta.json.bind.JsonbBuilder;
 import javafx.collections.ObservableList;
 
 public class JSONDatabaseTest {
 
   JSONDatabase db;
 
+  private static class LinearIDSupplier implements IntSupplier {
+    private int i = 0;
+    @Override
+    public int getAsInt() {
+      return i++;
+    }
+    
+  }
+
   @BeforeEach
   void setUp() {
-    db = new JSONDatabase();
+    db = new JSONDatabase(new LinearIDSupplier());
   }
 
   @Test
@@ -81,9 +90,8 @@ public class JSONDatabaseTest {
       user.username = "user number " + i;
       db.addUser(user);
     }
-    String expected = "{\"ads\":[{\"ID\":1079697560,\"cost\":0,\"description\":\"ad number 0\",\"isOffer\":false,\"maxDistance\":0.0,\"offer\":false},{\"ID\":697695232,\"cost\":0,\"description\":\"ad number 1\",\"isOffer\":false,\"maxDistance\":0.0,\"offer\":false},{\"ID\":1103006306,\"cost\":0,\"description\":\"ad number 2\",\"isOffer\":false,\"maxDistance\":0.0,\"offer\":false}],\"users\":[{\"UID\":601182261,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 2\"},{\"UID\":1592540795,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 0\"},{\"UID\":1769761061,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 1\"}]}";
+    String expected = "{\"ads\":[{\"ID\":0,\"cost\":0,\"description\":\"ad number 0\",\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":2,\"cost\":0,\"description\":\"ad number 1\",\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":4,\"cost\":0,\"description\":\"ad number 2\",\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0}],\"users\":[{\"UID\":1,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 0\"},{\"UID\":3,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 1\"},{\"UID\":5,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 2\"}]}";
     assertEquals(expected, db.asJSON());
-
   }
 
   @Test

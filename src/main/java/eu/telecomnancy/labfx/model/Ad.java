@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.util.Date;
 
 public class Ad {
-  public int adID;
   public int userID;
   public int ID;
   public String name;

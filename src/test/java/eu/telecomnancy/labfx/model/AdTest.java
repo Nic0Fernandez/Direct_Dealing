@@ -22,6 +22,7 @@ public class AdTest {
   void serializeTest() {
     Ad ad = new Ad();
     ad.ID = 1;
+    ad.userID = 10;
     ad.name = "ad name";
     ad.isOffer = true;
     ad.type = AdType.GOOD;
@@ -37,7 +38,7 @@ public class AdTest {
     Jsonb jsonb = JsonbBuilder.create();
     String jsonAd = jsonb.toJson(ad);
 
-    String expected = "{\"ID\":1,\"address\":\"0, street of the fools\",\"cost\":100,\"description\":\"baba\",\"disponibilities\":\"never\",\"duration\":\"PT1S\",\"end\":\"2001-05-11T00:00:00Z[UTC]\",\"imagePath\":\"/bi/bi.jpg\",\"isOffer\":true,\"maxDistance\":100.0,\"name\":\"ad name\",\"offer\":true,\"start\":\"2000-11-27T00:00:00Z[UTC]\",\"type\":\"GOOD\"}";
+    String expected = "{\"ID\":1,\"address\":\"0, street of the fools\",\"cost\":100,\"description\":\"baba\",\"disponibilities\":\"never\",\"duration\":\"PT1S\",\"end\":\"2001-05-11T00:00:00Z[UTC]\",\"imagePath\":\"/bi/bi.jpg\",\"isOffer\":true,\"maxDistance\":100.0,\"name\":\"ad name\",\"start\":\"2000-11-27T00:00:00Z[UTC]\",\"type\":\"GOOD\",\"userID\":10}";
 
     assertEquals(expected, jsonAd);
   }

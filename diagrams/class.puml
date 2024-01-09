@@ -48,14 +48,27 @@ package model {
   class JSONDatabase {
     - {static} JSONDatabase instance
     + {static} JSONDatabase getInstance()
-    - int generateRandomPositiveInteger()
     - int getNewUserID()
     - int getNewAdID()
+    - Path getPathToDbFile()
     - void save()
+    - JSONDatabaseMemento toMemento()
+    + String asJSON()
+
   }
+  JSONDatabase --> IntSupplier
   JSONDatabase ..|> Database
   JSONDatabase --> User
   JSONDatabase --> Ad
+  interface IntSupplier {
+    + int getAsInt()
+  }
+
+  class JSONDatabaseMemento 
+  JSONDatabase --> User
+  JSONDatabase --> Ad
+
+  class RandomIDSupplier ..|> IntSupplier
 
 
 }
