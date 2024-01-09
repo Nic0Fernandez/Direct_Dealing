@@ -6,24 +6,12 @@ import eu.telecomnancy.labfx.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import javafx.stage.FileChooser;
-import javax.imageio.ImageIO;
-import javax.swing.event.ChangeListener;
-
-import jakarta.json.bind.Jsonb;
-import jakarta.json.bind.JsonbBuilder;
-import java.util.List;
-import java.util.ResourceBundle;
 import java.util.Date;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
 
 import javafx.scene.control.Alert;
@@ -102,24 +90,7 @@ public class ViewCreateOfferController {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Images","*.png","*.jpg","*.jpeg"));
         File file = fileChooser.showOpenDialog(null);
         if(file != null){
-            this.pathImage=file.getAbsolutePath();
-
-            try{
-                BufferedImage image = ImageIO.read(new File(pathImage));
-                this.pathImage="src/main/resources/eu/telecomnancy/labfx/images/" + new File(pathImage).getName();
-                String extension = "";
-                int i = pathImage.lastIndexOf(".");
-                if (i>0){
-                    extension = pathImage.substring(i+1);
-                }
-                try{
-                    ImageIO.write((RenderedImage)image,extension,new File(pathImage));
-                } catch(Exception e) {
-                    System.out.println("Cannot write image");
-                }    
-            } catch(Exception e){
-                System.out.println("Cannot read image");
-            }  
+            this.pathImage = JSONDatabase.getInstance().saveImage(file.getAbsolutePath());  
         }
     }
 
@@ -170,9 +141,7 @@ public class ViewCreateOfferController {
                 offre.end = localDateToDate(dateFin.getValue());
             }
 
-            if(!duree.getText().equals("")){
-                offre.duration = Integer.parseInt(duree.getText()) ;
-            }
+           
 
 
             if(disponibilites.getText().isBlank()){

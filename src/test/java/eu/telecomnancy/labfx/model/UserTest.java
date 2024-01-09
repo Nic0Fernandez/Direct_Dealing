@@ -26,4 +26,29 @@ public class UserTest {
 
     assertEquals(expected, jsonUser);
   }
+
+  @Test
+  void deserializeTest() {
+    Jsonb jsonb = JsonbBuilder.create();
+    String jsonString = "{\"UID\":10,\"address\":\"c\",\"email\":\"d\",\"florains\":500,\"password\":\"b\",\"sleepMode\":false,\"username\":\"a\"}";
+    
+    User expectedUser = new User();
+    expectedUser.UID = 10;
+    expectedUser.username = "a";
+    expectedUser.password = "b";
+    expectedUser.address = "c";
+    expectedUser.email = "d";
+    expectedUser.florains = 500;
+    expectedUser.sleepMode = false;
+  
+    User user = jsonb.fromJson(jsonString, User.class);
+    
+    assertEquals(expectedUser.UID, user.UID);
+    assertEquals(expectedUser.username, user.username);
+    assertEquals(expectedUser.password, user.password);
+    assertEquals(expectedUser.address, user.address);
+    assertEquals(expectedUser.email, user.email);
+    assertEquals(expectedUser.florains, user.florains);
+    assertEquals(expectedUser.sleepMode, user.sleepMode);
+  }
 }

@@ -13,10 +13,15 @@ import java.util.function.IntSupplier;
 import org.apache.commons.lang3.SystemUtils;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTransient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import javax.imageio.ImageIO;
 
 public class JSONDatabase implements Database {
 
@@ -31,9 +36,12 @@ public class JSONDatabase implements Database {
     }
   }
 
-  static public JSONDatabase getInstance() {
+  static public Database getInstance() {
     if (instance == null) {
-      instance = new JSONDatabase(new RandomIdSupplier());
+      instance = new JSONDatabase(new RandomIdSupplier(),
+          System.getenv("HOME") + "/DirectDealing",
+          System.getenv("APPDATA") + "\\DirectDealing");
+      instance.load();
     }
     return instance;
   }
@@ -51,8 +59,10 @@ public class JSONDatabase implements Database {
   private final IntSupplier idProvider;
 
   // public only for testing!!
-  public JSONDatabase(IntSupplier idProvider) {
+  public JSONDatabase(IntSupplier idProvider, String linuxPath, String windowsPath) {
     this.idProvider = idProvider;
+    this.linuxPath = linuxPath;
+    this.windowsPath = windowsPath;
   }
 
   private int getNewUserID() {
@@ -111,11 +121,13 @@ public class JSONDatabase implements Database {
   @Override
   public int authenticate(String username, String password) {
     if (isUsernameAvailable(username)) {
+      System.out.println("username \"" + username + "\" not found!");
       return -1;
     }
 
     User user = usernameToUser.get(username);
-    if (user.password != password) {
+    if (!user.password.equals(password)) {
+      System.out.println("password is " + user.password + " not " + password);
       return -1;
     }
 
@@ -133,12 +145,19 @@ public class JSONDatabase implements Database {
     return !(name == null || usernameToUser.containsKey(name));
   }
 
-  private Path getPathToDbFile() {
+  private String windowsPath;
+  private String linuxPath;
+
+  private Path getPathToFile(String name) {
     File dir;
     if (SystemUtils.IS_OS_WINDOWS) {
-      dir = new File(System.getenv("APPDATA")+ "\\DirectDealing");
+      if (windowsPath == null)
+        return null;
+      dir = new File(windowsPath);
     } else {
-      dir = new File(System.getenv("HOME") + "/DirectDealing");
+      if (linuxPath == null)
+        return null;
+      dir = new File(linuxPath);
     }
 
     if (!dir.exists()) {
@@ -148,12 +167,12 @@ public class JSONDatabase implements Database {
         return null;
       }
     }
-    return Path.of(dir.getAbsolutePath(), "db.json");
+    return Path.of(dir.getAbsolutePath(), name);
   }
 
   private void save() {
 
-    Path path = getPathToDbFile();
+    Path path = getPathToFile("db.json");
     if (path == null)
       return;
     try {
@@ -165,16 +184,19 @@ public class JSONDatabase implements Database {
   }
 
   public static class JSONDatabaseMemento {
-    public final Collection<Ad> ads;
+    public Collection<Ad> ads;
 
     public Collection<Ad> getAds() {
       return ads;
     }
 
-    public final Collection<User> users;
+    public Collection<User> users;
 
     public Collection<User> getUsers() {
       return users;
+    }
+
+    public JSONDatabaseMemento() {
     }
 
     public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users) {
@@ -193,4 +215,61 @@ public class JSONDatabase implements Database {
     return jsonb.toJson(toMemento());
   }
 
+  private void load() {
+    Path dbFile = getPathToFile("db.json");
+    if (dbFile == null || !Files.exists(dbFile)) {
+      return;
+    }
+
+    try {
+      String dbString = Files.readString(dbFile);
+      loadFromJSON(dbString);
+    } catch (IOException e) {
+      System.out.println("programme n'a pas reussi à ouvrir le fichier à " + dbFile.toString());
+    }
+  }
+
+  void loadFromJSON(String dbString) {
+    try {
+      Jsonb jsonb = JsonbBuilder.create();
+      System.out.println(dbString);
+      JSONDatabaseMemento m = jsonb.fromJson(dbString, JSONDatabaseMemento.class);
+      loadFromMemento(m);
+    } catch (JsonbException e) {
+      System.out.println(e.getMessage());
+      System.out.println("programme n'a pas reussi à interpreter le fichier json!");
+    }
+  }
+
+  private void loadFromMemento(JSONDatabaseMemento m) {
+    m.ads.forEach(ad -> ads.put(ad.ID, ad));
+    m.users.forEach(user -> {
+      idToUser.put(user.UID, user);
+      usernameToUser.put(user.username, user);
+    });
+  }
+
+  @Override
+  public String saveImage(String path) {
+
+    try {
+      BufferedImage image = ImageIO.read(new File(path));
+      String copyPath = getPathToFile(Path.of(path).getFileName().toString()).toString();
+      String extension = "";
+      int i = path.lastIndexOf(".");
+      if (i > 0) {
+        extension = path.substring(i + 1);
+      }
+      try {
+        ImageIO.write((RenderedImage) image, extension, new File(copyPath));
+        return copyPath;
+      } catch (Exception e) {
+        System.out.println("Cannot write image");
+        return null;
+      }
+    } catch (Exception e) {
+      System.out.println("Cannot read image");
+      return null;
+    }
+  }
 }
