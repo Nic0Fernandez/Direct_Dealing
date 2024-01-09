@@ -66,11 +66,11 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public void vueCreationOffre(User user) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/VueCreationOffre.fxml"));
+    public void viewCreateOffer(User user) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/ViewCreateOffer.fxml"));
         Parent root = loader.load();
 
-        VueCreationOffreController controller = loader.getController();
+        ViewCreateOfferController controller = loader.getController();
         controller.setUser(user);
         controller.setMain(this);
         controller.initializeItems();
