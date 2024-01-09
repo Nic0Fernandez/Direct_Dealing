@@ -67,10 +67,10 @@
                </padding>
             </GridPane>
             <ScrollPane prefHeight="338.0" prefWidth="450.0">
-               <content>
-                  <VBox prefHeight="348.0" prefWidth="430.0" />
-               </content>
-            </ScrollPane>
+   <content>
+      <VBox fx:id="adContainer" prefHeight="348.0" prefWidth="430.0" />
+   </content>
+</ScrollPane>
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">

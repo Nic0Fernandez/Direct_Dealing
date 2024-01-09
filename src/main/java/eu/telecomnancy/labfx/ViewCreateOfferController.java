@@ -24,9 +24,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.TextField;
-
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 public class ViewCreateOfferController {
     
@@ -170,9 +167,7 @@ public class ViewCreateOfferController {
                 offre.end = localDateToDate(dateFin.getValue());
             }
 
-            if(!duree.getText().equals("")){
-                offre.duration = Integer.parseInt(duree.getText()) ;
-            }
+           
 
 
             if(disponibilites.getText().isBlank()){
