@@ -51,7 +51,8 @@ public class MainScreenController {
     }
 
     @FXML
-    private void displayMessagerie() {
+    private void displayMessagerie() throws IOException {
+        main.inboxScreen(user);
     }
 
     

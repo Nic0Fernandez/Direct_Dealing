@@ -127,7 +127,7 @@ public class JSONDatabase implements Database {
 
     User user = usernameToUser.get(username);
     if (!user.password.equals(password)) {
-      System.out.println("password is " + user.password + " not " + password);
+      System.out.println("wrong password for user " + username);
       return -1;
     }
 
@@ -232,12 +232,10 @@ public class JSONDatabase implements Database {
   void loadFromJSON(String dbString) {
     try {
       Jsonb jsonb = JsonbBuilder.create();
-      System.out.println(dbString);
       JSONDatabaseMemento m = jsonb.fromJson(dbString, JSONDatabaseMemento.class);
       loadFromMemento(m);
     } catch (JsonbException e) {
-      System.out.println(e.getMessage());
-      System.out.println("programme n'a pas reussi à interpreter le fichier json!");
+      System.out.println("programme n'a pas reussi à interpreter le fichier json: " + e.getMessage());
     }
   }
 
