@@ -10,5 +10,4 @@ Pour exécuter le .jar situé à la racine du projet:
 java --module-path ${JAVAFX_HOME}/lib/  --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.web -jar DirectDealing.jar
 ```
 
-En ce deuxième jour, nous avons ajouté au projet les fonctionnalités suivantes: sauvegarde des informations (comptes, offres et demandes). Cette sauvegarde nous permet désormais de nous connecter avec un compte déjà créé à l'aide du Prénom + Nom et du mot de passe.
-L'écran principal présente les différents filtres (pas encore implémentés) mais présente déjà toutes les offres créées. Il est possible de créer une nouvelle offre, qui apparaitra par la suite sur l'écran principal. Il est également possible de cliquer sur une offre afin d'en voir le détail, puis par la suite de contacter le créateur de l'offre/demande, ce qui sera réalisé demain.
+En ce troisième jour, nous avont ajouté au projet les fonctionnalités suivantes: Voir les offres, les filtres basiques, le système de messagerie et enfin la vue du compte. Certains ajustement ont été effectués sur les écrans déjà terminés (ajouts boutons de retours, style). Le système de réservation a été commencé. Il est désormais possible de réserver une offre. Cette réservation enverra une notification à l'auteur de l'offre, ce qui sera réalisé demain.

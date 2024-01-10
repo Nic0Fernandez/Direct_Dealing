@@ -24,7 +24,6 @@ public class MainScreenController {
 
     @FXML
     private VBox adContainer;
-    @FXML private ComboBox evaluationFiltre;
 
     @FXML
     private ComboBox<AdType> typeFiltre;
@@ -43,6 +42,9 @@ public class MainScreenController {
 
     @FXML
     private DatePicker dateFinFiltre;
+
+    @FXML
+    private TextField evaluationFiltre;
 
     private Main main;
     private User user;
@@ -80,7 +82,8 @@ public class MainScreenController {
     }
 
     @FXML
-    private void displayMessagerie() {
+    private void displayMessagerie() throws IOException {
+        main.inboxScreen(user, null);
     }
 
     
@@ -133,9 +136,6 @@ public class MainScreenController {
                     })
                     .collect(Collectors.toList());
         }
-    
-        
-    
         return ads;
     }
 

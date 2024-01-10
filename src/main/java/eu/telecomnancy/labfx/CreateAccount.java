@@ -6,6 +6,7 @@ import eu.telecomnancy.labfx.model.User;
 import eu.telecomnancy.labfx.model.JSONDatabase;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class CreateAccount {
@@ -21,7 +22,7 @@ public class CreateAccount {
     TextField prenom;
 
     @FXML
-    TextField motdepasse;
+    PasswordField motdepasse;
 
     @FXML
     TextField email;
@@ -74,5 +75,10 @@ public class CreateAccount {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.show();
+    }
+    @FXML
+    private void backLogin() throws IOException {
+        
+        main.loginScreen();
     }
 }

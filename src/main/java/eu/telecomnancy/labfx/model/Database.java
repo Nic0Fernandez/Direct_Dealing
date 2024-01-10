@@ -11,6 +11,8 @@ public interface Database {
 
   User getUser(int UID);
 
+  User getUser(String username);
+
   Ad getAd(int ID);
 
   int authenticate(String username, String password);
@@ -18,4 +20,10 @@ public interface Database {
   ObservableList<Ad> getAdsAsList();
 
   String saveImage(String path);
+
+  int sendMessage(int from, int to, String text);
+
+  Conversation getConversation(int conversationID);
+
+  Conversation getConversation(int UID1, int UID2);
 }

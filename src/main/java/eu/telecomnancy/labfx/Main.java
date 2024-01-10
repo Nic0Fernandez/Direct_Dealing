@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private Stage primaryStage;
-    private User currentUser; 
+    private User currentUser;
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -26,7 +26,7 @@ public class Main extends Application {
         if (currentUser == null) {
             loginScreen(); // Show login screen if no user is logged in
         } else {
-            mainScreen(currentUser); // Show the main screen if a user is already logged in
+            mainScreen(currentUser); // Show the main screen if a user is already logged
         }
 
         primaryStage.setOnCloseRequest(event->{
@@ -51,12 +51,11 @@ public class Main extends Application {
     
         
         fxmloader.setControllerFactory(ic -> new CreateAccount(this));
-    
+
         Scene scene = new Scene(fxmloader.load(), 400, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
 
     public void mainScreen(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/MainScreen.fxml"));
@@ -66,7 +65,7 @@ public class Main extends Application {
         controller.setUser(user);
         controller.setMain(this);
 
-        Scene scene = new Scene(root,600,600);
+        Scene scene = new Scene(root, 600, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -81,6 +80,21 @@ public class Main extends Application {
         controller.initializeItems();
 
         Scene scene = new Scene(root, 400, 400);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void inboxScreen(User user, Ad offer) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/Inbox.fxml"));
+        loader.setControllerFactory((ic) -> {
+            if (ic.equals(InboxScreen.class))
+                return new InboxScreen(this, user, offer);
+            else if (ic.equals(ConversationView.class))
+                return new ConversationView(this, user);
+            return null;
+        });
+
+        Scene scene = new Scene(loader.load());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -113,7 +127,6 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }

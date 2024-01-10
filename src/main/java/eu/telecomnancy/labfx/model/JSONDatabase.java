@@ -7,15 +7,16 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.IntSupplier;
 
 import org.apache.commons.lang3.SystemUtils;
+
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.JsonbException;
-import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.json.bind.annotation.JsonbTransient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -46,16 +47,14 @@ public class JSONDatabase implements Database {
     return instance;
   }
 
-  @JsonbProperty("users")
   private final Map<Integer, User> idToUser = new HashMap<>();
 
-  @JsonbTransient
   private final Map<String, User> usernameToUser = new HashMap<>();
 
-  @JsonbProperty("ads")
   private final Map<Integer, Ad> ads = new HashMap<>();
 
-  @JsonbTransient
+  private final Map<Integer, Conversation> conversations = new HashMap<>();
+
   private final IntSupplier idProvider;
 
   // public only for testing!!
@@ -79,6 +78,14 @@ public class JSONDatabase implements Database {
     do {
       i = idProvider.getAsInt();
     } while (ads.containsKey(i));
+    return i;
+  }
+
+  private int getNewConversationID() {
+    int i;
+    do {
+      i = idProvider.getAsInt();
+    } while (conversations.containsKey(i));
     return i;
   }
 
@@ -114,6 +121,11 @@ public class JSONDatabase implements Database {
   }
 
   @Override
+  public User getUser(String username) {
+    return usernameToUser.getOrDefault(username, null);
+  }
+
+  @Override
   public Ad getAd(int ID) {
     return ads.getOrDefault(ID, null);
   }
@@ -127,14 +139,13 @@ public class JSONDatabase implements Database {
 
     User user = usernameToUser.get(username);
     if (!user.password.equals(password)) {
-      System.out.println("password is " + user.password + " not " + password);
+      System.out.println("wrong password for user " + username);
       return -1;
     }
 
     return user.UID;
   }
 
-  @JsonbTransient
   @Override
   public ObservableList<Ad> getAdsAsList() {
     return FXCollections.observableArrayList(ads.values());
@@ -192,6 +203,12 @@ public class JSONDatabase implements Database {
 
     public Collection<User> users;
 
+    public Collection<Conversation> conversations;
+
+    public Collection<Conversation> getConversations() {
+      return conversations;
+    }
+
     public Collection<User> getUsers() {
       return users;
     }
@@ -199,14 +216,15 @@ public class JSONDatabase implements Database {
     public JSONDatabaseMemento() {
     }
 
-    public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users) {
+    public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users, Collection<Conversation> conversations) {
       this.ads = ads;
       this.users = users;
+      this.conversations = conversations;
     }
   }
 
   private JSONDatabaseMemento toMemento() {
-    return new JSONDatabaseMemento(ads.values(), idToUser.values());
+    return new JSONDatabaseMemento(ads.values(), idToUser.values(), conversations.values());
   }
 
   public String asJSON() {
@@ -231,22 +249,26 @@ public class JSONDatabase implements Database {
 
   void loadFromJSON(String dbString) {
     try {
-      Jsonb jsonb = JsonbBuilder.create();
-      System.out.println(dbString);
+      JsonbConfig config = new JsonbConfig().withDeserializers(new MessageListDesserializer(),
+          new IntegerObservableListDesserializer());
+      Jsonb jsonb = JsonbBuilder.create(config);
       JSONDatabaseMemento m = jsonb.fromJson(dbString, JSONDatabaseMemento.class);
       loadFromMemento(m);
     } catch (JsonbException e) {
-      System.out.println(e.getMessage());
-      System.out.println("programme n'a pas reussi à interpreter le fichier json!");
+      System.out.println("programme n'a pas reussi à interpreter le fichier json: " + e.getMessage());
     }
   }
 
   private void loadFromMemento(JSONDatabaseMemento m) {
-    m.ads.forEach(ad -> ads.put(ad.ID, ad));
-    m.users.forEach(user -> {
-      idToUser.put(user.UID, user);
-      usernameToUser.put(user.username, user);
-    });
+    if (m.ads != null)
+      m.ads.forEach(ad -> ads.put(ad.ID, ad));
+    if (m.users != null)
+      m.users.forEach(user -> {
+        idToUser.put(user.UID, user);
+        usernameToUser.put(user.username, user);
+      });
+    if (m.conversations != null)
+      m.conversations.forEach(convo -> conversations.put(convo.id, convo));
   }
 
   @Override
@@ -271,5 +293,44 @@ public class JSONDatabase implements Database {
       System.out.println("Cannot read image");
       return null;
     }
+  }
+
+  @Override
+  public Conversation getConversation(int conversationID) {
+    return conversations.getOrDefault(conversationID, null);
+  }
+
+  @Override
+  public int sendMessage(int from, int to, String text) {
+    if (!idToUser.containsKey(from) || !idToUser.containsKey(to))
+      return -1;
+    Optional<Conversation> conversation = conversations.values().stream()
+        .filter(conv -> conv.userInConversation(from) && conv.userInConversation(to)).findAny();
+    Conversation convo;
+    if (conversation.isPresent()) {
+      convo = conversation.get();
+      convo.addMessage(from, text);
+    } else {
+      convo = new Conversation(from, to);
+      convo.id = getNewConversationID();
+      User sender = idToUser.get(from);
+      User receiver = idToUser.get(to);
+      sender.conversations.add(convo.id);
+      receiver.conversations.add(convo.id);
+      convo.addMessage(from, text);
+      conversations.put(convo.id, convo);
+    }
+    save();
+    return convo.id;
+  }
+
+  @Override
+  public Conversation getConversation(int UID1, int UID2) {
+    Optional<Conversation> convo = conversations.values().stream()
+        .filter(c -> c.userInConversation(UID2) && c.userInConversation(UID1)).findAny();
+
+    if (!convo.isPresent())
+      return null;
+    return convo.get();
   }
 }
