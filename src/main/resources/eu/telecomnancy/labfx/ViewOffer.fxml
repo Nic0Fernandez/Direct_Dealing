@@ -31,7 +31,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="type">
+                  <Label fx:id="type" prefHeight="80.0" prefWidth="118.0">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -41,7 +41,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cout">
+                  <Label fx:id="cout" prefHeight="96.0" prefWidth="118.0">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -55,7 +55,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="description" />
+                  <Label fx:id="description" prefHeight="196.0" prefWidth="230.0" />
                </children>
             </VBox>
             <ImageView fx:id="image" fitHeight="214.0" fitWidth="242.0" pickOnBounds="true" preserveRatio="true" />
@@ -139,8 +139,13 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="200.0">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
          <children>
+            <VBox alignment="CENTER">
+               <children>
+                  <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMainScreen" text="Retour" />
+               </children>
+            </VBox>
             <VBox alignment="CENTER">
                <children>
                   <Button fx:id="reservebutton" mnemonicParsing="false" onAction="#reserve" text="Réserver" />

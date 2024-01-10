@@ -21,7 +21,7 @@ public class ViewCreateOfferController {
     @FXML private TextField nom;
     @FXML private ComboBox type;
     @FXML private ComboBox nature;
-    @FXML private TextArea description;
+    @FXML private TextField description;
     @FXML private TextField cout;
     @FXML private TextField localisation;
     @FXML private TextField distance;
@@ -130,19 +130,21 @@ public class ViewCreateOfferController {
             
             try {
                 offre.start = localDateToDate(dateDebut.getValue());
+                offre.end = localDateToDate(dateFin.getValue());
                 offre.isOffer= Offer();
                 offre.type = type();
             } catch (Exception e) {
                 showErrorMessage("Vous devez remplir tous les champs");
                 return;
+            }  
+            
+            if(duree.getText().isBlank()){
+                showErrorMessage("Vous devez remplir tous les champs");
+                return;
             }
-
-            if(dateFin.getValue() != null){
-                offre.end = localDateToDate(dateFin.getValue());
+            else{
+                offre.duration = Integer.parseInt(duree.getText());
             }
-
-           
-
 
             if(disponibilites.getText().isBlank()){
                 showErrorMessage("Vous devez remplir tous les champs");

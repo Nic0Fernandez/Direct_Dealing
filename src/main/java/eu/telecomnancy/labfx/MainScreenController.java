@@ -141,10 +141,17 @@ public class MainScreenController {
         adContainer.getChildren().clear(); 
         for (Ad ad : ads) {
             HBox adBox = createAdBox(ad);
-            adContainer.getChildren().add(adBox);
+            adBox.setOnMouseClicked(event -> {
+                try {
+                    adDetail(ad);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
+            adContainer.getChildren().add(adBox);   
         }
     }
-
+    
     private HBox createAdBox(Ad ad) {
         HBox adBox = new HBox(10);
         Label nameLabel = new Label(ad.name);
@@ -159,4 +166,7 @@ public class MainScreenController {
     }
 
     
+    public void adDetail(Ad offre) throws IOException{
+        main.viewOffer(user, offre);
+    }
 }
