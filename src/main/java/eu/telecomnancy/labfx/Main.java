@@ -28,12 +28,17 @@ public class Main extends Application {
         } else {
             mainScreen(currentUser); // Show the main screen if a user is already logged
         }
+
+        primaryStage.setOnCloseRequest(event->{
+            System.out.println("Exit...");
+            javafx.application.Platform.exit();
+        });
     }
 
     public void loginScreen() throws IOException {
         FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/Login.fxml"));
 
-        // Assuming you have a LoginController class for the login screen
+       
         fxmloader.setControllerFactory(ic -> new Login(this));
 
         Scene scene = new Scene(fxmloader.load(), 400, 400);
@@ -43,9 +48,8 @@ public class Main extends Application {
 
     public void createAccountScreen() throws IOException {
         FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/create_compte.fxml"));
-
-        // Assuming you have a CreateAccountController class for the account creation
-        // screen
+    
+        
         fxmloader.setControllerFactory(ic -> new CreateAccount(this));
 
         Scene scene = new Scene(fxmloader.load(), 400, 400);
@@ -95,7 +99,20 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public void viewOffer(User user, Ad offer) throws IOException {
+    public void ViewCompteController(User user) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/ViewCompte.fxml"));
+        Parent root = loader.load();
+
+        ViewCompteController controller = loader.getController();
+        controller.setUser(user);
+        controller.setMain(this);
+
+        Scene scene = new Scene(root, 400, 400);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    public void viewOffer(User user, Ad offer) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/ViewOffer.fxml"));
         Parent root = loader.load();
 

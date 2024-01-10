@@ -27,10 +27,10 @@
       </HBox>
       <HBox prefHeight="410.0" prefWidth="600.0">
          <children>
-            <GridPane prefHeight="342.0" prefWidth="153.0">
+            <GridPane prefHeight="333.0" prefWidth="194.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="112.8" minWidth="10.0" prefWidth="62.40003662109375" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="104.00000000000001" minWidth="0.0" prefWidth="90.39996337890626" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="112.8" minWidth="10.0" prefWidth="69.80001220703124" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.00000381469727" minWidth="0.0" prefWidth="102.59998779296875" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -41,17 +41,17 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Nom" />
+                  <Label text="Nom" GridPane.rowIndex="0" />
                   <Label text="Type" GridPane.rowIndex="1" />
                   <Label text="Distance" GridPane.rowIndex="2" />
                   <Label text="Coût" GridPane.rowIndex="3" />
                   <Label text="Dates" GridPane.rowIndex="4" />
                   <Label text="Evaluation" GridPane.rowIndex="5" />
-                  <TextField fx:id="nomFiltre" prefHeight="26.0" prefWidth="91.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="nomFiltre" prefHeight="26.0" prefWidth="91.0" GridPane.columnIndex="1"  GridPane.rowIndex="0"/>
                   <TextField fx:id="distanceFiltre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="coutFiltre" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <ComboBox fx:id="typeFiltre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ComboBox fx:id="evaluationFiltre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="evaluationFiltre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
                         <DatePicker fx:id="dateDebutFiltre" promptText="Début" />
@@ -68,7 +68,7 @@
             </GridPane>
             <ScrollPane prefHeight="338.0" prefWidth="450.0">
    <content>
-      <VBox fx:id="adContainer" prefHeight="348.0" prefWidth="430.0" />
+      <VBox fx:id="adContainer" prefHeight="344.0" prefWidth="408.0" />
    </content>
 </ScrollPane>
          </children>
@@ -76,7 +76,7 @@
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
          <children>
             <Button fx:id="boutonAjouter" mnemonicParsing="false" onAction="#ajouterOffre" text="Ajouter" />
-            <Button fx:id="boutonProfil" mnemonicParsing="false" onAction="#displayProfil" text="Profil" />
+            <Button fx:id="boutonProfil" mnemonicParsing="false" onAction="#displayCompte" text="Profil" />
             <Button fx:id="boutonMessagerie" mnemonicParsing="false" onAction="#displayMessagerie" text="Messagerie" />
          </children>
          <VBox.margin>
