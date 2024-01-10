@@ -12,6 +12,7 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 
 import eu.telecomnancy.labfx.model.Ad;
+import eu.telecomnancy.labfx.model.AdHistory;
 import eu.telecomnancy.labfx.model.User;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,7 +32,7 @@ public class ViewOfferController {
     @FXML private Label disponibilites;
     @FXML private Label reservationLabel;
     @FXML private Button messageButton;
-    @FXML private Button ReserveButton;
+    @FXML private Button reserveButton;
     @FXML private ImageView image;
 
     private Main main;
@@ -99,7 +100,18 @@ public class ViewOfferController {
         }
         disponibilites.setText(offer.disponibilities);
         image.setImage(loadImage());
+        checkStatus();
     }
+
+    public void checkStatus(){
+        for(AdHistory adHistory: user.history){
+            if(adHistory.ad.userID == user.UID){
+                reserveButton.setText("Waiting...");
+                reserveButton.setDisable(true);
+            }
+        }
+    }
+    
 
     @FXML
     public void retourMainScreen() throws IOException{

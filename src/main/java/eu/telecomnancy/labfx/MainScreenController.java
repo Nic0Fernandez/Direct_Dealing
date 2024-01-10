@@ -24,7 +24,6 @@ public class MainScreenController {
 
     @FXML
     private VBox adContainer;
-    @FXML private ComboBox typeFiltre;
     @FXML private ComboBox evaluationFiltre;
 
     @FXML
@@ -203,7 +202,7 @@ public class MainScreenController {
     }
 
     
-    public void adDetail(Ad offre) throws IOException{
+    public void adDetail(Ad offre) throws IOException{ 
         main.viewOffer(user, offre);
     }
 }

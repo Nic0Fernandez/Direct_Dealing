@@ -1,9 +1,10 @@
 package eu.telecomnancy.labfx.model;
 
 public class AdHistory {
-    private Ad ad;
-    private StatusType statusType;
-    
+    public int id;
+    public Ad ad;
+    public StatusType statusType;
+
     public AdHistory(Ad ad, StatusType statusType) {
         this.ad = ad;
         this.statusType = statusType;

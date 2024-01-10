@@ -180,17 +180,17 @@
          </VBox.margin>
       </HBox>
       <Separator orientation="HORIZONTAL" />
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="60.0">
          <children>
             <VBox alignment="CENTER">
                <children>
                   <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMainScreen" text="Retour" />
                </children>
             </VBox>
-            <VBox alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="71.0" prefWidth="257.0">
                <children>
-                  <Button fx:id="reservebutton" mnemonicParsing="false" onAction="#reserve" prefHeight="22.0" prefWidth="62.0" text="Réserver" />
-                  <Label fx:id="reservationLabel" prefHeight="18.0" prefWidth="1.0" textFill="#949494" />
+                  <Button fx:id="reserveButton" mnemonicParsing="false" onAction="#reserve" prefHeight="22.0" prefWidth="62.0" text="Réserver" />
+                  <Label fx:id="reservationLabel" textFill="#949494" />
                </children>
                <HBox.margin>
                   <Insets top="20.0" />
