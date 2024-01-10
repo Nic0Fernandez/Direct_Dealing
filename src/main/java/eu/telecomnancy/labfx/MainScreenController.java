@@ -5,6 +5,7 @@ import eu.telecomnancy.labfx.model.AdType;
 import eu.telecomnancy.labfx.model.JSONDatabase;
 import eu.telecomnancy.labfx.model.User;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -16,11 +17,24 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainScreenController {
 
     @FXML
     private VBox adContainer;
+
+    @FXML
+    private TextField nomFiltre;
+
+    @FXML
+    private TextField coutFiltre;
+
+    @FXML
+    private TextField distanceFiltre;
+
+    @FXML
+    private ComboBox<AdType> typeFiltre;
 
     private Main main;
     private User user;
@@ -37,7 +51,9 @@ public class MainScreenController {
 
     @FXML
     private void initialize() {
-        
+        typeFiltre.setItems(FXCollections.observableArrayList(AdType.values()));
+        nomFiltre.textProperty().addListener((observable, oldValue, newValue) -> updateAds());
+        typeFiltre.valueProperty().addListener((observable, oldValue, newValue) -> updateAds());
         updateAds();
     }
 
@@ -57,8 +73,39 @@ public class MainScreenController {
     
     public void updateAds() {
         List<Ad> allAds = new ArrayList<>(JSONDatabase.getInstance().getAdsAsList()); // Add stored ads
-        allAds.addAll(createExampleAds()); // Add example ads
-        displayAds(allAds);
+        allAds.addAll(createExampleAds());
+
+        
+        List<Ad> filteredAds = applyFilters(allAds);
+        //allAds.addAll(createExampleAds()); // Add example ads
+        displayAds(filteredAds);
+    }
+
+    private List<Ad> applyFilters(List<Ad> ads) {
+        String nomFilter = nomFiltre.getText().trim().toLowerCase();
+        ads = ads.stream()
+                 .filter(ad -> ad.name.toLowerCase().contains(nomFilter))
+                 .collect(Collectors.toList());
+    
+        // Filter by type
+        AdType selectedType = typeFiltre.getValue();
+        if (selectedType != null) {
+            ads = ads.stream().filter(ad -> ad.type == selectedType).collect(Collectors.toList());
+        }
+
+        /* 
+        System.out.println("TESTANDO");
+        System.out.println(coutFiltre.getText());
+        Integer cout = Integer.parseInt(coutFiltre.getText());
+        if (cout != null) {
+            ads = ads.stream().filter(ad -> ad.cost <= cout).collect(Collectors.toList());
+        }
+
+        */
+    
+        
+    
+        return ads;
     }
 
     private List<Ad> createExampleAds() {
@@ -99,9 +146,17 @@ public class MainScreenController {
     }
 
     private HBox createAdBox(Ad ad) {
-        HBox adBox = new HBox();
+        HBox adBox = new HBox(10);
         Label nameLabel = new Label(ad.name);
+        Label coutLabel = new Label(String.valueOf(ad.cost));
+        Label distanceLabel = new Label(String.valueOf(ad.maxDistance));
+        Label typeLabel = new Label(String.valueOf(ad.type));
         adBox.getChildren().add(nameLabel);
+        adBox.getChildren().add(coutLabel);
+        adBox.getChildren().add(distanceLabel);
+        adBox.getChildren().add(typeLabel);
         return adBox;
     }
+
+    
 }
