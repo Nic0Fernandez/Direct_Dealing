@@ -1,5 +1,8 @@
 package eu.telecomnancy.labfx.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.*;
 public class User {
   public int UID;
@@ -9,11 +12,13 @@ public class User {
   public String email;
   public int florains;
   public boolean sleepMode;
+  public ObservableList<Integer> conversations;
   public String imgpath ;
   public List<AdHistory> history = new ArrayList();
 
   public User() {
     sleepMode = false;
+    conversations = FXCollections.observableArrayList();
   }
 
   public int getUID() {
