@@ -39,7 +39,7 @@
 
         <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="2">
             <Button text="Create" onAction="#clickButton" styleClass="create-button" />
-            <Button fx:id="backLogin" mnemonicParsing="false" onAction="#backLogin" text="Back to Login" />
+            <Button fx:id="backLogin" mnemonicParsing="false" onAction="#backLogin" text="Back to Login"  styleClass="create-button"/>
         </HBox>
     </children>
 </GridPane>
