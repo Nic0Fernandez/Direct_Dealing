@@ -22,6 +22,8 @@ public class MainScreenController {
 
     @FXML
     private VBox adContainer;
+    @FXML private ComboBox typeFiltre;
+    @FXML private ComboBox evaluationFiltre;
 
     private Main main;
     private User user;
@@ -38,7 +40,12 @@ public class MainScreenController {
 
     @FXML
     private void initialize() {
-        
+        typeFiltre.getItems().removeAll(typeFiltre.getItems());
+        typeFiltre.getItems().addAll("Tout type", "Offre", "Demande");
+        typeFiltre.getSelectionModel().selectFirst();
+        evaluationFiltre.getItems().removeAll(evaluationFiltre.getItems());
+        evaluationFiltre.getItems().addAll("1*", "2*","3*","4*","5*");
+        evaluationFiltre.getSelectionModel().selectFirst();
         updateAds();
     }
 

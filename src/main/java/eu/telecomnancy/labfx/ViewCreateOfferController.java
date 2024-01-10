@@ -31,10 +31,12 @@ public class ViewCreateOfferController {
     @FXML private TextField disponibilites;
     @FXML private Button photo;
     @FXML private Button valider;
+    @FXML private Button retour;
+    @FXML private Label imagePath;
 
     private Main main;
     private Ad offre = new Ad();;
-    private String pathImage;
+    private String pathImage = "";
     private boolean isOffer;
     private AdType adType;
     private User user;
@@ -91,6 +93,12 @@ public class ViewCreateOfferController {
         File file = fileChooser.showOpenDialog(null);
         if(file != null){
             this.pathImage = JSONDatabase.getInstance().saveImage(file.getAbsolutePath());  
+            int i = pathImage.lastIndexOf('\\');
+            String imageName = "";
+            if (i > 0) {
+                imageName = pathImage.substring(i+1);
+            }
+            imagePath.setText(imageName);
         }
     }
 
@@ -162,12 +170,22 @@ public class ViewCreateOfferController {
                 offre.description= description.getText();
             }
 
-            if(pathImage == null){
-                showErrorMessage("Vous devez remplir tous les champs");
+            if(type.getValue().equals("Offre")){
+                if(pathImage.equals("")){
+                showErrorMessage("Vous devez proposer une image de votre offre");
                 return;
+                }
+                else{
+                    offre.imagePath = pathImage;
+                }
             }
-            else{
-                offre.imagePath = pathImage;
+            if(type.getValue().equals("Demande")){
+                if(pathImage.equals("")){
+                    offre.imagePath= "";
+                }
+                else{
+                    offre.imagePath = pathImage;
+                }
             }
             
             if(distance.getText().isBlank()){
@@ -192,6 +210,11 @@ public class ViewCreateOfferController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    public void retourMain()throws IOException{
+        main.mainScreen(user);
     }
 
 }
