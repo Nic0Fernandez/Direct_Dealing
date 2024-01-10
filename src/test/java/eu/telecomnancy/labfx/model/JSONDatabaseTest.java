@@ -91,7 +91,7 @@ public class JSONDatabaseTest {
       user.username = "user number " + i;
       db.addUser(user);
     }
-    String expected = "{\"ads\":[{\"ID\":0,\"cost\":0,\"description\":\"ad number 0\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":2,\"cost\":0,\"description\":\"ad number 1\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":4,\"cost\":0,\"description\":\"ad number 2\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0}],\"users\":[{\"UID\":1,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 0\"},{\"UID\":3,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 1\"},{\"UID\":5,\"florains\":0,\"sleepMode\":false,\"username\":\"user number 2\"}]}";
+    String expected = "{\"ads\":[{\"ID\":0,\"cost\":0,\"description\":\"ad number 0\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":2,\"cost\":0,\"description\":\"ad number 1\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":4,\"cost\":0,\"description\":\"ad number 2\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0}],\"users\":[{\"UID\":1,\"conversations\":[],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 0\"},{\"UID\":3,\"conversations\":[],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 1\"},{\"UID\":5,\"conversations\":[],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 2\"}]}";
     assertEquals(expected, db.asJSON());
   }
 

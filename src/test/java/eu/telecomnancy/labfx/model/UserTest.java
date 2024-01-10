@@ -18,11 +18,12 @@ public class UserTest {
     user.address = "193 Av. Paul Muller, 54600 Villers-lès-Nancy";
     user.email = "e2455u@telecomnancy.net";
     user.florains = 10;
+    user.conversations.add(1);
 
     Jsonb jsonb = JsonbBuilder.create();
     String jsonUser = jsonb.toJson(user);
 
-    String expected = "{\"UID\":1,\"address\":\"193 Av. Paul Muller, 54600 Villers-lès-Nancy\",\"email\":\"e2455u@telecomnancy.net\",\"florains\":10,\"password\":\"password\",\"sleepMode\":false,\"username\":\"Lucas Skora\"}";
+    String expected = "{\"UID\":1,\"address\":\"193 Av. Paul Muller, 54600 Villers-lès-Nancy\",\"conversations\":[1],\"email\":\"e2455u@telecomnancy.net\",\"florains\":10,\"password\":\"password\",\"sleepMode\":false,\"username\":\"Lucas Skora\"}";
 
     assertEquals(expected, jsonUser);
   }
@@ -30,8 +31,8 @@ public class UserTest {
   @Test
   void deserializeTest() {
     Jsonb jsonb = JsonbBuilder.create();
-    String jsonString = "{\"UID\":10,\"address\":\"c\",\"email\":\"d\",\"florains\":500,\"password\":\"b\",\"sleepMode\":false,\"username\":\"a\"}";
-    
+    String jsonString = "{\"UID\":10,\"conversations\":[1,2,3],\"address\":\"c\",\"email\":\"d\",\"florains\":500,\"password\":\"b\",\"sleepMode\":false,\"username\":\"a\"}";
+
     User expectedUser = new User();
     expectedUser.UID = 10;
     expectedUser.username = "a";
@@ -40,9 +41,12 @@ public class UserTest {
     expectedUser.email = "d";
     expectedUser.florains = 500;
     expectedUser.sleepMode = false;
-  
+    expectedUser.conversations.add(1);
+    expectedUser.conversations.add(2);
+    expectedUser.conversations.add(3);
+
     User user = jsonb.fromJson(jsonString, User.class);
-    
+
     assertEquals(expectedUser.UID, user.UID);
     assertEquals(expectedUser.username, user.username);
     assertEquals(expectedUser.password, user.password);
@@ -50,5 +54,6 @@ public class UserTest {
     assertEquals(expectedUser.email, user.email);
     assertEquals(expectedUser.florains, user.florains);
     assertEquals(expectedUser.sleepMode, user.sleepMode);
+    assertEquals(expectedUser.conversations, user.conversations);
   }
 }

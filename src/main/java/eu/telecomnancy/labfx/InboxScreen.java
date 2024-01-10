@@ -16,7 +16,7 @@ public class InboxScreen {
   private TextField interlocutorField;
 
   @FXML
-  private Conversation conversationViewController;
+  private ConversationView conversationViewController;
 
   public InboxScreen(Main main, User user) {
     this.main = main;
@@ -25,7 +25,7 @@ public class InboxScreen {
 
   @FXML
   void initialize() {
-    
+
   }
 
   @FXML
@@ -35,6 +35,6 @@ public class InboxScreen {
 
   @FXML
   private void nouvelleConversation() {
-    
+
   }
 }

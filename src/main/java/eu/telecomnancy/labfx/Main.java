@@ -27,9 +27,10 @@ public class Main extends Application {
         inboxScreen(user);
 
         // if (currentUser == null) {
-        //     loginScreen(); // Show login screen if no user is logged in
+        // loginScreen(); // Show login screen if no user is logged in
         // } else {
-        //     mainScreen(currentUser); // Show the main screen if a user is already logged in
+        // mainScreen(currentUser); // Show the main screen if a user is already logged
+        // in
         // }
     }
 
@@ -88,9 +89,9 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(InboxScreen.class))
                 return new InboxScreen(this, user);
-             else if (ic.equals(Conversation.class))
-                 return new Conversation(this, user);
-                 return null;
+            else if (ic.equals(ConversationView.class))
+                return new ConversationView(this, user);
+            return null;
         });
 
         Scene scene = new Scene(loader.load());

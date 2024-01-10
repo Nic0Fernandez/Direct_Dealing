@@ -4,22 +4,21 @@ import eu.telecomnancy.labfx.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
-public class Conversation {
+public class ConversationView {
   private final Main main;
   private final User user;
   private User interlocutor;
   @FXML
   private ListView<String> conversationList;
 
-
-  public Conversation(Main main, User user) {
+  public ConversationView(Main main, User user) {
     this.main = main;
     this.user = user;
   }
 
   @FXML
   void initialize() {
-    
+
   }
 
   public void setInterlocutor(User interlocutor) {
