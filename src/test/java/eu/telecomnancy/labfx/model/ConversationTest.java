@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
 
 public class ConversationTest {
   @Test
@@ -39,7 +40,8 @@ public class ConversationTest {
 
   @Test
   void deserializeTest() {
-    Jsonb jsonb = JsonbBuilder.create();
+    JsonbConfig config = new JsonbConfig().withDeserializers(new MessageListDesserializer());
+    Jsonb jsonb = JsonbBuilder.create(config);
     String jsonString = "{\"id\":15,\"messages\":[{\"id\":2,\"text\":\"a\"},{\"id\":1,\"text\":\"b\"},{\"id\":1,\"text\":\"c\"}],\"userIds\":[1,2]}";
 
     Conversation expected = new Conversation(1, 2);

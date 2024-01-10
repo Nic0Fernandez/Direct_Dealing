@@ -1,14 +1,16 @@
 package eu.telecomnancy.labfx.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Conversation {
   public Set<Integer> userIds;
 
-  public List<Message> messages;
+  public ObservableList<Message> messages;
 
   public int id;
 
@@ -29,12 +31,12 @@ public class Conversation {
     userIds.add(id1);
     userIds.add(id2);
     assert userIds.size() == 2;
-    messages = new ArrayList<>();
+    messages = FXCollections.observableArrayList();
   }
 
   public Conversation() {
     userIds = new HashSet<>(2);
-    messages = new ArrayList<>();
+    messages = FXCollections.observableArrayList();
   }
 
   public void addMessage(int id, String message) {

@@ -18,4 +18,8 @@ public interface Database {
   ObservableList<Ad> getAdsAsList();
 
   String saveImage(String path);
+
+  int sendMessage(int from, int to, String text);
+
+  Conversation getConversation(int conversationID);
 }

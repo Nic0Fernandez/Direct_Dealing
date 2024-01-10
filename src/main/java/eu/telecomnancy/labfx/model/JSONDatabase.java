@@ -7,15 +7,15 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.IntSupplier;
 
 import org.apache.commons.lang3.SystemUtils;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.JsonbException;
-import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.json.bind.annotation.JsonbTransient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -46,16 +46,14 @@ public class JSONDatabase implements Database {
     return instance;
   }
 
-  @JsonbProperty("users")
   private final Map<Integer, User> idToUser = new HashMap<>();
 
-  @JsonbTransient
   private final Map<String, User> usernameToUser = new HashMap<>();
 
-  @JsonbProperty("ads")
   private final Map<Integer, Ad> ads = new HashMap<>();
 
-  @JsonbTransient
+  private final Map<Integer, Conversation> conversations = new HashMap<>();
+
   private final IntSupplier idProvider;
 
   // public only for testing!!
@@ -79,6 +77,14 @@ public class JSONDatabase implements Database {
     do {
       i = idProvider.getAsInt();
     } while (ads.containsKey(i));
+    return i;
+  }
+
+  private int getNewConversationID() {
+    int i;
+    do {
+      i = idProvider.getAsInt();
+    } while (conversations.containsKey(i));
     return i;
   }
 
@@ -134,7 +140,6 @@ public class JSONDatabase implements Database {
     return user.UID;
   }
 
-  @JsonbTransient
   @Override
   public ObservableList<Ad> getAdsAsList() {
     return FXCollections.observableArrayList(ads.values());
@@ -192,6 +197,12 @@ public class JSONDatabase implements Database {
 
     public Collection<User> users;
 
+    public Collection<Conversation> conversations;
+
+    public Collection<Conversation> getConversations() {
+      return conversations;
+    }
+
     public Collection<User> getUsers() {
       return users;
     }
@@ -199,14 +210,15 @@ public class JSONDatabase implements Database {
     public JSONDatabaseMemento() {
     }
 
-    public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users) {
+    public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users, Collection<Conversation> conversations) {
       this.ads = ads;
       this.users = users;
+      this.conversations = conversations;
     }
   }
 
   private JSONDatabaseMemento toMemento() {
-    return new JSONDatabaseMemento(ads.values(), idToUser.values());
+    return new JSONDatabaseMemento(ads.values(), idToUser.values(), conversations.values());
   }
 
   public String asJSON() {
@@ -231,7 +243,8 @@ public class JSONDatabase implements Database {
 
   void loadFromJSON(String dbString) {
     try {
-      Jsonb jsonb = JsonbBuilder.create();
+      JsonbConfig config = new JsonbConfig().withDeserializers(new MessageListDesserializer());
+      Jsonb jsonb = JsonbBuilder.create(config);
       JSONDatabaseMemento m = jsonb.fromJson(dbString, JSONDatabaseMemento.class);
       loadFromMemento(m);
     } catch (JsonbException e) {
@@ -245,6 +258,7 @@ public class JSONDatabase implements Database {
       idToUser.put(user.UID, user);
       usernameToUser.put(user.username, user);
     });
+    m.conversations.forEach(convo -> conversations.put(convo.id, convo));
   }
 
   @Override
@@ -269,5 +283,35 @@ public class JSONDatabase implements Database {
       System.out.println("Cannot read image");
       return null;
     }
+  }
+
+  @Override
+  public Conversation getConversation(int conversationID) {
+    System.out.println(conversations.size());
+    return conversations.getOrDefault(conversationID, null);
+  }
+
+  @Override
+  public int sendMessage(int from, int to, String text) {
+    if (!idToUser.containsKey(from) || !idToUser.containsKey(to))
+      return -1;
+    Optional<Conversation> conversation = conversations.values().stream()
+        .filter(conv -> conv.userInConversation(from) && conv.userInConversation(to)).findAny();
+    Conversation convo;
+    if (conversation.isPresent()) {
+      convo = conversation.get();
+      convo.addMessage(from, text);
+    } else {
+      convo = new Conversation(from, to);
+      convo.id = getNewConversationID();
+      User sender = idToUser.get(from);
+      User receiver = idToUser.get(to);
+      sender.conversations.add(convo.id);
+      receiver.conversations.add(convo.id);
+      convo.addMessage(from, text);
+      conversations.put(convo.id, convo);
+    }
+    save();
+    return convo.id;
   }
 }

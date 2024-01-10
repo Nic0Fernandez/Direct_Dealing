@@ -1,12 +1,8 @@
 package eu.telecomnancy.labfx.model;
 
 public class Message {
-  public int id;
-  public String text;
-
-  public Message() {
-
-  }
+  public final int id;
+  public final String text;
 
   public Message(int id, String text) {
     this.id = id;

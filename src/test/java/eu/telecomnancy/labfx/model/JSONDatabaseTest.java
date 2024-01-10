@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.function.IntSupplier;
@@ -91,7 +92,11 @@ public class JSONDatabaseTest {
       user.username = "user number " + i;
       db.addUser(user);
     }
-    String expected = "{\"ads\":[{\"ID\":0,\"cost\":0,\"description\":\"ad number 0\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":2,\"cost\":0,\"description\":\"ad number 1\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":4,\"cost\":0,\"description\":\"ad number 2\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0}],\"users\":[{\"UID\":1,\"conversations\":[],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 0\"},{\"UID\":3,\"conversations\":[],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 1\"},{\"UID\":5,\"conversations\":[],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 2\"}]}";
+    db.sendMessage(1, 3, "a");
+    db.sendMessage(3, 1, "b");
+    db.sendMessage(5, 3, "c");
+
+    String expected = "{\"ads\":[{\"ID\":0,\"cost\":0,\"description\":\"ad number 0\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":2,\"cost\":0,\"description\":\"ad number 1\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":4,\"cost\":0,\"description\":\"ad number 2\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0}],\"conversations\":[{\"id\":6,\"messages\":[{\"id\":1,\"text\":\"a\"},{\"id\":3,\"text\":\"b\"}],\"userIds\":[1,3]},{\"id\":7,\"messages\":[{\"id\":5,\"text\":\"c\"}],\"userIds\":[5,3]}],\"users\":[{\"UID\":1,\"conversations\":[6],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 0\"},{\"UID\":3,\"conversations\":[6,7],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 1\"},{\"UID\":5,\"conversations\":[7],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 2\"}]}";
     assertEquals(expected, db.asJSON());
   }
 
@@ -100,6 +105,9 @@ public class JSONDatabaseTest {
     String jsonString = "{\"ads\":[{\"ID\":0},\n" +
         "{\"ID\":2},\n" +
         "{\"ID\":4}],\n" +
+        "\"conversations\":[" +
+        "{\"id\":6,\"messages\":[{\"id\":1,\"text\":\"a\"},{\"id\":3,\"text\":\"b\"}],\"userIds\":[1,3]}," +
+        "{\"id\":7,\"messages\":[{\"id\":5,\"text\":\"c\"}],\"userIds\":[5,3]}]," +
         "\"users\":[{\"UID\":1,\"username\":\"user number 0\"},\n" +
         "{\"UID\":3,\"username\":\"user number 1\"},\n" +
         "{\"UID\":5,\"username\":\"user number 2\"}]}";
@@ -110,6 +118,8 @@ public class JSONDatabaseTest {
     assertNotNull(db.getUser(1));
     assertNotNull(db.getUser(3));
     assertNotNull(db.getUser(5));
+    assertNotNull(db.getConversation(6));
+    assertNotNull(db.getConversation(7));
   }
 
   @Test
@@ -188,5 +198,61 @@ public class JSONDatabaseTest {
     user.username = "name";
     db.addUser(user);
     assertFalse(db.isUsernameAvailable("name"));
+  }
+
+  @Test
+  void testSendMessageUserMissing() {
+    User user = new User();
+    user.username = "pedro";
+    db.addUser(user);
+    assertEquals(-1, db.sendMessage(0, 10, "hello!"));
+    assertEquals(0, user.conversations.size());
+  }
+
+  @Test
+  void testSendMessageNoPreviousConversation() {
+    User user1 = new User();
+    user1.username = "pedro";
+    int id1 = db.addUser(user1);
+    User user2 = new User();
+    user2.username = "joao";
+    int id2 = db.addUser(user2);
+
+    int cID = db.sendMessage(0, 1, "hello!");
+    assertNotEquals(-1, cID);
+    assertEquals(cID, (int) user1.conversations.toArray()[0]);
+    assertEquals(cID, (int) user2.conversations.toArray()[0]);
+    Conversation conversation = db.getConversation(cID);
+    assertNotNull(conversation);
+    assertEquals(cID, conversation.id);
+    assertTrue(conversation.userInConversation(id1));
+    assertTrue(conversation.userInConversation(id2));
+    assertEquals(1, conversation.messages.size());
+    Message message = conversation.messages.get(0);
+    assertEquals(0, message.id);
+    assertEquals("hello!", message.text);
+  }
+
+  @Test
+  void testSendMessagePreviousConversation() {
+    User user1 = new User();
+    user1.username = "pedro";
+    int id1 = db.addUser(user1);
+    User user2 = new User();
+    user2.username = "joao";
+    int id2 = db.addUser(user2);
+
+    assertNotEquals(-1, db.sendMessage(0, 1, "hello!"));
+    int cID = db.sendMessage(1, 0, "world!");
+
+    assertNotEquals(-1, cID);
+    assertEquals(cID, (int) user1.conversations.toArray()[0]);
+    assertEquals(cID, (int) user2.conversations.toArray()[0]);
+    Conversation conversation = db.getConversation(cID);
+    assertNotNull(conversation);
+    assertEquals(2, conversation.messages.size());
+    Message message = conversation.messages.get(1);
+    assertEquals(1, message.id);
+    assertEquals("world!", message.text);
   }
 }
