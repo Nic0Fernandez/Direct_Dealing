@@ -1,53 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<GridPane xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10" fx:controller="eu.telecomnancy.labfx.CreateAccount" stylesheets="@stylesCreateAccount.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
 
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300" />
+    </columnConstraints>
 
-<GridPane
-    xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10" fx:controller="eu.telecomnancy.labfx.CreateAccount"> 
     <children>
-        <Text text="Criar Conta" 
-        GridPane.columnIndex="0" GridPane.rowIndex="0"
-        GridPane.columnSpan="2"/>
+        <Text text="Criar Conta" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2">
+            <font>
+                <Font size="20" />
+            </font>
+        </Text>
 
-        <Label text="Nom"
-        GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2"/>
+        <Label text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2"  />
+        <TextField fx:id="nom" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <TextField fx:id="nom" 
-        GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="Prenom" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2" />
+        <TextField fx:id="prenom" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-        <Label text="Prenom"
-        GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2"/>
+        <Label text="Password" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2" />
+        <PasswordField fx:id="motdepasse" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-        <TextField fx:id="prenom"
-        GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2" />
+        <TextField fx:id="email" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-        <Label text="Password"
-        GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2"/>
+        <Label text="Adresse" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="2" />
+        <TextField fx:id="adresse" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-        <PasswordField fx:id="motdepasse"
-        GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-
-        <Label text="Email"
-        GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2"/>
-
-        <TextField fx:id="email"
-        GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-
-        <Label text="Adresse"
-        GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="2"/>
-
-        <TextField fx:id="adresse"
-        GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-
-        <HBox alignment="center"
-        GridPane.columnIndex="0" GridPane.rowIndex="6">
-        <Button text="Create" onAction="#clickButton"/>
+        <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="2">
+            <Button text="Create" onAction="#clickButton" styleClass="create-button" />
         </HBox>
     </children>
 </GridPane>
