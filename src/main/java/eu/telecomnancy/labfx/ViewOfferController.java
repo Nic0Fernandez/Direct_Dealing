@@ -2,14 +2,19 @@ package eu.telecomnancy.labfx;
 
 import javafx.fxml.FXML;
 
+import java.io.File;
 import java.io.IOError;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
+
 import eu.telecomnancy.labfx.model.Ad;
 import eu.telecomnancy.labfx.model.User;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 
@@ -26,10 +31,12 @@ public class ViewOfferController {
     @FXML private Label disponibilites;
     @FXML private Button messageButton;
     @FXML private Button ReserveButton;
+    @FXML private ImageView image;
 
     private Main main;
     private Ad offer;
     private User user;
+    private String imagePath;
 
     public void setMain(Main main){
         this.main=main;
@@ -49,6 +56,21 @@ public class ViewOfferController {
         return strDate; 
     }
 
+    public Image loadImage(){
+        String imagePath = offer.imagePath;
+        if(imagePath!=null && !imagePath.isEmpty()){
+            System.out.println("Loading image");
+            File file = new File(imagePath);
+            String imageFileUrl = file.toURI().toString();
+            Image imageLoaded = new Image(imageFileUrl);
+            return imageLoaded;
+        }
+        else{
+            System.out.println("Failed to load image");
+            return null;
+        }
+    }
+
     public void initializeItems(){
         nom.setText(offer.name);
         if(offer.isOffer){
@@ -62,10 +84,20 @@ public class ViewOfferController {
         localisation.setText(offer.address);
         distanceMax.setText(offer.maxDistance + "");
         dateDebut.setText(dateToString(offer.start));
-        dateFin.setText(dateToString(offer.end));
-        duree.setText(Integer.toString(offer.duration));
+        if(dateFin != null){
+            dateFin.setText(dateToString(offer.end));
+        }
+        else{
+            dateFin.setText("");
+        }
+        if(duree!=null){
+            duree.setText(Integer.toString(offer.duration));
+        }
+        else{
+            duree.setText("");
+        }
         disponibilites.setText(offer.disponibilities);
-
+        image.setImage(loadImage());
     }
 
     @FXML

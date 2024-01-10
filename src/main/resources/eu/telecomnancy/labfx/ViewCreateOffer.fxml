@@ -25,7 +25,7 @@
             <ComboBox fx:id="nature" prefWidth="150.0" promptText="Nature" />
          </children>
       </HBox>
-      <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" promptText="Courte description" />
+      <TextField fx:id="description" prefHeight="200.0" prefWidth="200.0" promptText="Courte description" />
       <TextField fx:id="cout" promptText="Coût" />
       <HBox prefHeight="9.0" prefWidth="600.0" spacing="100.0">
          <children>

@@ -28,6 +28,11 @@ public class Main extends Application {
         } else {
             mainScreen(currentUser); // Show the main screen if a user is already logged in
         }
+
+        primaryStage.setOnCloseRequest(event->{
+            System.out.println("Exit...");
+            javafx.application.Platform.exit();
+        });
     }
 
     public void loginScreen() throws IOException {
