@@ -24,6 +24,8 @@ public class MainScreenController {
 
     @FXML
     private VBox adContainer;
+    @FXML private ComboBox typeFiltre;
+    @FXML private ComboBox evaluationFiltre;
 
     @FXML
     private ComboBox<AdType> typeFiltre;

@@ -29,6 +29,7 @@ public class ViewOfferController {
     @FXML private Label dateFin;
     @FXML private Label duree;
     @FXML private Label disponibilites;
+    @FXML private Label reservationLabel;
     @FXML private Button messageButton;
     @FXML private Button ReserveButton;
     @FXML private ImageView image;
@@ -102,6 +103,7 @@ public class ViewOfferController {
 
     @FXML
     public void retourMainScreen() throws IOException{
+        System.out.println(user.history);
         main.mainScreen(user);
     }
 
@@ -112,12 +114,7 @@ public class ViewOfferController {
 
     @FXML 
     public void reserve(){
-
+        user.addToHistory(offer);
+        reservationLabel.setText("Offre réservée");
     }
-
-
-
-
-
-
 }
