@@ -5,6 +5,7 @@ import eu.telecomnancy.labfx.model.AdType;
 import eu.telecomnancy.labfx.model.JSONDatabase;
 import eu.telecomnancy.labfx.model.User;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -47,7 +48,8 @@ public class MainScreenController {
     }
 
     @FXML
-    private void displayProfil() {
+    private void displayCompte(ActionEvent event) throws IOException {
+        main.ViewCompteController(user);
     }
 
     @FXML
