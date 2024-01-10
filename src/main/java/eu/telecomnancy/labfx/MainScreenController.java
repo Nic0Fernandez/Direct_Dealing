@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,12 @@ public class MainScreenController {
     @FXML
     private TextField distanceFiltre;
 
+    @FXML
+    private DatePicker dateDebutFiltre;
+
+    @FXML
+    private DatePicker dateFinFiltre;
+
     private Main main;
     private User user;
 
@@ -56,6 +63,8 @@ public class MainScreenController {
         typeFiltre.valueProperty().addListener((observable, oldValue, newValue) -> updateAds());
         coutFiltre.textProperty().addListener((observable, oldValue, newValue) -> updateAds());
         distanceFiltre.textProperty().addListener((observable, oldValue, newValue) -> updateAds());
+        dateDebutFiltre.valueProperty().addListener((observable, oldValue, newValue) -> updateAds());
+        dateFinFiltre.valueProperty().addListener((observable, oldValue, newValue) -> updateAds());
         updateAds();
     }
 
@@ -76,7 +85,7 @@ public class MainScreenController {
     
     public void updateAds() {
         List<Ad> allAds = new ArrayList<>(JSONDatabase.getInstance().getAdsAsList()); // Add stored ads
-        allAds.addAll(createExampleAds());
+        //allAds.addAll(createExampleAds());
 
         
         List<Ad> filteredAds = applyFilters(allAds);
@@ -110,6 +119,18 @@ public class MainScreenController {
                 Double distDouble = Double.parseDouble(dist);
                 ads = ads.stream().filter(ad -> ad.maxDistance <= distDouble).collect(Collectors.toList());
             }
+        }
+
+        LocalDate debutFilter = dateDebutFiltre.getValue();
+        LocalDate finFilter = dateFinFiltre.getValue();
+        if (debutFilter != null && finFilter != null) {
+            ads = ads.stream()
+                    .filter(ad -> {
+                        LocalDate adStartDate = ad.getStart().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        LocalDate adEndDate = ad.getEnd().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        return (adStartDate.isAfter(debutFilter) ||adStartDate.isEqual(debutFilter)) && (adEndDate.isBefore(finFilter) || adEndDate.isEqual(finFilter));
+                    })
+                    .collect(Collectors.toList());
         }
     
         
@@ -162,15 +183,19 @@ public class MainScreenController {
     }
 
     private HBox createAdBox(Ad ad) {
-        HBox adBox = new HBox(15);
+        HBox adBox = new HBox(10);
         Label nameLabel = new Label(ad.name);
         Label coutLabel = new Label(String.valueOf(ad.cost));
         Label distLabel = new Label(String.valueOf(ad.maxDistance));
         Label typeLabel = new Label(String.valueOf(ad.type));
+        Label dateDebutLabel = new Label(String.valueOf(ad.getStart().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
+        Label dateFinLabel = new Label(String.valueOf(ad.getEnd().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
         adBox.getChildren().add(nameLabel);
         adBox.getChildren().add(coutLabel);
         adBox.getChildren().add(distLabel);
         adBox.getChildren().add(typeLabel);
+        adBox.getChildren().add(dateDebutLabel);
+        adBox.getChildren().add(dateFinLabel);
 
         return adBox;
     }
