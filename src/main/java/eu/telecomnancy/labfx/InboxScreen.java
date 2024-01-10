@@ -1,5 +1,8 @@
 package eu.telecomnancy.labfx;
 
+import java.io.IOException;
+
+import eu.telecomnancy.labfx.model.Ad;
 import eu.telecomnancy.labfx.model.Conversation;
 import eu.telecomnancy.labfx.model.JSONDatabase;
 import eu.telecomnancy.labfx.model.User;
@@ -14,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 public class InboxScreen {
   private final Main main;
   private final User user;
+  private final Ad returnOffer;
 
   @FXML
   private ListView<Integer> conversationsList;
@@ -30,12 +34,23 @@ public class InboxScreen {
   public InboxScreen(Main main, User user) {
     this.main = main;
     this.user = user;
+    this.returnOffer = null;
+  }
+
+  public InboxScreen(Main main, User user, Ad returnOffer) {
+    this.main = main;
+    this.user = user;
+    this.returnOffer = returnOffer;
   }
 
   @FXML
   void initialize() {
     conversationsList.setItems(user.conversations);
     conversationsList.setCellFactory(new ConversationCellFactory(user));
+    if (returnOffer != null) {
+      User interlocutor = JSONDatabase.getInstance().getUser(returnOffer.userID);
+      interlocutorField.setText(interlocutor.username);
+    }
   }
 
   @FXML
@@ -80,5 +95,14 @@ public class InboxScreen {
     JSONDatabase.getInstance().sendMessage(user.UID, interlocutor.UID, message);
     conversationViewController.setInterlocutor(interlocutor);
     messageField.clear();
+  }
+
+  @FXML
+  void returnButton() throws IOException {
+    if (returnOffer != null) {
+      main.viewOffer(user, returnOffer);
+    } else {
+      main.mainScreen(user);
+    }
   }
 }

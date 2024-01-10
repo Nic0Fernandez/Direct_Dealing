@@ -80,11 +80,11 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public void inboxScreen(User user) throws IOException {
+    public void inboxScreen(User user, Ad offer) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/Inbox.fxml"));
         loader.setControllerFactory((ic) -> {
             if (ic.equals(InboxScreen.class))
-                return new InboxScreen(this, user);
+                return new InboxScreen(this, user, offer);
             else if (ic.equals(ConversationView.class))
                 return new ConversationView(this, user);
             return null;

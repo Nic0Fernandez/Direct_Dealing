@@ -2,7 +2,6 @@ package eu.telecomnancy.labfx;
 
 import javafx.fxml.FXML;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -74,8 +73,8 @@ public class ViewOfferController {
     }
 
     @FXML 
-    public void sendMessage(){
-
+    public void sendMessage() throws IOException{
+        main.inboxScreen(user, offer);
     }
 
     @FXML 
