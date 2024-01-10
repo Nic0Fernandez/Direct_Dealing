@@ -17,5 +17,4 @@ public class Ad {
   public Date end;
   public int duration;
   public String disponibilities;
-
 }

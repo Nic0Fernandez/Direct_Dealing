@@ -1,7 +1,6 @@
 package eu.telecomnancy.labfx;
 
-import eu.telecomnancy.labfx.model.JSONDatabase;
-import eu.telecomnancy.labfx.model.User;
+import eu.telecomnancy.labfx.model.*;
 
 import java.io.IOException;
 import javafx.application.Application;
@@ -23,16 +22,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("DirectDealing");
-        User user = JSONDatabase.getInstance().getUser("a");
 
-        inboxScreen(user);
-
-        // if (currentUser == null) {
-        // loginScreen(); // Show login screen if no user is logged in
-        // } else {
-        // mainScreen(currentUser); // Show the main screen if a user is already logged
-        // in
-        // }
+        if (currentUser == null) {
+            loginScreen(); // Show login screen if no user is logged in
+        } else {
+            mainScreen(currentUser); // Show the main screen if a user is already logged
+        }
     }
 
     public void loginScreen() throws IOException {
@@ -96,6 +91,21 @@ public class Main extends Application {
         });
 
         Scene scene = new Scene(loader.load());
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void viewOffer(User user, Ad offer) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/ViewOffer.fxml"));
+        Parent root = loader.load();
+
+        ViewOfferController controller = loader.getController();
+        controller.setUser(user);
+        controller.setAd(offer);
+        controller.setMain(this);
+        controller.initializeItems();
+
+        Scene scene = new Scene(root, 600, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
