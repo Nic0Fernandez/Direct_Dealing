@@ -1,6 +1,7 @@
 package eu.telecomnancy.labfx.model;
 
 import java.lang.reflect.Type;
+
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;

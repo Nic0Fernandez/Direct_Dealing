@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -12,11 +13,17 @@
       <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
          <children>
             <ListView fx:id="conversationsList" onMouseClicked="#selectConversation" />
-            <Label text="nouvelle message au utilisateur:" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
+                  <Label text="Utilisateur:" />
                   <TextField fx:id="interlocutorField" />
-                  <Button mnemonicParsing="false" onAction="#nouvelleConversation" text="commencer" />
+                  <Button mnemonicParsing="false" onAction="#newConversation" text="Envoyer" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="360.0" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Message:" />
+                  <TextArea fx:id="messageField" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </HBox>
          </children>

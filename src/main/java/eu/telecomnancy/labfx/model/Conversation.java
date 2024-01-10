@@ -2,6 +2,7 @@ package eu.telecomnancy.labfx.model;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javafx.collections.FXCollections;
@@ -43,5 +44,12 @@ public class Conversation {
     if (!userInConversation(id))
       return;
     messages.add(new Message(id, message));
+  }
+
+  public int getOtherUser(int id) {
+    if (!userInConversation(id)) return -1;
+    Optional<Integer> other = userIds.stream().filter(UID -> UID != id).findAny();
+    if (!other.isPresent()) return -1;
+    return other.get();
   }
 }

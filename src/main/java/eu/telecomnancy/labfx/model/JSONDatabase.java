@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.function.IntSupplier;
 
 import org.apache.commons.lang3.SystemUtils;
+
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
@@ -117,6 +118,11 @@ public class JSONDatabase implements Database {
   @Override
   public User getUser(int UID) {
     return idToUser.getOrDefault(UID, null);
+  }
+
+  @Override
+  public User getUser(String username) {
+    return usernameToUser.getOrDefault(username, null);
   }
 
   @Override
@@ -243,7 +249,8 @@ public class JSONDatabase implements Database {
 
   void loadFromJSON(String dbString) {
     try {
-      JsonbConfig config = new JsonbConfig().withDeserializers(new MessageListDesserializer());
+      JsonbConfig config = new JsonbConfig().withDeserializers(new MessageListDesserializer(),
+          new IntegerObservableListDesserializer());
       Jsonb jsonb = JsonbBuilder.create(config);
       JSONDatabaseMemento m = jsonb.fromJson(dbString, JSONDatabaseMemento.class);
       loadFromMemento(m);
@@ -253,12 +260,15 @@ public class JSONDatabase implements Database {
   }
 
   private void loadFromMemento(JSONDatabaseMemento m) {
-    m.ads.forEach(ad -> ads.put(ad.ID, ad));
-    m.users.forEach(user -> {
-      idToUser.put(user.UID, user);
-      usernameToUser.put(user.username, user);
-    });
-    m.conversations.forEach(convo -> conversations.put(convo.id, convo));
+    if (m.ads != null)
+      m.ads.forEach(ad -> ads.put(ad.ID, ad));
+    if (m.users != null)
+      m.users.forEach(user -> {
+        idToUser.put(user.UID, user);
+        usernameToUser.put(user.username, user);
+      });
+    if (m.conversations != null)
+      m.conversations.forEach(convo -> conversations.put(convo.id, convo));
   }
 
   @Override

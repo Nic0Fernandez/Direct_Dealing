@@ -10,7 +10,7 @@ package model {
     + String email
     + int florains
     + boolean sleepMode
-    + Set<Integer> conversations
+    + ObservableList<Integer> conversations
   }
 
   User o-- Ad
@@ -40,6 +40,7 @@ package model {
     + int addUser(User user)
     + int addAd(Ad ad)
     + User getUser(int UID)
+    + User getUser(String username)
     + Ad getAd(int ID)
     + int authenticate(String username, String password)
     + ObservableList<Ad> getAdsAsList()
@@ -78,6 +79,7 @@ package model {
     + List<Message> getMessages()
     + Set<Integer> getUserIds()
     + addMessage(int id, String message)
+    + int getOtherUser(int id)
   }
   Conversation --> Message
 
@@ -99,7 +101,7 @@ package model {
   JSONDatabase ..> MessageListDesserializer
 
   MessageListDesserializer ..|> JsonbDeserializer : "T = ObservableList<Message>"
-
+  IntegerObservableListDesserializer ..|>   JsonbDeserializer: "T = <ObservableList<Integer>>""
   interface "JsonbDeserializer<T>" as JsonbDeserializer {
     + T deserialize(JsonParser parser, DeserializationContext ctx, Type rtType)
   }

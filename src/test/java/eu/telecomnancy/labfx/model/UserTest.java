@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
 
 public class UserTest {
 
@@ -30,7 +31,8 @@ public class UserTest {
 
   @Test
   void deserializeTest() {
-    Jsonb jsonb = JsonbBuilder.create();
+    JsonbConfig config = new JsonbConfig().withDeserializers(new IntegerObservableListDesserializer());
+    Jsonb jsonb = JsonbBuilder.create(config);
     String jsonString = "{\"UID\":10,\"conversations\":[1,2,3],\"address\":\"c\",\"email\":\"d\",\"florains\":500,\"password\":\"b\",\"sleepMode\":false,\"username\":\"a\"}";
 
     User expectedUser = new User();

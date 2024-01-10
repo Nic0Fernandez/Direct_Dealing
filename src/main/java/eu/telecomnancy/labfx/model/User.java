@@ -1,7 +1,7 @@
 package eu.telecomnancy.labfx.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class User {
   public int UID;
@@ -11,11 +11,11 @@ public class User {
   public String email;
   public int florains;
   public boolean sleepMode;
-  public Set<Integer> conversations;
+  public ObservableList<Integer> conversations;
 
   public User() {
     sleepMode = false;
-    conversations = new HashSet<>();
+    conversations = FXCollections.observableArrayList();
   }
 
 }

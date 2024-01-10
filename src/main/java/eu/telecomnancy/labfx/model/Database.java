@@ -11,6 +11,8 @@ public interface Database {
 
   User getUser(int UID);
 
+  User getUser(String username);
+
   Ad getAd(int ID);
 
   int authenticate(String username, String password);
