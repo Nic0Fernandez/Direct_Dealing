@@ -54,6 +54,8 @@ public class MainScreenController {
         typeFiltre.setItems(FXCollections.observableArrayList(AdType.values()));
         nomFiltre.textProperty().addListener((observable, oldValue, newValue) -> updateAds());
         typeFiltre.valueProperty().addListener((observable, oldValue, newValue) -> updateAds());
+        coutFiltre.textProperty().addListener((observable, oldValue, newValue) -> updateAds());
+        distanceFiltre.textProperty().addListener((observable, oldValue, newValue) -> updateAds());
         updateAds();
     }
 
@@ -92,16 +94,22 @@ public class MainScreenController {
         if (selectedType != null) {
             ads = ads.stream().filter(ad -> ad.type == selectedType).collect(Collectors.toList());
         }
-
-        /* 
-        System.out.println("TESTANDO");
-        System.out.println(coutFiltre.getText());
-        Integer cout = Integer.parseInt(coutFiltre.getText());
-        if (cout != null) {
-            ads = ads.stream().filter(ad -> ad.cost <= cout).collect(Collectors.toList());
+ 
+        if (!coutFiltre.getText().isEmpty()) {
+            String cout = coutFiltre.getText();
+            if (cout != null) {
+                Integer countInteger = Integer.parseInt(cout);
+                ads = ads.stream().filter(ad -> ad.cost <= countInteger).collect(Collectors.toList());
+            }
         }
 
-        */
+        if (!distanceFiltre.getText().isEmpty()) {
+            String dist = distanceFiltre.getText();
+            if (dist != null) {
+                Double distDouble = Double.parseDouble(dist);
+                ads = ads.stream().filter(ad -> ad.maxDistance <= distDouble).collect(Collectors.toList());
+            }
+        }
     
         
     
@@ -141,17 +149,10 @@ public class MainScreenController {
         adContainer.getChildren().clear(); 
         for (Ad ad : ads) {
             HBox adBox = createAdBox(ad);
-            adBox.setOnMouseClicked(event -> {
-                try {
-                    adDetail(ad);
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            });
-            adContainer.getChildren().add(adBox);   
+            adContainer.getChildren().add(adBox);
         }
     }
-    
+
     private HBox createAdBox(Ad ad) {
         HBox adBox = new HBox(10);
         Label nameLabel = new Label(ad.name);
@@ -166,7 +167,4 @@ public class MainScreenController {
     }
 
     
-    public void adDetail(Ad offre) throws IOException{
-        main.viewOffer(user, offre);
-    }
 }

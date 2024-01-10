@@ -48,7 +48,7 @@
                   <Label text="Dates" GridPane.rowIndex="4" />
                   <Label text="Evaluation" GridPane.rowIndex="5" />
                   <TextField fx:id="nomFiltre" prefHeight="26.0" prefWidth="91.0" GridPane.columnIndex="1"  GridPane.rowIndex="0"/>
-                  <TextField text="distance" fx:id="distanceFiltre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="distanceFiltre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="coutFiltre" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <ComboBox fx:id="typeFiltre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
