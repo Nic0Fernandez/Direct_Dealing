@@ -150,6 +150,13 @@ public class MainScreenController {
         adContainer.getChildren().clear(); 
         for (Ad ad : ads) {
             HBox adBox = createAdBox(ad);
+            adBox.setOnMouseClicked(event -> {
+                try {
+                    adDetail(ad);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
             adContainer.getChildren().add(adBox);
         }
     }
