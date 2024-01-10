@@ -297,7 +297,6 @@ public class JSONDatabase implements Database {
 
   @Override
   public Conversation getConversation(int conversationID) {
-    System.out.println(conversations.size());
     return conversations.getOrDefault(conversationID, null);
   }
 
@@ -323,5 +322,15 @@ public class JSONDatabase implements Database {
     }
     save();
     return convo.id;
+  }
+
+  @Override
+  public Conversation getConversation(int UID1, int UID2) {
+    Optional<Conversation> convo = conversations.values().stream()
+        .filter(c -> c.userInConversation(UID2) && c.userInConversation(UID1)).findAny();
+
+    if (!convo.isPresent())
+      return null;
+    return convo.get();
   }
 }

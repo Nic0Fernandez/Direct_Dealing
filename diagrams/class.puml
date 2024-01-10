@@ -48,6 +48,7 @@ package model {
     + String saveImage(String path)
     + int sendMessage(int from, int to, String text)
     + Conversation getConversation(int conversationID)
+    + Conversation getConversation(int UID1, int UID2)
   }
   class JSONDatabase {
     - {static} JSONDatabase instance
@@ -76,7 +77,7 @@ package model {
   class Conversation {
     + Set<Integer> userIds;
     + boolean userInConversation(int id)
-    + List<Message> getMessages()
+    + ObservableList<Message> getMessages()
     + Set<Integer> getUserIds()
     + addMessage(int id, String message)
     + int getOtherUser(int id)

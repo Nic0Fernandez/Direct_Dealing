@@ -8,26 +8,26 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.InboxScreen">
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.InboxScreen">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
          <children>
-            <ListView fx:id="conversationsList" onMouseClicked="#selectConversation" />
+            <ListView fx:id="conversationsList" maxHeight="1.7976931348623157E308" onMouseClicked="#selectConversation" prefHeight="330.0" prefWidth="300.0" VBox.vgrow="ALWAYS" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Utilisateur:" />
-                  <TextField fx:id="interlocutorField" />
+                  <TextField fx:id="interlocutorField" HBox.hgrow="ALWAYS" />
                   <Button mnemonicParsing="false" onAction="#newConversation" text="Envoyer" />
                </children>
             </HBox>
             <HBox layoutX="10.0" layoutY="360.0" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Message:" />
-                  <TextArea fx:id="messageField" prefHeight="200.0" prefWidth="200.0" />
+                  <TextArea fx:id="messageField" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <fx:include fx:id="conversationView" source="Conversation.fxml" HBox.hgrow="ALWAYS" />
+      <fx:include fx:id="conversationView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="Conversation.fxml" HBox.hgrow="ALWAYS" />
    </children>
 </HBox>

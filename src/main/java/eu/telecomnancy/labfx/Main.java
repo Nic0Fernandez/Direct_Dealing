@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx;
 
+import eu.telecomnancy.labfx.model.JSONDatabase;
 import eu.telecomnancy.labfx.model.User;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("DirectDealing");
-        User user = new User();
+        User user = JSONDatabase.getInstance().getUser("a");
 
         inboxScreen(user);
 

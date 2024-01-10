@@ -3,18 +3,18 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ConversationView">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ConversationView">
    <children>
-      <Label text="Label" />
-      <ListView disable="true" prefHeight="200.0" prefWidth="200.0" />
-      <HBox disable="true" prefHeight="100.0" prefWidth="200.0">
+      <Label fx:id="userLabel" text=" " />
+      <ListView fx:id="conversationList" disable="true" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+      <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <TextField />
-            <Button mnemonicParsing="false" text="Button" />
+            <TextArea fx:id="messageField" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="sendMessageButton" minWidth="-Infinity" mnemonicParsing="false" onAction="#sendMessage" prefWidth="100.0" text="Envoyer" />
          </children>
       </HBox>
    </children>

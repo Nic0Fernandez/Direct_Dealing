@@ -24,4 +24,6 @@ public interface Database {
   int sendMessage(int from, int to, String text);
 
   Conversation getConversation(int conversationID);
+
+  Conversation getConversation(int UID1, int UID2);
 }

@@ -1,7 +1,6 @@
 package eu.telecomnancy.labfx.model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -19,7 +18,7 @@ public class Conversation {
     return userIds.contains(id);
   }
 
-  public List<Message> getMessages() {
+  public ObservableList<Message> getMessages() {
     return messages;
   }
 
