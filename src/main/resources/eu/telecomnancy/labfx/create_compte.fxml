@@ -30,7 +30,7 @@
         <Label text="Password"
         GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2"/>
 
-        <TextField fx:id="motdepasse"
+        <PasswordField fx:id="motdepasse"
         GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
         <Label text="Email"

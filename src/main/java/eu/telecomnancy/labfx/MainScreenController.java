@@ -43,6 +43,9 @@ public class MainScreenController {
     @FXML
     private DatePicker dateFinFiltre;
 
+    @FXML
+    private TextField evaluationFiltre;
+
     private Main main;
     private User user;
 
@@ -132,9 +135,6 @@ public class MainScreenController {
                     })
                     .collect(Collectors.toList());
         }
-    
-        
-    
         return ads;
     }
 
