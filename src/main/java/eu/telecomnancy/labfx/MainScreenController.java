@@ -162,9 +162,16 @@ public class MainScreenController {
     }
 
     private HBox createAdBox(Ad ad) {
-        HBox adBox = new HBox();
+        HBox adBox = new HBox(15);
         Label nameLabel = new Label(ad.name);
+        Label coutLabel = new Label(String.valueOf(ad.cost));
+        Label distLabel = new Label(String.valueOf(ad.maxDistance));
+        Label typeLabel = new Label(String.valueOf(ad.type));
         adBox.getChildren().add(nameLabel);
+        adBox.getChildren().add(coutLabel);
+        adBox.getChildren().add(distLabel);
+        adBox.getChildren().add(typeLabel);
+
         return adBox;
     }
 
