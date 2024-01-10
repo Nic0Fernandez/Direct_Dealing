@@ -41,17 +41,17 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Nom" />
+                  <Label text="Nom"  GridPane.rowIndex="0"/>
                   <Label text="Type" GridPane.rowIndex="1" />
                   <Label text="Distance" GridPane.rowIndex="2" />
                   <Label text="Coût" GridPane.rowIndex="3" />
                   <Label text="Dates" GridPane.rowIndex="4" />
                   <Label text="Evaluation" GridPane.rowIndex="5" />
-                  <TextField fx:id="nomFiltre" prefHeight="26.0" prefWidth="91.0" GridPane.columnIndex="1" />
-                  <TextField fx:id="distanceFiltre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="nomFiltre" prefHeight="26.0" prefWidth="91.0" GridPane.columnIndex="1"  GridPane.rowIndex="0"/>
+                  <TextField text="distance" fx:id="distanceFiltre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="coutFiltre" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <ComboBox fx:id="typeFiltre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ComboBox fx:id="evaluationFiltre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
                         <DatePicker fx:id="dateDebutFiltre" promptText="Début" />
