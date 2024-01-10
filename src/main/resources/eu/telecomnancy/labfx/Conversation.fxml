@@ -6,10 +6,14 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ConversationView">
    <children>
-      <Label fx:id="userLabel" text=" " />
+      <Label fx:id="userLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text=" " textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
       <ListView fx:id="conversationList" disable="true" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>

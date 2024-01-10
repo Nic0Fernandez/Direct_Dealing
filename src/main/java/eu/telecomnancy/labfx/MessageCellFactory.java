@@ -1,11 +1,12 @@
 package eu.telecomnancy.labfx;
 
 import eu.telecomnancy.labfx.model.Message;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.util.Callback;
 
 public class MessageCellFactory implements Callback<ListView<Message>, ListCell<Message>> {
@@ -29,11 +30,13 @@ public class MessageCellFactory implements Callback<ListView<Message>, ListCell<
           setText(null);
         } else {
           Label label = new Label(entry.text);
-          HBox box = new HBox(label);
+          HBox box = new HBox();
+          Region r = new Region();
+          HBox.setHgrow(r, Priority.ALWAYS);
           if (entry.id == userID)
-            setAlignment(Pos.CENTER_RIGHT);
+            box.getChildren().addAll(r, label);
           else if (entry.id == otherID)
-            setAlignment(Pos.CENTER_LEFT);
+            box.getChildren().addAll(label, r);
           setGraphic(box);
         }
       }
