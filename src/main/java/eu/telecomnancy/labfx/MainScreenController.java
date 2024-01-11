@@ -8,10 +8,14 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -183,8 +187,25 @@ public class MainScreenController {
         }
     }
 
+    public Image loadImage(Ad ad){
+        String imagePath = ad.imagePath;
+        if(imagePath!=null && !imagePath.isEmpty()){
+            File file = new File(imagePath);
+            String imageFileUrl = file.toURI().toString();
+            Image imageLoaded = new Image(imageFileUrl);
+            return imageLoaded;
+        }
+        else{
+            return null;
+        }
+    }
+
     private HBox createAdBox(Ad ad) {
         HBox adBox = new HBox(10);
+        ImageView image = new ImageView();
+        image.setImage(loadImage(ad));
+        image.setFitHeight(60);
+        image.setFitWidth(60);
         Label nameLabel = new Label(ad.name);
         Label coutLabel = new Label(String.valueOf(ad.cost));
         Label distLabel = new Label(String.valueOf(ad.maxDistance));
@@ -197,6 +218,7 @@ public class MainScreenController {
         adBox.getChildren().add(typeLabel);
         adBox.getChildren().add(dateDebutLabel);
         adBox.getChildren().add(dateFinLabel);
+        adBox.getChildren().add(image);
 
         return adBox;
     }
