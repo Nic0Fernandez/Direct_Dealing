@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class CreateAccount {
 
@@ -80,5 +82,40 @@ public class CreateAccount {
     private void backLogin() throws IOException {
         
         main.loginScreen();
+    }
+
+    @FXML
+    private void checkEnterNom(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            prenom.requestFocus();
+        }
+    }
+
+    @FXML
+    private void checkEnterPrenom(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            motdepasse.requestFocus();
+        }
+    }
+
+    @FXML
+    private void checkEnterPassword(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            email.requestFocus();
+        }
+    }
+
+    @FXML
+    private void checkEnterEmail(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            adresse.requestFocus();
+        }
+    }
+
+    @FXML
+    private void checkEnterAdress(KeyEvent event) throws IOException {
+        if (event.getCode() == KeyCode.ENTER) {
+            clickButton();
+        }
     }
 }
