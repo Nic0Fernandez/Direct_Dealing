@@ -23,7 +23,7 @@ public class UserTest {
     user.transactionsExt.put(1, 2);
     user.transactionsExt.put(2, 1);
     user.transactionsIn.put(5, 6);
-    user.pendingNotifications.addAll(1,2,3);
+    user.pendingNotifications.addAll(1, 2, 3);
 
     Jsonb jsonb = JsonbBuilder.create();
     String jsonUser = jsonb.toJson(user);
@@ -37,8 +37,9 @@ public class UserTest {
   void deserializeTest() {
     JsonbConfig config = new JsonbConfig().withDeserializers(new IntegerObservableListDesserializer());
     Jsonb jsonb = JsonbBuilder.create(config);
-    String jsonString = "{\"UID\":10,\"conversations\":[1,2,3],\"address\":\"c\",\"email\":\"d\",\"florains\":500,\"password\":\"b\",\"sleepMode\":false,\"username\":\"a\"}";
-
+    String jsonString = "{\"UID\":10,\"conversations\":[1,2,3],\"address\":\"c\",\n" +
+        "\"email\":\"d\",\"florains\":500,\"password\":\"b\",\"sleepMode\":false,\"username\":\"a\",\n" +
+        "\"transactionsExt\":{\"1\":2},\"transactionsIn\":{\"5\":6},\"pendingNotifications\":[1]}";
     User expectedUser = new User();
     expectedUser.UID = 10;
     expectedUser.username = "a";
@@ -53,7 +54,6 @@ public class UserTest {
     expectedUser.transactionsExt.put(1, 2);
     expectedUser.transactionsIn.put(5, 6);
     expectedUser.pendingNotifications.add(1);
-
 
     User user = jsonb.fromJson(jsonString, User.class);
 

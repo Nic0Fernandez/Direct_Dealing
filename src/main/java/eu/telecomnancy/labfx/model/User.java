@@ -28,7 +28,6 @@ public class User {
   public int createTransaction(Ad ad){
     Transaction transaction = new Transaction(ad,this.UID, StatusType.RESERVED);
     JSONDatabase.getInstance().addTransaction(transaction);
-    System.out.println("Transaction ID: "+ transaction.ID);
     return transaction.ID;
   }
 

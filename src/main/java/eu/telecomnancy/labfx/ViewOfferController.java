@@ -77,7 +77,7 @@ public class ViewOfferController {
 
     public void initializeItems(){
         nom.setText(offer.name);
-        if(offer.isOffer){
+        if(offer.isOffer()){
             type.setText("Offre");
         }
         else{
@@ -153,9 +153,6 @@ public class ViewOfferController {
     @FXML 
     public void reserve(){
         int transactionID = user.createTransaction(offer);
-        user.transactionsExt.put(offer.ID,transactionID);
-        User otherUser = JSONDatabase.getInstance().getUser(offer.userID);
-        otherUser.transactionsIn.put(offer.ID,transactionID);
         reservationLabel.setText("Offre réservée");
         reserveButton.setText("Waiting for answer");
         reserveButton.setDisable(true);

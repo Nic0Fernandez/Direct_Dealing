@@ -24,7 +24,7 @@ public class AdTest {
     ad.ID = 1;
     ad.userID = 10;
     ad.name = "ad name";
-    ad.isOffer = true;
+    ad.offer = true;
     ad.type = AdType.GOOD;
     ad.description = "baba";
     ad.imagePath = "/bi/bi.jpg";
@@ -38,7 +38,7 @@ public class AdTest {
     Jsonb jsonb = JsonbBuilder.create();
     String jsonAd = jsonb.toJson(ad);
 
-    String expected = "{\"ID\":1,\"address\":\"0, street of the fools\",\"cost\":100,\"description\":\"baba\",\"disponibilities\":\"never\",\"duration\":1,\"end\":\"2001-05-11T00:00:00Z[UTC]\",\"imagePath\":\"/bi/bi.jpg\",\"isOffer\":true,\"maxDistance\":100.0,\"name\":\"ad name\",\"start\":\"2000-11-27T00:00:00Z[UTC]\",\"type\":\"GOOD\",\"userID\":10}";
+    String expected = "{\"ID\":1,\"address\":\"0, street of the fools\",\"cost\":100,\"description\":\"baba\",\"disponibilities\":\"never\",\"duration\":1,\"end\":\"2001-05-11T00:00:00Z[UTC]\",\"imagePath\":\"/bi/bi.jpg\",\"maxDistance\":100.0,\"name\":\"ad name\",\"offer\":true,\"start\":\"2000-11-27T00:00:00Z[UTC]\",\"type\":\"GOOD\",\"userID\":10}";
 
     assertEquals(expected, jsonAd);
   }
@@ -46,13 +46,16 @@ public class AdTest {
   @Test
   void deserializeTest() {
     Jsonb jsonb = JsonbBuilder.create();
-    String jsonString = "{\"ID\":5,\"address\":\"a\",\"cost\":50,\"description\":\"b\",\"disponibilities\":\"not\",\"duration\":5,\"end\":\"2001-06-11T00:00:00Z[UTC]\",\"imagePath\":\"d\",\"isOffer\":false,\"maxDistance\":100.0,\"name\":\"e\",\"start\":\"2000-11-28T00:00:00Z[UTC]\",\"type\":\"SERVICE\",\"userID\":30}";
+    String jsonString = "{\"ID\":5,\"address\":\"a\",\"cost\":50,\"description\":\"b\"," +
+        "\"disponibilities\":\"not\",\"duration\":5,\"end\":\"2001-06-11T00:00:00Z[UTC]\"," +
+        "\"imagePath\":\"d\",\"isOffer\":false,\"maxDistance\":100.0,\"name\":\"e\"," +
+        "\"start\":\"2000-11-28T00:00:00Z[UTC]\",\"type\":\"SERVICE\",\"userID\":30}";
 
     Ad expectedAd = new Ad();
     expectedAd.ID = 5;
     expectedAd.userID = 30;
     expectedAd.name = "e";
-    expectedAd.isOffer = false;
+    expectedAd.offer = false;
     expectedAd.type = AdType.SERVICE;
     expectedAd.description = "b";
     expectedAd.imagePath = "d";
@@ -69,7 +72,7 @@ public class AdTest {
     assertEquals(expectedAd.ID, ad.ID);
     assertEquals(expectedAd.userID, ad.userID);
     assertEquals(expectedAd.name, ad.name);
-    assertEquals(expectedAd.isOffer, ad.isOffer);
+    assertEquals(expectedAd.offer, ad.offer);
     assertEquals(expectedAd.type, ad.type);
     assertEquals(expectedAd.description, ad.description);
     assertEquals(expectedAd.imagePath, ad.imagePath);

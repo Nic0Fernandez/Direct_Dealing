@@ -7,7 +7,7 @@ public class Ad {
   public int userID;
   public int ID;
   public String name;
-  public boolean isOffer;
+  public boolean offer;
   public AdType type;
   public String description;
   public String imagePath;
@@ -20,10 +20,6 @@ public class Ad {
   public String disponibilities;
 
   
-
-  public String getPhotoPath() {
-    return imagePath;
-  }
   public int getUserID() {
         return userID;
     }
@@ -49,11 +45,11 @@ public class Ad {
     }
 
     public boolean isOffer() {
-        return isOffer;
+        return offer;
     }
 
     public void setOffer(boolean offer) {
-        isOffer = offer;
+        this.offer = offer;
     }
 
     public AdType getType() {

@@ -32,6 +32,7 @@ public class JSONDatabaseTest {
   @BeforeEach
   void setUp() {
     db = new JSONDatabase(new LinearIDSupplier(), null, null);
+    JSONDatabase.instance = db;
   }
 
   @Test
@@ -82,44 +83,41 @@ public class JSONDatabaseTest {
     assertEquals(-1, db.addUser(user2));
   }
 
+  String jsonDBString = "{\"ads\":[{\"ID\":1,\"cost\":0,\"description\":\"ad number 0\",\"duration\":0,\"maxDistance\":0.0,\"offer\":false,\"userID\":0},{\"ID\":3,\"cost\":0,\"description\":\"ad number 1\",\"duration\":0,\"maxDistance\":0.0,\"offer\":false,\"userID\":2},{\"ID\":5,\"cost\":0,\"description\":\"ad number 2\",\"duration\":0,\"maxDistance\":0.0,\"offer\":false,\"userID\":4}],\"conversations\":[{\"id\":6,\"messages\":[{\"id\":0,\"text\":\"a\"},{\"id\":2,\"text\":\"b\"}],\"userIds\":[0,2]},{\"id\":7,\"messages\":[{\"id\":4,\"text\":\"c\"}],\"userIds\":[4,2]}],\"transactions\":[{\"ID\":8,\"UID\":4,\"adID\":3,\"statusType\":\"RESERVED\"}],\"users\":[{\"UID\":0,\"conversations\":[6],\"florains\":0,\"pendingNotifications\":[],\"sleepMode\":false,\"transactionsExt\":{},\"transactionsIn\":{},\"username\":\"user number 0\"},{\"UID\":2,\"conversations\":[6,7],\"florains\":0,\"pendingNotifications\":[],\"sleepMode\":false,\"transactionsExt\":{},\"transactionsIn\":{\"3\":8},\"username\":\"user number 1\"},{\"UID\":4,\"conversations\":[7],\"florains\":0,\"pendingNotifications\":[],\"sleepMode\":false,\"transactionsExt\":{\"3\":8},\"transactionsIn\":{},\"username\":\"user number 2\"}]}";
+
   @Test
   void testAsJSON() {
+    User[] users = new User[3];
+    Ad[] ads = new Ad[3];
     for (int i = 0; i < 3; ++i) {
-      Ad ad = new Ad();
-      ad.description = "ad number " + i;
-      db.addAd(ad);
-      User user = new User();
-      user.username = "user number " + i;
-      db.addUser(user);
+      users[i] = new User();
+      users[i].username = "user number " + i;
+      db.addUser(users[i]);
+      ads[i] = new Ad();
+      ads[i].userID = users[i].UID;
+      ads[i].description = "ad number " + i;
+      db.addAd(ads[i]);
     }
-    db.sendMessage(1, 3, "a");
-    db.sendMessage(3, 1, "b");
-    db.sendMessage(5, 3, "c");
+    db.sendMessage(0, 2, "a");
+    db.sendMessage(2, 0, "b");
+    db.sendMessage(4, 2, "c");
+    users[2].createTransaction(ads[1]);
 
-    String expected = "{\"ads\":[{\"ID\":0,\"cost\":0,\"description\":\"ad number 0\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":2,\"cost\":0,\"description\":\"ad number 1\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0},{\"ID\":4,\"cost\":0,\"description\":\"ad number 2\",\"duration\":0,\"isOffer\":false,\"maxDistance\":0.0,\"userID\":0}],\"conversations\":[{\"id\":6,\"messages\":[{\"id\":1,\"text\":\"a\"},{\"id\":3,\"text\":\"b\"}],\"userIds\":[1,3]},{\"id\":7,\"messages\":[{\"id\":5,\"text\":\"c\"}],\"userIds\":[5,3]}],\"users\":[{\"UID\":1,\"conversations\":[6],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 0\"},{\"UID\":3,\"conversations\":[6,7],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 1\"},{\"UID\":5,\"conversations\":[7],\"florains\":0,\"sleepMode\":false,\"username\":\"user number 2\"}]}";
-    assertEquals(expected, db.asJSON());
+    assertEquals(jsonDBString, db.asJSON());
   }
 
   @Test
   void testFromJSON() {
-    String jsonString = "{\"ads\":[{\"ID\":0},\n" +
-        "{\"ID\":2},\n" +
-        "{\"ID\":4}],\n" +
-        "\"conversations\":[" +
-        "{\"id\":6,\"messages\":[{\"id\":1,\"text\":\"a\"},{\"id\":3,\"text\":\"b\"}],\"userIds\":[1,3]}," +
-        "{\"id\":7,\"messages\":[{\"id\":5,\"text\":\"c\"}],\"userIds\":[5,3]}]," +
-        "\"users\":[{\"UID\":1,\"username\":\"user number 0\"},\n" +
-        "{\"UID\":3,\"username\":\"user number 1\"},\n" +
-        "{\"UID\":5,\"username\":\"user number 2\"}]}";
-    db.loadFromJSON(jsonString);
-    assertNotNull(db.getAd(0));
-    assertNotNull(db.getAd(2));
-    assertNotNull(db.getAd(4));
-    assertNotNull(db.getUser(1));
-    assertNotNull(db.getUser(3));
-    assertNotNull(db.getUser(5));
+    db.loadFromJSON(jsonDBString);
+    assertNotNull(db.getAd(1));
+    assertNotNull(db.getAd(3));
+    assertNotNull(db.getAd(5));
+    assertNotNull(db.getUser(0));
+    assertNotNull(db.getUser(2));
+    assertNotNull(db.getUser(4));
     assertNotNull(db.getConversation(6));
     assertNotNull(db.getConversation(7));
+    assertNotNull(db.getTransaction(8));
   }
 
   @Test
@@ -254,5 +252,39 @@ public class JSONDatabaseTest {
     Message message = conversation.messages.get(1);
     assertEquals(1, message.id);
     assertEquals("world!", message.text);
+  }
+
+  @Test
+  void testTransactions() {
+    User user1 = new User();
+    user1.username = "pedro";
+    int id1 = db.addUser(user1);
+
+    User user2 = new User();
+    user2.username = "joao";
+    int id2 = db.addUser(user2);
+
+    Ad ad = new Ad();
+    ad.userID = id2;
+    db.addAd(ad);
+
+    int TID = user1.createTransaction(ad);
+    assertEquals(1, user1.transactionsExt.size());
+    assertEquals(0, user1.transactionsIn.size());
+    assertEquals(0, user2.transactionsExt.size());
+    assertEquals(1, user2.transactionsIn.size());
+    assertEquals(TID, user1.transactionsExt.get(ad.ID));
+    assertEquals(TID, user2.transactionsIn.get(ad.ID));
+    Transaction t = db.getTransaction(TID);
+    assertNotNull(t);
+    assertEquals(user1.UID, t.UID);
+    assertEquals(ad.ID, t.adID);
+    db.saveStatus(t, StatusType.REFUSED);
+    assertEquals(StatusType.REFUSED, t.statusType);
+  }
+
+  @Test
+  void testGetTransactionNoTransaction() {
+    assertNull(db.getTransaction(10));
   }
 }

@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -26,7 +27,8 @@ import javax.imageio.ImageIO;
 
 public class JSONDatabase implements Database {
 
-  private static JSONDatabase instance;
+  // only public for tests!!
+  public static JSONDatabase instance;
 
   private static class RandomIdSupplier implements IntSupplier {
     private final Random random = new Random();
@@ -75,28 +77,24 @@ public class JSONDatabase implements Database {
     return i;
   }
 
-  private int getNewAdID() {
+  private int getUniqueID(Set<Integer> definedIDS) {
     int i;
     do {
       i = idProvider.getAsInt();
-    } while (ads.containsKey(i));
+    } while (definedIDS.contains(i));
     return i;
+  }
+
+  private int getNewAdID() {
+    return getUniqueID(ads.keySet());
   }
 
   private int getNewTransactionID(){
-    int i;
-    do {
-      i= idProvider.getAsInt();
-    } while (transactions.containsKey(i));
-    return i;
+    return getUniqueID(transactions.keySet());
   }
 
   private int getNewConversationID() {
-    int i;
-    do {
-      i = idProvider.getAsInt();
-    } while (conversations.containsKey(i));
-    return i;
+    return getUniqueID(conversations.keySet());
   }
 
   @Override
@@ -130,10 +128,14 @@ public class JSONDatabase implements Database {
     if (transactions.containsValue(transaction)) {
       return transaction.ID;
     }
-
     int id = getNewTransactionID();
     transaction.ID = id;
     transactions.put(id, transaction);
+    Ad ad = getAd(transaction.adID);
+    User user = getUser(transaction.UID);
+    User otherUser = getUser(ad.userID);
+    user.transactionsExt.put(ad.ID,transaction.ID);
+    otherUser.transactionsIn.put(ad.ID,transaction.ID);
     save();
     return id;
   }
