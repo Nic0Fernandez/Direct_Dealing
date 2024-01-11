@@ -10,4 +10,5 @@ Pour exécuter le .jar situé à la racine du projet:
 java --module-path ${JAVAFX_HOME}/lib/  --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.web -jar DirectDealing.jar
 ```
 
-En ce troisième jour, nous avont ajouté au projet les fonctionnalités suivantes: Voir les offres, les filtres basiques, le système de messagerie et enfin la vue du compte. Certains ajustement ont été effectués sur les écrans déjà terminés (ajouts boutons de retours, style). Le système de réservation a été commencé. Il est désormais possible de réserver une offre. Cette réservation enverra une notification à l'auteur de l'offre, ce qui sera réalisé demain.
+En ce quatrième jour, nous avons ajouté au projet les fonctionnalités suivantes: système de réservation, acceptation et refus, finalisation de la messagerie, mise en page du tableau de bord principal, barre de menu afin d'accéder facilement à tous les menus et à l'option pour se déconnecter, changement graphique afin de rendre l'application plus agréable, et enfin légères améliorations diverses et variées afin d'aider l'utilisateur.
+Le système de notification sera finalement réalisé demain, ainsi que la finalisation de la localisation.
