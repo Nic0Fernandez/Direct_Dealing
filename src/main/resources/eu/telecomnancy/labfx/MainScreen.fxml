@@ -16,6 +16,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.MainScreenController">
    <children>
+   <fx:include source="DirectDealingMenu.fxml"/>
       <HBox alignment="CENTER" prefHeight="109.0" prefWidth="600.0">
          <children>
             <Label alignment="CENTER" text="Tableau de bord">

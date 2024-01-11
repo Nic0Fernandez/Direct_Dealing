@@ -29,7 +29,7 @@ public class Main extends Application {
             mainScreen(currentUser); // Show the main screen if a user is already logged
         }
 
-        primaryStage.setOnCloseRequest(event->{
+        primaryStage.setOnCloseRequest(event -> {
             System.out.println("Exit...");
             javafx.application.Platform.exit();
         });
@@ -38,7 +38,6 @@ public class Main extends Application {
     public void loginScreen() throws IOException {
         FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/Login.fxml"));
 
-       
         fxmloader.setControllerFactory(ic -> new Login(this));
 
         Scene scene = new Scene(fxmloader.load(), 400, 400);
@@ -48,8 +47,6 @@ public class Main extends Application {
 
     public void createAccountScreen() throws IOException {
         FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/create_compte.fxml"));
-    
-        
         fxmloader.setControllerFactory(ic -> new CreateAccount(this));
 
         Scene scene = new Scene(fxmloader.load(), 400, 400);
@@ -59,6 +56,14 @@ public class Main extends Application {
 
     public void mainScreen(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/MainScreen.fxml"));
+        loader.setControllerFactory((ic) -> {
+            if (ic.equals(MainScreenController.class))
+                return new MainScreenController();
+            else if (ic.equals(DirectDealingMenuController.class))
+                return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.MAIN);
+            return null;
+        });
+
         Parent root = loader.load();
 
         MainScreenController controller = loader.getController();
@@ -72,6 +77,14 @@ public class Main extends Application {
 
     public void viewCreateOffer(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/ViewCreateOffer.fxml"));
+        loader.setControllerFactory((ic) -> {
+            if (ic.equals(ViewCreateOfferController.class))
+                return new ViewCreateOfferController();
+            else if (ic.equals(DirectDealingMenuController.class))
+                return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.CREATE);
+            return null;
+        });
+
         Parent root = loader.load();
 
         ViewCreateOfferController controller = loader.getController();
@@ -91,6 +104,8 @@ public class Main extends Application {
                 return new InboxScreen(this, user, offer);
             else if (ic.equals(ConversationView.class))
                 return new ConversationView(this, user);
+            else if (ic.equals(DirectDealingMenuController.class))
+                return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.INBOX);
             return null;
         });
 
@@ -101,6 +116,13 @@ public class Main extends Application {
 
     public void ViewCompteController(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/ViewCompte.fxml"));
+        loader.setControllerFactory((ic) -> {
+            if (ic.equals(ViewCompteController.class))
+                return new ViewCompteController();
+            else if (ic.equals(DirectDealingMenuController.class))
+                return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.PROFILE);
+            return null;
+        });
         Parent root = loader.load();
 
         ViewCompteController controller = loader.getController();
@@ -111,9 +133,16 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
-    public void viewOffer(User user, Ad offer) throws IOException{
+
+    public void viewOffer(User user, Ad offer) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/ViewOffer.fxml"));
+        loader.setControllerFactory((ic) -> {
+            if (ic.equals(ViewOfferController.class))
+                return new ViewOfferController();
+            else if (ic.equals(DirectDealingMenuController.class))
+                return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.VIEW);
+            return null;
+        });
         Parent root = loader.load();
 
         ViewOfferController controller = loader.getController();
