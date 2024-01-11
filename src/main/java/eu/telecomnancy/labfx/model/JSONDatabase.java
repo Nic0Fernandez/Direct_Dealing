@@ -57,6 +57,8 @@ public class JSONDatabase implements Database {
 
   private final IntSupplier idProvider;
 
+   private final Map<Integer, AdHistory> adsHistory = new HashMap<>();
+
   // public only for testing!!
   public JSONDatabase(IntSupplier idProvider, String linuxPath, String windowsPath) {
     this.idProvider = idProvider;
@@ -78,6 +80,14 @@ public class JSONDatabase implements Database {
     do {
       i = idProvider.getAsInt();
     } while (ads.containsKey(i));
+    return i;
+  }
+
+  private int getNewAdHistoryID(){
+    int i;
+    do {
+      i= idProvider.getAsInt();
+    } while (adsHistory.containsKey(i));
     return i;
   }
 
@@ -111,6 +121,19 @@ public class JSONDatabase implements Database {
     int id = getNewAdID();
     ad.ID = id;
     ads.put(id, ad);
+    save();
+    return id;
+  }
+
+  @Override
+  public int addAdHistory(AdHistory adHistory) {
+    if (adsHistory.containsValue(adHistory)) {
+      return adHistory.ID;
+    }
+
+    int id = getNewAdHistoryID();
+    adHistory.ID = id;
+    adsHistory.put(id, adHistory);
     save();
     return id;
   }
@@ -322,6 +345,13 @@ public class JSONDatabase implements Database {
     }
     save();
     return convo.id;
+  }
+
+  @Override
+  public void saveStatus(AdHistory adHistory, StatusType statusType){
+    adHistory.statusType = statusType;
+    save();
+    System.out.println("mise à jour");
   }
 
   @Override

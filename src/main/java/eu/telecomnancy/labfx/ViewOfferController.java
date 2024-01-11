@@ -1,23 +1,25 @@
 package eu.telecomnancy.labfx;
 
+import eu.telecomnancy.labfx.model.*;
+
 import javafx.fxml.FXML;
 
 import java.io.File;
 import java.io.IOError;
 import java.io.IOException;
+import java.io.ObjectInputFilter.Status;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
 
-import eu.telecomnancy.labfx.model.Ad;
-import eu.telecomnancy.labfx.model.AdHistory;
-import eu.telecomnancy.labfx.model.User;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 public class ViewOfferController {
     @FXML private Label nom;
@@ -37,6 +39,7 @@ public class ViewOfferController {
 
     private Main main;
     private Ad offer;
+    private AdHistory adHistory;
     private User user;
     private String imagePath;
 
@@ -105,14 +108,34 @@ public class ViewOfferController {
 
     public void checkStatus(){
         for(AdHistory adHistory: user.history){
-            if(adHistory.ad.userID == user.UID){
-                reserveButton.setText("Waiting...");
-                reserveButton.setDisable(true);
+            if(adHistory.ad.ID == offer.ID && adHistory.UID == user.UID){
+                this.adHistory = adHistory;
+                break;
             }
         }
+        adHistory.statusType=StatusType.ACCEPTED;
+        if(adHistory.statusType == StatusType.RESERVED){
+            reserveButton.setText("Waiting for answer...");
+            reserveButton.setDisable(true);
+        }
+        if(adHistory.statusType == StatusType.ACCEPTED){
+            reserveButton.setText("Complete");
+            reserveButton.setDisable(false);
+            reserveButton.setOnAction(new EventHandler<ActionEvent>(){
+                public void handle(ActionEvent event){
+                    adHistory.statusType = StatusType.COMPLETED;
+                    updateDatabase(adHistory,StatusType.COMPLETED);
+                    //transfert florains
+                    reservationLabel.setText("Complétée ! Les florains ont été transférés");
+                }
+            });
+        }
+    }
+
+    public void updateDatabase(AdHistory adHistory, StatusType statusType){
+        JSONDatabase.getInstance().saveStatus(adHistory, statusType);
     }
     
-
     @FXML
     public void retourMainScreen() throws IOException{
         System.out.println(user.history);
@@ -126,7 +149,12 @@ public class ViewOfferController {
 
     @FXML 
     public void reserve(){
-        user.addToHistory(offer);
+        AdHistory adHistory = user.addToHistory(offer);
+        adHistory.UID = user.UID;
+        JSONDatabase.getInstance().addAdHistory(adHistory);
         reservationLabel.setText("Offre réservée");
+        reserveButton.setText("Waiting for answer");
+        reserveButton.setDisable(true);
+
     }
 }

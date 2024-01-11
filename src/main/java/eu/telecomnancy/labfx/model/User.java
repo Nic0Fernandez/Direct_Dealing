@@ -37,9 +37,10 @@ public String getPhotoPath() {
     pathImage=this.imgpath ;
   }
 
-  public void addToHistory(Ad ad){
+  public AdHistory addToHistory(Ad ad){
     AdHistory newAd = new AdHistory(ad,StatusType.RESERVED);
     history.add(newAd);
+    return newAd;
   }
 }
 

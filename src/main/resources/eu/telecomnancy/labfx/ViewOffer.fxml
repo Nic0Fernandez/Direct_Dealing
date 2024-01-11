@@ -184,12 +184,12 @@
          <children>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMainScreen" text="Retour" />
+                  <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMainScreen" prefHeight="26.0" prefWidth="80.0" text="Retour" />
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="71.0" prefWidth="257.0">
                <children>
-                  <Button fx:id="reserveButton" mnemonicParsing="false" onAction="#reserve" prefHeight="22.0" prefWidth="62.0" text="Réserver" />
+                  <Button fx:id="reserveButton" mnemonicParsing="false" onAction="#reserve" prefHeight="26.0" prefWidth="173.0" text="Réserver" />
                   <Label fx:id="reservationLabel" textFill="#949494" />
                </children>
                <HBox.margin>
@@ -198,7 +198,7 @@
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="messageButton" mnemonicParsing="false" onAction="#sendMessage" text="Message" />
+                  <Button fx:id="messageButton" mnemonicParsing="false" onAction="#sendMessage" prefHeight="26.0" prefWidth="80.0" text="Message" />
                </children>
             </VBox>
          </children>
