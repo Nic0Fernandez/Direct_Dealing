@@ -17,8 +17,8 @@
       <ListView fx:id="conversationList" disable="true" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <TextArea fx:id="messageField" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Button fx:id="sendMessageButton" minWidth="-Infinity" mnemonicParsing="false" onAction="#sendMessage" prefWidth="100.0" text="Envoyer" />
+            <TextArea fx:id="messageField" disable="true" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="sendMessageButton" disable="true" minWidth="-Infinity" mnemonicParsing="false" onAction="#sendMessage" prefWidth="100.0" text="Envoyer" />
          </children>
       </HBox>
    </children>

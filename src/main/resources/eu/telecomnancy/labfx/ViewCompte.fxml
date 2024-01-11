@@ -15,6 +15,7 @@
 
 <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewCompteController">
     <children>
+        <fx:include source="DirectDealingMenu.fxml"/>
         <Label fx:id="userName" alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="578.0" text="User Name">
             <font>
                 <Font size="19.0" />

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+
+<MenuBar xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.DirectDealingMenuController">
+  <menus>
+    <Menu mnemonicParsing="false" text="Fichier">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#logout" text="Déconnecter" />
+            <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Fermer" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Naviguer">
+      <items>
+        <MenuItem fx:id="mainScreenItem" mnemonicParsing="false" onAction="#goToMainScreen" text="Tableau de bord" />
+            <MenuItem fx:id="profileScreenItem" mnemonicParsing="false" onAction="#goToProfileScreen" text="Profil" />
+            <MenuItem fx:id="inboxItem" mnemonicParsing="false" onAction="#goToInbox" text="Messagerie" />
+            <MenuItem fx:id="createScreenItem" mnemonicParsing="false" onAction="#goToCreateScreen" text="Ajouter" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Aide">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#showAbout" text="À propos de" />
+      </items>
+    </Menu>
+  </menus>
+</MenuBar>

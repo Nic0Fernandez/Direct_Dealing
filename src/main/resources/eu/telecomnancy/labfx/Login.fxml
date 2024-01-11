@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="5" vgap="10" fx:controller="eu.telecomnancy.labfx.Login" style="-fx-background-color: #fff0f5;">
+<GridPane alignment="center" hgap="5" style="-fx-background-color: #fff0f5;" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21.0.1" fx:controller="eu.telecomnancy.labfx.Login">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="160.0" minWidth="10.0" prefWidth="160.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="140.0" />
@@ -23,36 +29,36 @@
         <!-- Circular clip for the image -->
         <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" GridPane.rowSpan="2">
             <clip>
-                <Circle radius="70" centerX="70" centerY="70"/>
+                <Circle centerX="140" centerY="70" radius="140" />
             </clip>
             <image>
-                <Image url="@/eu/telecomnancy/labfx/images/kawai.png" />
+                <Image url="@/eu/telecomnancy/labfx/images/logo.jpeg" />
             </image>
         </ImageView>
 
-        <Label text="Login" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="1" textFill="#7b68ee">
+        <Label text="Login" textFill="#7b68ee" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="1">
             <font>
-                <Font size="17.0"/>
+                <Font size="17.0" />
             </font>
         </Label>
 
-        <Label text="Username" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="1" textFill="#8c90b3">
+        <Label text="Username" textFill="#8c90b3" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="2">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
         </Label>
-        <TextField fx:id="username" GridPane.columnIndex="1" GridPane.rowIndex="2" style="-fx-background-color: #2e354f; -fx-text-fill: #8c90b3;"/>
+        <TextField fx:id="username" onKeyPressed="#checkEnterUser" style="-fx-background-color: #2e354f; -fx-text-fill: #8c90b3;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         
-        <Label text="Password" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="1" textFill="#8c90b3">
+        <Label text="Password" textFill="#8c90b3" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="3">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
         </Label>
-        <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-background-color: #2e354f; -fx-text-fill: #8c90b3;"/>
+        <PasswordField fx:id="password" onKeyPressed="#checkEnterPassword" style="-fx-background-color: #2e354f; -fx-text-fill: #8c90b3;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-        <HBox alignment="center" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.columnSpan="1">
-            <Button text="Login" onAction="#clickButton" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;"/>
-            <Button fx:id="createAccountButton" text="Create Account" onAction="#createAccount" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;"/>
+        <HBox alignment="center" spacing="10" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="4">
+            <Button onAction="#clickButton" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" text="Login" />
+            <Button fx:id="createAccountButton" onAction="#createAccount" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" text="Create Account" />
         </HBox>
     </children>
 </GridPane>

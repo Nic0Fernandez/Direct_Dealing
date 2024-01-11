@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,8 +22,8 @@ public class ViewCompteController {
 
     @FXML private Label userName;
     @FXML private ImageView userPhoto;
-    @FXML private ListView<String> offersListView;
-    @FXML private ListView<String> demandsListView;
+    @FXML private ListView<Ad> offersListView;
+    @FXML private ListView<Ad> demandsListView;
     @FXML private Button addPhotoButton;
     @FXML private Button backToMainButton;
     @FXML private ListView<Integer> notificationsView;
@@ -42,11 +43,11 @@ public class ViewCompteController {
         
         loadUserPhoto();
 
-        
         loadUserOffersAndDemands();
     }
 
     private void loadUserPhoto() {
+        String photoPath = user.imgpath;
         String photoPath = user.imgpath;
         if (photoPath != null && !photoPath.isEmpty()) {
             File photoFile = new File(photoPath);
@@ -60,7 +61,6 @@ public class ViewCompteController {
     private void loadUserOffersAndDemands() {
         List<Ad> allAds = JSONDatabase.getInstance().getAdsAsList();
 
-        
         List<Ad> userAds = allAds.stream()
                 .filter(ad -> ad.userID == user.UID)
                 .collect(Collectors.toList());
@@ -76,8 +76,56 @@ public class ViewCompteController {
                 .map(Ad::getName)
                 .collect(Collectors.toList());
 
-        offersListView.getItems().addAll(userOffers);
-        demandsListView.getItems().addAll(userDemands);
+        offersListView.setItems(FXCollections.observableArrayList(userOffers));
+        demandsListView.setItems(FXCollections.observableArrayList(userDemands));
+
+        offersListView.setCellFactory(param -> new ListCell<Ad>() {
+            @Override
+            protected void updateItem(Ad ad, boolean empty) {
+                super.updateItem(ad, empty);
+
+                if (empty || ad == null || ad.getName() == null) {
+                    setText(null);
+                } else {
+                    setText(ad.getName());
+                }
+            }
+        });
+
+        demandsListView.setCellFactory(param -> new ListCell<Ad>() {
+            @Override
+            protected void updateItem(Ad ad, boolean empty) {
+                super.updateItem(ad, empty);
+
+                if (empty || ad == null || ad.getName() == null) {
+                    setText(null);
+                } else {
+                    setText(ad.getName());
+                }
+            }
+        });
+
+        offersListView.setOnMouseClicked(event -> {
+            Ad selectedAd = offersListView.getSelectionModel().getSelectedItem();
+            if (selectedAd != null) {
+                try {
+                    main.viewOffer(user, selectedAd);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        demandsListView.setOnMouseClicked(event -> {
+            Ad selectedAd = demandsListView.getSelectionModel().getSelectedItem();
+            if (selectedAd != null) {
+                try {
+                    main.viewOffer(user, selectedAd);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         notificationsView.setItems(user.pendingNotifications);
 
         notificationsView.setCellFactory(param -> new ListCell<Integer>() {
@@ -141,7 +189,6 @@ public class ViewCompteController {
 
     @FXML
     private void backToMain() throws IOException {
-        
         main.mainScreen(user);
     }
 }

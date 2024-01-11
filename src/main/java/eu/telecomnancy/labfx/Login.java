@@ -9,6 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class Login {
 
@@ -27,8 +29,7 @@ public class Login {
         this.main = main;
     }
 
-    @FXML
-    public void clickButton() throws IOException {
+    private void tryLogin() throws IOException {
         String enteredUsername = username.getText();
         String enteredPassword = password.getText();
 
@@ -43,6 +44,11 @@ public class Login {
     }
 
     @FXML
+    public void clickButton() throws IOException {
+        tryLogin();
+    }
+
+    @FXML
     public void createAccount() throws IOException {
         main.createAccountScreen();
     }
@@ -53,5 +59,19 @@ public class Login {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.show();
+    }
+
+    @FXML
+    private void checkEnterPassword(KeyEvent event) throws IOException {
+        if (event.getCode() == KeyCode.ENTER) {
+            tryLogin();
+        }
+    }
+
+    @FXML
+    private void checkEnterUser(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            password.requestFocus();
+        }
     }
 }
