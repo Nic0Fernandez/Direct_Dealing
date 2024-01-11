@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Arrays;
 
 public class MainScreenController {
 
@@ -103,9 +104,8 @@ public class MainScreenController {
                  .filter(ad -> ad.name.toLowerCase().contains(nomFilter))
                  .collect(Collectors.toList());
     
-        // Filter by type
         AdType selectedType = typeFiltre.getValue();
-        if (selectedType != null) {
+        if (selectedType != null && selectedType != AdType.ALL) {
             ads = ads.stream().filter(ad -> ad.type == selectedType).collect(Collectors.toList());
         }
  
