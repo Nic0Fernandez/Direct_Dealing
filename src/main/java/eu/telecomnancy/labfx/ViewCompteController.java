@@ -67,12 +67,12 @@ public class ViewCompteController {
 
         
         List<String> userOffers = userAds.stream()
-                .filter(ad -> ad.isOffer)
+                .filter(ad -> ad.offer)
                 .map(Ad::getName)
                 .collect(Collectors.toList());
 
         List<String> userDemands = userAds.stream()
-                .filter(ad -> !ad.isOffer)
+                .filter(ad -> !ad.offer)
                 .map(Ad::getName)
                 .collect(Collectors.toList());
 

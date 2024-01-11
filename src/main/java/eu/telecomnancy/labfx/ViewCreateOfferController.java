@@ -168,7 +168,7 @@ public class ViewCreateOfferController {
             try {
                 offre.start = localDateToDate(dateDebut.getValue());
                 offre.end = localDateToDate(dateFin.getValue());
-                offre.isOffer= Offer();
+                offre.offer = Offer();
                 offre.type = type();
             } catch (Exception e) {
                 showErrorMessage("Vous devez remplir tous les champs");
