@@ -135,6 +135,7 @@ public class JSONDatabase implements Database {
     transaction.ID = id;
     transactions.put(id, transaction);
     save();
+    System.out.println("Transaction " + transaction.ID + " saved");
     return id;
   }
 
