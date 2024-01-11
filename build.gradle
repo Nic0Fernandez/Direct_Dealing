@@ -58,7 +58,14 @@ dependencies {
 	testImplementation('org.junit.jupiter:junit-jupiter')
 }
 
+compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 test {
+
+    systemProperty "file.encoding", "utf-8"
     useJUnitPlatform()
 
     testLogging {

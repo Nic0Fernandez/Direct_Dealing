@@ -9,13 +9,16 @@ import javafx.scene.control.*;
 import java.io.File;
 import javafx.stage.FileChooser;
 import java.util.Date;
+import javafx.util.Callback;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 import javafx.scene.control.TextField;
-
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+
 public class ViewCreateOfferController {
     
     @FXML private TextField nom;
@@ -75,6 +78,32 @@ public class ViewCreateOfferController {
         restrictIntegers(cout);
         restrictIntegers(distance);
         restrictIntegers(duree);
+        final Callback<DatePicker, DateCell> dayCellFactory = 
+            new Callback<DatePicker, DateCell>() {
+                @Override
+                public DateCell call(final DatePicker datePicker) {
+                    return new DateCell() {
+                        @Override
+                        public void updateItem(LocalDate item, boolean empty) {
+                            super.updateItem(item, empty);
+                           
+                            if (item.isBefore(
+                                    dateDebut.getValue().plusDays(1))
+                                ) {
+                                    setDisable(true);
+                                    setStyle("-fx-background-color: #ffc0cb;");
+                            }   
+                            long d = ChronoUnit.DAYS.between(
+                                    dateDebut.getValue(), item
+                            );
+                            setTooltip(new Tooltip(
+                                "La durée de votre " + type.getValue() + " est de "+ d + " jours")
+                            );
+                    }
+                };
+            }
+        };
+        dateFin.setDayCellFactory(dayCellFactory);
     }
 
     public void restrictIntegers(TextField textField){
@@ -145,9 +174,15 @@ public class ViewCreateOfferController {
                 showErrorMessage("Vous devez remplir tous les champs");
                 return;
             }  
+
+            long d = ChronoUnit.DAYS.between(dateDebut.getValue(), dateFin.getValue());
             
             if(duree.getText().isBlank()){
                 showErrorMessage("Vous devez remplir tous les champs");
+                return;
+            }
+            if(Integer.parseInt(duree.getText())>d){
+                showErrorMessage("La durée que vous avez indiquée est trop importante");
                 return;
             }
             else{
