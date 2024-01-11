@@ -14,8 +14,9 @@ public class User {
   public boolean sleepMode;
   public ObservableList<Integer> conversations;
   public String imgpath ;
-  public List<AdHistory> history = new ArrayList();
-
+  public Map<Integer,Integer> transactionsExt = new HashMap<>(); //les offres qu'on a réservées 
+  public Map<Integer,Integer> transactionsIn = new HashMap<>(); //nos offres qui sont réservées
+  
   public User() {
     sleepMode = false;
     conversations = FXCollections.observableArrayList();
@@ -37,10 +38,11 @@ public String getPhotoPath() {
     pathImage=this.imgpath ;
   }
 
-  public AdHistory addToHistory(Ad ad){
-    AdHistory newAd = new AdHistory(ad,StatusType.RESERVED);
-    history.add(newAd);
-    return newAd;
+  public int createTransaction(Ad ad){
+    Transaction transaction = new Transaction(ad,this.UID, StatusType.RESERVED);
+    JSONDatabase.getInstance().addTransaction(transaction);
+    System.out.println("Transaction ID: "+ transaction.ID);
+    return transaction.ID;
   }
 }
 

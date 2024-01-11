@@ -27,7 +27,9 @@ public interface Database {
 
   Conversation getConversation(int UID1, int UID2);
 
-  int addAdHistory(AdHistory adHistory);
+  int addTransaction(Transaction transaction);
 
-  void saveStatus(AdHistory adHistory, StatusType statusType);
+  Transaction getTransaction(int ID);
+
+  void saveStatus(Transaction transaction, StatusType statusType);
 }

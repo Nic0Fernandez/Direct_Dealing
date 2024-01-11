@@ -39,7 +39,6 @@ public class ViewOfferController {
 
     private Main main;
     private Ad offer;
-    private AdHistory adHistory;
     private User user;
     private String imagePath;
 
@@ -106,39 +105,43 @@ public class ViewOfferController {
         checkStatus();
     }
 
+    
+
     public void checkStatus(){
-        for(AdHistory adHistory: user.history){
-            if(adHistory.ad.ID == offer.ID && adHistory.UID == user.UID){
-                this.adHistory = adHistory;
-                break;
+        if(user.transactionsExt.containsKey(offer.ID)){
+            int transactionID = user.transactionsExt.get(offer.ID);
+            Transaction transaction = JSONDatabase.getInstance().getTransaction(transactionID);
+            if(transaction.statusType == StatusType.RESERVED){
+                reserveButton.setText("Waiting for answer...");
+                reserveButton.setDisable(true);
             }
-        }
-        adHistory.statusType=StatusType.ACCEPTED;
-        if(adHistory.statusType == StatusType.RESERVED){
-            reserveButton.setText("Waiting for answer...");
-            reserveButton.setDisable(true);
-        }
-        if(adHistory.statusType == StatusType.ACCEPTED){
-            reserveButton.setText("Complete");
-            reserveButton.setDisable(false);
-            reserveButton.setOnAction(new EventHandler<ActionEvent>(){
-                public void handle(ActionEvent event){
-                    adHistory.statusType = StatusType.COMPLETED;
-                    updateDatabase(adHistory,StatusType.COMPLETED);
-                    //transfert florains
-                    reservationLabel.setText("Complétée ! Les florains ont été transférés");
-                }
-            });
-        }
+            if(transaction.statusType == StatusType.REFUSED){
+                reserveButton.setText("Refusée");
+                reserveButton.setDisable(true);
+            }
+            if(transaction.statusType == StatusType.ACCEPTED){
+                reserveButton.setText("Complete");
+                reserveButton.setDisable(false);
+                reserveButton.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(ActionEvent event){
+                        transaction.statusType = StatusType.COMPLETED;
+                        updateDatabase(transaction,StatusType.COMPLETED);
+                        //transfert florains
+                        reservationLabel.setText("Complétée ! Les florains ont été transférés");
+                    }
+                });
+            }
+        }        
     }
 
-    public void updateDatabase(AdHistory adHistory, StatusType statusType){
-        JSONDatabase.getInstance().saveStatus(adHistory, statusType);
+    public void updateDatabase(Transaction transaction, StatusType statusType){
+        JSONDatabase.getInstance().saveStatus(transaction, statusType);
     }
     
     @FXML
     public void retourMainScreen() throws IOException{
-        System.out.println(user.history);
+        System.out.println(user.transactionsExt);
+        System.out.println(user.transactionsIn);
         main.mainScreen(user);
     }
 
@@ -149,12 +152,12 @@ public class ViewOfferController {
 
     @FXML 
     public void reserve(){
-        AdHistory adHistory = user.addToHistory(offer);
-        adHistory.UID = user.UID;
-        JSONDatabase.getInstance().addAdHistory(adHistory);
+        int transactionID = user.createTransaction(offer);
+        user.transactionsExt.put(offer.ID,transactionID);
+        User otherUser = JSONDatabase.getInstance().getUser(offer.userID);
+        otherUser.transactionsIn.put(offer.ID,transactionID);
         reservationLabel.setText("Offre réservée");
         reserveButton.setText("Waiting for answer");
         reserveButton.setDisable(true);
-
     }
 }

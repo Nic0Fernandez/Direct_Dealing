@@ -57,7 +57,7 @@ public class JSONDatabase implements Database {
 
   private final IntSupplier idProvider;
 
-   private final Map<Integer, AdHistory> adsHistory = new HashMap<>();
+   private final Map<Integer, Transaction> transactions = new HashMap<>();
 
   // public only for testing!!
   public JSONDatabase(IntSupplier idProvider, String linuxPath, String windowsPath) {
@@ -83,11 +83,11 @@ public class JSONDatabase implements Database {
     return i;
   }
 
-  private int getNewAdHistoryID(){
+  private int getNewTransactionID(){
     int i;
     do {
       i= idProvider.getAsInt();
-    } while (adsHistory.containsKey(i));
+    } while (transactions.containsKey(i));
     return i;
   }
 
@@ -126,14 +126,14 @@ public class JSONDatabase implements Database {
   }
 
   @Override
-  public int addAdHistory(AdHistory adHistory) {
-    if (adsHistory.containsValue(adHistory)) {
-      return adHistory.ID;
+  public int addTransaction(Transaction transaction) {
+    if (transactions.containsValue(transaction)) {
+      return transaction.ID;
     }
 
-    int id = getNewAdHistoryID();
-    adHistory.ID = id;
-    adsHistory.put(id, adHistory);
+    int id = getNewTransactionID();
+    transaction.ID = id;
+    transactions.put(id, transaction);
     save();
     return id;
   }
@@ -151,6 +151,11 @@ public class JSONDatabase implements Database {
   @Override
   public Ad getAd(int ID) {
     return ads.getOrDefault(ID, null);
+  }
+
+  @Override 
+  public Transaction getTransaction(int ID){
+    return transactions.getOrDefault(ID, null);
   }
 
   @Override
@@ -348,8 +353,8 @@ public class JSONDatabase implements Database {
   }
 
   @Override
-  public void saveStatus(AdHistory adHistory, StatusType statusType){
-    adHistory.statusType = statusType;
+  public void saveStatus(Transaction transaction, StatusType statusType){
+    transaction.statusType = statusType;
     save();
     System.out.println("mise à jour");
   }
