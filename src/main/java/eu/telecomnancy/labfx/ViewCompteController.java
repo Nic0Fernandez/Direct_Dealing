@@ -48,7 +48,6 @@ public class ViewCompteController {
 
     private void loadUserPhoto() {
         String photoPath = user.imgpath;
-        String photoPath = user.imgpath;
         if (photoPath != null && !photoPath.isEmpty()) {
             File photoFile = new File(photoPath);
             if (photoFile.exists()) {
@@ -66,14 +65,12 @@ public class ViewCompteController {
                 .collect(Collectors.toList());
 
         
-        List<String> userOffers = userAds.stream()
+        List<Ad> userOffers = userAds.stream()
                 .filter(ad -> ad.offer)
-                .map(Ad::getName)
                 .collect(Collectors.toList());
 
-        List<String> userDemands = userAds.stream()
+        List<Ad> userDemands = userAds.stream()
                 .filter(ad -> !ad.offer)
-                .map(Ad::getName)
                 .collect(Collectors.toList());
 
         offersListView.setItems(FXCollections.observableArrayList(userOffers));

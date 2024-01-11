@@ -95,7 +95,7 @@ public class DirectDealingMenuController {
 
   @FXML
   void goToInbox() throws IOException {
-    main.inboxScreen(user, null);
+    main.inboxScreen(user, null, null);
   }
 
   @FXML
