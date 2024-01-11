@@ -23,10 +23,10 @@
         <!-- Circular clip for the image -->
         <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" GridPane.rowSpan="2">
             <clip>
-                <Circle radius="70" centerX="70" centerY="70"/>
+                <Circle radius="140" centerX="140" centerY="70"/>
             </clip>
             <image>
-                <Image url="@/eu/telecomnancy/labfx/images/kawai.png" />
+                <Image url="@/eu/telecomnancy/labfx/images/logo.jpeg" />
             </image>
         </ImageView>
 
