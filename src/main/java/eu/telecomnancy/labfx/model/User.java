@@ -25,22 +25,6 @@ public class User {
     pendingNotifications = FXCollections.observableArrayList();
   }
 
-  public int getUID() {
-    return UID;
-  }
-
-public String getUserName() {
-    return username;
-  }
-
-public String getPhotoPath() {
-    return imgpath;
-  }
-
-  public void setPhotoPath(String pathImage) {
-    pathImage=this.imgpath ;
-  }
-
   public int createTransaction(Ad ad){
     Transaction transaction = new Transaction(ad,this.UID, StatusType.RESERVED);
     JSONDatabase.getInstance().addTransaction(transaction);

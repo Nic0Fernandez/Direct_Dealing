@@ -225,13 +225,16 @@ public class JSONDatabase implements Database {
   public static class JSONDatabaseMemento {
     public Collection<Ad> ads;
 
+    public Collection<User> users;
+
+    public Collection<Conversation> conversations;
+
+    public Collection<Transaction> transactions;
+
     public Collection<Ad> getAds() {
       return ads;
     }
 
-    public Collection<User> users;
-
-    public Collection<Conversation> conversations;
 
     public Collection<Conversation> getConversations() {
       return conversations;
@@ -241,18 +244,23 @@ public class JSONDatabase implements Database {
       return users;
     }
 
+    public Collection<Transaction> getTransactions() {
+      return transactions;
+    }
+
     public JSONDatabaseMemento() {
     }
 
-    public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users, Collection<Conversation> conversations) {
+    public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users, Collection<Conversation> conversations, Collection<Transaction> transactions) {
       this.ads = ads;
       this.users = users;
       this.conversations = conversations;
+      this.transactions = transactions;
     }
   }
 
   private JSONDatabaseMemento toMemento() {
-    return new JSONDatabaseMemento(ads.values(), idToUser.values(), conversations.values());
+    return new JSONDatabaseMemento(ads.values(), idToUser.values(), conversations.values(), transactions.values());
   }
 
   public String asJSON() {
@@ -297,6 +305,8 @@ public class JSONDatabase implements Database {
       });
     if (m.conversations != null)
       m.conversations.forEach(convo -> conversations.put(convo.id, convo));
+    if (m.transactions != null)
+      m.transactions.forEach(t -> transactions.put(t.ID, t));
   }
 
   @Override
