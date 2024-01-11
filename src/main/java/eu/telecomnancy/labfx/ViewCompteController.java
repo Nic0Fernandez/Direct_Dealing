@@ -34,7 +34,7 @@ public class ViewCompteController {
     public void setUser(User user){
         this.user = user;
 
-        userName.setText(user.getUserName());
+        userName.setText(user.username);
 
         loadUserPhoto();
 
@@ -42,7 +42,7 @@ public class ViewCompteController {
     }
 
     private void loadUserPhoto() {
-        String photoPath = user.getPhotoPath();
+        String photoPath = user.imgpath;
         if (photoPath != null && !photoPath.isEmpty()) {
             File photoFile = new File(photoPath);
             if (photoFile.exists()) {
@@ -129,9 +129,7 @@ public class ViewCompteController {
         File file = fileChooser.showOpenDialog(null);
 
         if (file != null) {
-            String pathImage = file.getAbsolutePath();
-
-            user.setPhotoPath(pathImage);
+            user.imgpath =  file.getAbsolutePath();
 
             loadUserPhoto();
         }

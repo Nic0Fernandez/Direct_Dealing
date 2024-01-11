@@ -21,18 +21,6 @@ public class User {
     conversations = FXCollections.observableArrayList();
   }
 
-  public int getUID() {
-    return UID;
-  }
-
-public String getUserName() {
-    return username;
-  }
-
-public String getPhotoPath() {
-    return imgpath;
-  }
-
   public void setPhotoPath(String pathImage) {
     pathImage=this.imgpath ;
   }
