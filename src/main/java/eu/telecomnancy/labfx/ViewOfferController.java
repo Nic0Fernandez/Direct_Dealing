@@ -147,7 +147,7 @@ public class ViewOfferController {
 
     @FXML 
     public void sendMessage() throws IOException{
-        main.inboxScreen(user, offer);
+        main.inboxScreen(user, offer, null);
     }
 
     @FXML 

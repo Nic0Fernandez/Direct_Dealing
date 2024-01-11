@@ -17,9 +17,12 @@ public class User {
   public Map<Integer,Integer> transactionsExt = new HashMap<>(); //les offres qu'on a réservées 
   public Map<Integer,Integer> transactionsIn = new HashMap<>(); //nos offres qui sont réservées
   
+  public ObservableList<Integer> pendingNotifications;
+
   public User() {
     sleepMode = false;
     conversations = FXCollections.observableArrayList();
+    pendingNotifications = FXCollections.observableArrayList();
   }
 
   public int getUID() {
@@ -43,6 +46,16 @@ public String getPhotoPath() {
     JSONDatabase.getInstance().addTransaction(transaction);
     System.out.println("Transaction ID: "+ transaction.ID);
     return transaction.ID;
+  }
+
+  public void addNotification(int ID) {
+    if (!pendingNotifications.contains(ID)) pendingNotifications.add(ID);
+  }
+
+  public void removeNotification(int ID) {
+    // cast to Integer because we want to remove the value "ID" from the list
+    // if we passed just the int, it would remove the value at that index
+    pendingNotifications.remove(Integer.valueOf(ID));
   }
 }
 

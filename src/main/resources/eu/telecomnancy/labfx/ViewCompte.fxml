@@ -6,16 +6,14 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:controller="eu.telecomnancy.labfx.ViewCompteController"
-      alignment="CENTER_LEFT"
-      maxHeight="-Infinity" maxWidth="-Infinity"
-      minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="394.0" prefWidth="600.0" spacing="10.0"
-      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewCompteController">
     <children>
         <Label fx:id="userName" alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="578.0" text="User Name">
             <font>
@@ -28,20 +26,37 @@
                 <ImageView fx:id="userPhoto" fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true" />
             </children>
         </HBox>
-        
-        <!-- TitledPane for Offers -->
-        <TitledPane text="Offers">
-            <content>
-                <ListView fx:id="offersListView" prefHeight="100.0" prefWidth="200.0" />
-            </content>
-        </TitledPane>
-
-        <!-- TitledPane for Demands -->
-        <TitledPane text="Demands">
-            <content>
-                <ListView fx:id="demandsListView" prefHeight="100.0" prefWidth="200.0" />
-            </content>
-        </TitledPane>
+      <GridPane VBox.vgrow="ALWAYS">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+              
+              <!-- TitledPane for Offers -->
+              <TitledPane text="Offers" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                  <content>
+                      <ListView fx:id="offersListView" prefHeight="100.0" prefWidth="200.0" />
+                  </content>
+              </TitledPane>
+      
+              <!-- TitledPane for Demands -->
+              <TitledPane text="Demands" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                  <content>
+                      <ListView fx:id="demandsListView" prefHeight="100.0" prefWidth="200.0" />
+                  </content>
+              </TitledPane>
+            <TitledPane text="Notifications" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+               <content>
+                  <ListView fx:id="notificationsView" prefHeight="100.0" prefWidth="200.0" />
+               </content>
+            </TitledPane>
+         </children>
+      </GridPane>
 
         <Button fx:id="backToMainButton" mnemonicParsing="false" onAction="#backToMain" text="Back to Main Screen" />
     </children>
