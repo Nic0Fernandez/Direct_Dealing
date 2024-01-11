@@ -1,6 +1,8 @@
 package eu.telecomnancy.labfx;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 
 import eu.telecomnancy.labfx.model.Ad;
 import eu.telecomnancy.labfx.model.JSONDatabase;
+import eu.telecomnancy.labfx.model.Transaction;
 import eu.telecomnancy.labfx.model.User;
 
 public class ViewCompteController {
@@ -22,6 +25,7 @@ public class ViewCompteController {
     @FXML private ListView<String> demandsListView;
     @FXML private Button addPhotoButton;
     @FXML private Button backToMainButton;
+    @FXML private ListView<Integer> notificationsView;
 
     private Main main;
     private User user;
@@ -33,7 +37,7 @@ public class ViewCompteController {
     public void setUser(User user){
         this.user = user;
         
-        userName.setText(user.getUserName());
+        userName.setText(user.username);
 
         
         loadUserPhoto();
@@ -43,7 +47,7 @@ public class ViewCompteController {
     }
 
     private void loadUserPhoto() {
-        String photoPath = user.getPhotoPath();
+        String photoPath = user.imgpath;
         if (photoPath != null && !photoPath.isEmpty()) {
             File photoFile = new File(photoPath);
             if (photoFile.exists()) {
@@ -74,6 +78,49 @@ public class ViewCompteController {
 
         offersListView.getItems().addAll(userOffers);
         demandsListView.getItems().addAll(userDemands);
+        notificationsView.setItems(user.pendingNotifications);
+
+        notificationsView.setCellFactory(param -> new ListCell<Integer>() {
+            @Override
+            protected void updateItem(Integer transactionID, boolean empty) {
+                super.updateItem(transactionID, empty);
+
+                if (empty || transactionID == null) {
+                    return;
+                } else {
+                    Transaction t = JSONDatabase.getInstance().getTransaction(transactionID);
+                    if (t == null) return;
+                    Node n = null;
+                    try {
+                        n = createNotification(t);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (n == null) {
+                        setVisible(false);
+                        setManaged(false);
+                    } else {
+                        setGraphic(n);
+                    } 
+
+                }
+            }
+
+            private Node createNotification(Transaction t) throws IOException {
+             switch (t.statusType) {
+                case RESERVED:
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/Inbox.fxml"));
+                    loader.setControllerFactory((ic) -> new ReservationNotification(main, t));
+                    return loader.load();
+                case ACCEPTED:
+                case COMPLETED:
+                case NEUTRAL:
+                case REFUSED:
+                default:
+                    return null;
+             }
+            }
+        });
     }
 
     @FXML
@@ -86,10 +133,7 @@ public class ViewCompteController {
         File file = fileChooser.showOpenDialog(null);
 
         if (file != null) {
-            String pathImage = file.getAbsolutePath();
-            
-            user.setPhotoPath(pathImage);
-
+            user.imgpath = file.getAbsolutePath();
             
             loadUserPhoto();
         }

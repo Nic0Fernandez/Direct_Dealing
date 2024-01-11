@@ -20,11 +20,15 @@ public class UserTest {
     user.email = "e2455u@telecomnancy.net";
     user.florains = 10;
     user.conversations.add(1);
+    user.transactionsExt.put(1, 2);
+    user.transactionsExt.put(2, 1);
+    user.transactionsIn.put(5, 6);
+    user.pendingNotifications.addAll(1,2,3);
 
     Jsonb jsonb = JsonbBuilder.create();
     String jsonUser = jsonb.toJson(user);
 
-    String expected = "{\"UID\":1,\"address\":\"193 Av. Paul Muller, 54600 Villers-lès-Nancy\",\"conversations\":[1],\"email\":\"e2455u@telecomnancy.net\",\"florains\":10,\"password\":\"password\",\"sleepMode\":false,\"username\":\"Lucas Skora\"}";
+    String expected = "{\"UID\":1,\"address\":\"193 Av. Paul Muller, 54600 Villers-lès-Nancy\",\"conversations\":[1],\"email\":\"e2455u@telecomnancy.net\",\"florains\":10,\"password\":\"password\",\"pendingNotifications\":[1,2,3],\"sleepMode\":false,\"transactionsExt\":{\"1\":2,\"2\":1},\"transactionsIn\":{\"5\":6},\"username\":\"Lucas Skora\"}";
 
     assertEquals(expected, jsonUser);
   }
@@ -46,6 +50,10 @@ public class UserTest {
     expectedUser.conversations.add(1);
     expectedUser.conversations.add(2);
     expectedUser.conversations.add(3);
+    expectedUser.transactionsExt.put(1, 2);
+    expectedUser.transactionsIn.put(5, 6);
+    expectedUser.pendingNotifications.add(1);
+
 
     User user = jsonb.fromJson(jsonString, User.class);
 
@@ -57,5 +65,8 @@ public class UserTest {
     assertEquals(expectedUser.florains, user.florains);
     assertEquals(expectedUser.sleepMode, user.sleepMode);
     assertEquals(expectedUser.conversations, user.conversations);
+    assertEquals(expectedUser.transactionsExt, user.transactionsExt);
+    assertEquals(expectedUser.transactionsIn, user.transactionsIn);
+    assertEquals(expectedUser.pendingNotifications, user.pendingNotifications);
   }
 }

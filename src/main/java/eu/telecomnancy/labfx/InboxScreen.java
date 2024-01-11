@@ -18,6 +18,7 @@ public class InboxScreen {
   private final Main main;
   private final User user;
   private final Ad returnOffer;
+  private final User receiver;
 
   @FXML
   private ListView<Integer> conversationsList;
@@ -35,12 +36,15 @@ public class InboxScreen {
     this.main = main;
     this.user = user;
     this.returnOffer = null;
+    receiver = null;
   }
 
-  public InboxScreen(Main main, User user, Ad returnOffer) {
+  public InboxScreen(Main main, User user, Ad returnOffer, User receiver) {
+    assert returnOffer == null || receiver == null;
     this.main = main;
     this.user = user;
     this.returnOffer = returnOffer;
+    this.receiver = receiver;
   }
 
   @FXML
@@ -50,6 +54,8 @@ public class InboxScreen {
     if (returnOffer != null) {
       User interlocutor = JSONDatabase.getInstance().getUser(returnOffer.userID);
       interlocutorField.setText(interlocutor.username);
+    } else if (receiver != null) {
+      interlocutorField.setText(receiver.username);
     }
   }
 
@@ -101,6 +107,8 @@ public class InboxScreen {
   void returnButton() throws IOException {
     if (returnOffer != null) {
       main.viewOffer(user, returnOffer);
+    } else if (receiver != null) {
+      main.ViewCompteController(user);
     } else {
       main.mainScreen(user);
     }
