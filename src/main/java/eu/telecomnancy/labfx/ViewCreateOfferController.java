@@ -16,7 +16,6 @@ import java.time.temporal.ChronoUnit;
 
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class ViewCreateOfferController {
@@ -36,6 +35,7 @@ public class ViewCreateOfferController {
     @FXML private Button valider;
     @FXML private Button retour;
     @FXML private Label imagePath;
+    @FXML private Label errorMessage;
 
     private Main main;
     private Ad offre = new Ad();;
@@ -240,11 +240,7 @@ public class ViewCreateOfferController {
     }
 
     public void showErrorMessage(String message){
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        errorMessage.setText(message);
     }
 
     @FXML
