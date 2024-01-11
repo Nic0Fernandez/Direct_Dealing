@@ -25,6 +25,17 @@
             </Label>
          </children>
       </HBox>
+      <GridPane hgap="5">
+         <padding><Insets left="170"/></padding>
+         <children>
+         <Label text="Nom" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+         <Label text="Coût" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+         <Label text="Distance" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+         <Label text="Type" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+         <Label text="DateStart" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+         <Label text="DateEnd" GridPane.rowIndex="0" GridPane.columnIndex="5"/>
+         </children>
+      </GridPane>
       <HBox prefHeight="410.0" prefWidth="600.0">
          <children>
             <GridPane prefHeight="333.0" prefWidth="194.0">
@@ -67,10 +78,10 @@
                </padding>
             </GridPane>
             <ScrollPane prefHeight="338.0" prefWidth="450.0">
-   <content>
-      <VBox fx:id="adContainer" prefHeight="344.0" prefWidth="408.0" />
-   </content>
-</ScrollPane>
+               <content>
+                  <VBox fx:id="adContainer" prefHeight="344.0" prefWidth="408.0" />
+               </content>
+            </ScrollPane>
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
