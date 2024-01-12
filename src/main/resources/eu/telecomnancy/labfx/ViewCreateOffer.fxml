@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewCreateOfferController">
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewCreateOfferController">
    <children>
-      <fx:include source="DirectDealingMenu.fxml"/>
+      <fx:include source="DirectDealingMenu.fxml" />
             <fx:include source="header.fxml" />   
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="578.0" text="Créer une offre/demande">
          <font>
@@ -26,7 +26,7 @@
             <ComboBox fx:id="nature" prefWidth="150.0" promptText="Nature" />
          </children>
       </HBox>
-      <TextField fx:id="description" prefHeight="200.0" prefWidth="200.0" promptText="Courte description" />
+      <TextField fx:id="description" prefHeight="200.0" prefWidth="200.0" promptText="Courte description" VBox.vgrow="ALWAYS" />
       <TextField fx:id="cout" promptText="Coût" />
       <HBox prefHeight="9.0" prefWidth="600.0" spacing="100.0">
          <children>
@@ -52,7 +52,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="265.0">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="265.0">
          <children>
             <Button fx:id="valider" mnemonicParsing="false" onAction="#validerCreation" prefHeight="26.0" text="Valider" />
             <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMain" text="Retour" />
