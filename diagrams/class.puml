@@ -82,10 +82,11 @@ package model {
   }
 
   class DatabaseVilles {
-    - cities: List<Ville>
     + getCities(): List<Ville>
     + setCities(List<Ville>): void
   }
+
+  DatabaseVilles.. Distance
 
   class Distance {
     - villes: Map<String, Ville>
@@ -153,11 +154,20 @@ package model {
     + int getAsInt()
   }
 
+  DatabaseVilles --> Ville
+
+
+  Transaction o--> StatusType
+  JSONDatabaseMemento --> Transaction
+
+  JSONDatabase --> Transaction
   JSONDatabaseMemento --> User
   JSONDatabaseMemento --> Ad
   JSONDatabaseMemento --> Conversation
 
   RandomIDSupplier ..|> IntSupplier
+  User ..> Transaction
+  User ..> Conversation
 
   JSONDatabase ..> MessageListDesserializer
 

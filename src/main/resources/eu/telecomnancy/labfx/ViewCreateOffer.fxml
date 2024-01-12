@@ -12,14 +12,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewCreateOfferController" style="-fx-background-color: #fff0f5;">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: #fff0f5;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewCreateOfferController">
     <children>
         <!-- Include your other FXML files here (if needed) -->
       <fx:include source="DirectDealingMenu.fxml" />
             <fx:include source="header.fxml" />
         <HBox alignment="CENTER" prefHeight="39.0" prefWidth="578.0">
     <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" textFill="#7b68ee" text="Créer une offre ou une demande">
+        <Label alignment="CENTER" contentDisplay="CENTER" text="Créer une offre ou une demande" textFill="#7b68ee">
             <font>
                 <Font size="19.0" />
             </font>
@@ -42,7 +42,14 @@
 
         <HBox prefHeight="9.0" prefWidth="600.0" spacing="10.0">
             <children>
-                <TextField fx:id="localisation" prefHeight="26.0" prefWidth="150.0" promptText="Localisation" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+                <TextField fx:id="localisation" prefHeight="26.0" prefWidth="150.0" promptText="Localisation" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;">
+               <contextMenu>
+                  <ContextMenu fx:id="suggestions">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu></TextField>
                 <TextField fx:id="distance" prefWidth="150.0" promptText="Distance (km)" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
             </children>
         </HBox>
@@ -59,7 +66,7 @@
 
         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
             <children>
-                <Button fx:id="photo" mnemonicParsing="false" onAction="#validerPhoto" text="Choisir une photo" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" />
+                <Button fx:id="photo" mnemonicParsing="false" onAction="#validerPhoto" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" text="Choisir une photo" />
                 <Label fx:id="imagePath" textFill="#9c9c9c">
                     <font>
                         <Font size="13.0" />
@@ -70,9 +77,9 @@
 
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
             <children>
-                <Button fx:id="valider" mnemonicParsing="false" onAction="#validerCreation" prefHeight="26.0" prefWidth="59.0" text="Valider" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" />
+                <Button fx:id="valider" mnemonicParsing="false" onAction="#validerCreation" prefHeight="26.0" prefWidth="59.0" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" text="Valider" />
                 <Label fx:id="errorMessage" prefHeight="18.0" textFill="#e10e0e" />
-                <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMain" text="Retour" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" />
+                <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMain" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" text="Retour" />
             </children>
         </HBox>
     </children>
