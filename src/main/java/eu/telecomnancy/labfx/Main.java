@@ -150,7 +150,50 @@ public class Main extends Application {
 
         show(root);
     }
+	public void viewOfferProfil(User user, Ad offer) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/ViewOfferProfil.fxml"));
+        loader.setControllerFactory((ic) -> {
+            if (ic.equals(ViewOfferProfilController.class))
+                return new ViewOfferProfilController();
+            else if (ic.equals(DirectDealingMenuController.class))
+                return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.VIEW);
+            return null;
+        });
+        Parent root = loader.load();
 
+        ViewOfferProfilController controller = loader.getController();
+        controller.setUser(user);
+        controller.setAd(offer);
+        controller.setMain(this);
+        controller.initializeItems();
+
+        Scene scene = new Scene(root, 600, 600);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void editOfferScreen(User user, Ad offer) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/EditOffer.fxml"));
+        loader.setControllerFactory((ic) -> {
+            if (ic.equals(EditOfferController.class))
+                return new EditOfferController();
+            else if (ic.equals(DirectDealingMenuController.class))
+                return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.CREATE);
+            return null;
+        });
+
+        Parent root = loader.load();
+
+        EditOfferController controller = loader.getController();
+        controller.setUser(user);
+        controller.setMain(this);
+        controller.initializeItems();
+        controller.setOfferData(offer);
+
+        Scene scene = new Scene(root, 400, 400);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }

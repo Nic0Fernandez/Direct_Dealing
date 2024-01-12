@@ -43,11 +43,11 @@ public class Ad {
     }
 
     public boolean isOffer() {
-        return offer;
+        return isOffer;
     }
 
     public void setOffer(boolean offer) {
-        this.offer = offer;
+        isOffer = offer;
     }
 
     public AdType getType() {
@@ -78,8 +78,8 @@ public class Ad {
         return cost;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
+    public void setCost(double newCoutValue) {
+        this.cost = (int) newCoutValue;
     }
 
     public String getAddress() {

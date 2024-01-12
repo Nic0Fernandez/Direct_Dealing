@@ -1,27 +1,25 @@
 package eu.telecomnancy.labfx;
 
-import eu.telecomnancy.labfx.model.*;
-
 import javafx.fxml.FXML;
 
 import java.io.File;
 import java.io.IOError;
 import java.io.IOException;
-import java.io.ObjectInputFilter.Status;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
 
+import eu.telecomnancy.labfx.model.Ad;
+import eu.telecomnancy.labfx.model.AdHistory;
+import eu.telecomnancy.labfx.model.User;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 
-public class ViewOfferController {
+public class ViewOfferProfilController {
     @FXML private Label nom;
     @FXML private Label type;
     @FXML private Label description;
@@ -33,11 +31,12 @@ public class ViewOfferController {
     @FXML private Label duree;
     @FXML private Label disponibilites;
     @FXML private Label reservationLabel;
-    @FXML private Label userLabel;
-    @FXML private Button messageButton;
+   
     @FXML private Button reserveButton;
     @FXML private ImageView image;
-
+        
+    @FXML private Button editButton;
+    
     private Main main;
     private Ad offer;
     private User user;
@@ -55,12 +54,17 @@ public class ViewOfferController {
         this.user=user;
     }
 
-    public String dateToString(Date date){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
-        String strDate = dateFormat.format(date);  
-        return strDate; 
+   
+    public String dateToString(Date date) {
+        if (date != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+            return dateFormat.format(date);
+        } else {
+            
+            return "N/A";
+        }
     }
-
+    
     public Image loadImage(){
         String imagePath = offer.imagePath;
         if(imagePath!=null && !imagePath.isEmpty()){
@@ -78,7 +82,7 @@ public class ViewOfferController {
 
     public void initializeItems(){
         nom.setText(offer.name);
-        if(offer.isOffer()){
+        if(offer.isOffer){
             type.setText("Offre");
         }
         else{
@@ -102,67 +106,34 @@ public class ViewOfferController {
             duree.setText("");
         }
         disponibilites.setText(offer.disponibilities);
-        userLabel.setText(JSONDatabase.getInstance().getUser(offer.getUserID()).username);
         image.setImage(loadImage());
         checkStatus();
     }
 
-    
-
     public void checkStatus(){
-        if(user.transactionsExt.containsKey(offer.ID)){
-            int transactionID = user.transactionsExt.get(offer.ID);
-            Transaction transaction = JSONDatabase.getInstance().getTransaction(transactionID);
-            if(transaction.statusType == StatusType.RESERVED){
-                reserveButton.setText("Waiting for answer...");
+        for(AdHistory adHistory: user.history){
+            if(adHistory.ad.userID == user.UID){
+                reserveButton.setText("Waiting...");
                 reserveButton.setDisable(true);
             }
-            if(transaction.statusType == StatusType.REFUSED){
-                reserveButton.setText("Refusée");
-                reserveButton.setDisable(true);
-            }
-            if(transaction.statusType == StatusType.ACCEPTED){
-                reserveButton.setText("Complete");
-                reserveButton.setDisable(false);
-                reserveButton.setOnAction(new EventHandler<ActionEvent>(){
-                    public void handle(ActionEvent event){
-                        transaction.statusType = StatusType.COMPLETED;
-                        updateDatabase(transaction,StatusType.COMPLETED);
-                        reservationLabel.setText("Complétée ! Les florains ont été transférés");
-                    }
-                });
-            }
-        } else if (user.florains < 0 && offer.isOffer()) {
-            reserveButton.setDisable(true);
-            reservationLabel.setText("pas permi de reserver une offre avec solde negatif!");
         }
     }
-
-    public void updateDatabase(Transaction transaction, StatusType statusType){
-        JSONDatabase.getInstance().saveStatus(transaction, statusType);
-    }
     
+
     @FXML
     public void retourMainScreen() throws IOException{
-        main.mainScreen(user);
+        System.out.println(user.history);
+        main.ViewCompteController(user);
     }
 
     @FXML 
     public void sendMessage() throws IOException{
-        main.inboxScreen(user, offer, null);
+        main.inboxScreen(user, offer,user);
     }
 
-    @FXML 
-    public void reserve(){
-        if(user.username.equals(JSONDatabase.getInstance().getUser(offer.getUserID()).username)) {
-                reserveButton.setText("Invalidée");
-                reserveButton.setDisable(true);
-                reservationLabel.setText("Vous ne pouvez pas réserver votre propre offre");
-        } else {
-            int transactionID = user.createTransaction(offer);
-            reservationLabel.setText("Offre réservée");
-            reserveButton.setText("Waiting for answer");
-            reserveButton.setDisable(true);
-        }
+    @FXML
+    public void editOffer() throws IOException {
+        
+        main.editOfferScreen(user, offer);
     }
 }
