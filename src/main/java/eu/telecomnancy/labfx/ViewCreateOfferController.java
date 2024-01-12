@@ -6,9 +6,13 @@ import eu.telecomnancy.labfx.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import javafx.geometry.Side;
+
 import java.io.File;
 import javafx.stage.FileChooser;
 import java.util.Date;
+import java.util.List;
+
 import javafx.util.Callback;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -16,8 +20,9 @@ import java.time.temporal.ChronoUnit;
 
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 
 public class ViewCreateOfferController {
     
@@ -36,6 +41,8 @@ public class ViewCreateOfferController {
     @FXML private Button valider;
     @FXML private Button retour;
     @FXML private Label imagePath;
+    @FXML private Label errorMessage;
+    @FXML private ContextMenu suggestions;
 
     private Main main;
     private Ad offre = new Ad();;
@@ -43,6 +50,9 @@ public class ViewCreateOfferController {
     private boolean isOffer;
     private AdType adType;
     private User user;
+
+    Distance distanceVille = new Distance();
+    List<String> nomsVilles = distanceVille.getNomsVilles();
 
     public void setMain(Main main){
         this.main=main;
@@ -104,6 +114,33 @@ public class ViewCreateOfferController {
             }
         };
         dateFin.setDayCellFactory(dayCellFactory);
+
+        localisation.textProperty().addListener((observable, oldValue, newValue) -> {
+            suggestions.getItems().clear();
+
+            if (!newValue.isEmpty()) {
+                int count = 0;
+                for (String nomVille : nomsVilles) {
+                    if (nomVille.toLowerCase().startsWith(newValue.toLowerCase())) {
+                        MenuItem item = new MenuItem(nomVille);
+                        item.setOnAction(event -> localisation.setText(nomVille));
+                        suggestions.getItems().add(item);
+                        count++;
+                        if (count >= 7) {  
+                            break;
+                        }
+                    }
+                }
+
+                if (!suggestions.getItems().isEmpty()) {
+                    suggestions.show(localisation, Side.BOTTOM, 0, 0);
+                } else {
+                    suggestions.hide();
+                }
+            } else {
+                suggestions.hide();
+            }
+        });
     }
 
     public void restrictIntegers(TextField textField){
@@ -151,6 +188,10 @@ public class ViewCreateOfferController {
             
             if(localisation.getText().isBlank()){
                 showErrorMessage("Vous devez remplir tous les champs");
+                return;
+            }
+            if(!nomsVilles.contains(localisation.getText())){
+                showErrorMessage("Le nom de la ville est invalide");
                 return;
             }
             else{
@@ -240,11 +281,7 @@ public class ViewCreateOfferController {
     }
 
     public void showErrorMessage(String message){
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        errorMessage.setText(message);
     }
 
     @FXML

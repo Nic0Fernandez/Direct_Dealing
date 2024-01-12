@@ -3,8 +3,10 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -30,7 +32,14 @@
       <TextField fx:id="cout" promptText="Coût" />
       <HBox prefHeight="9.0" prefWidth="600.0" spacing="100.0">
          <children>
-            <TextField fx:id="localisation" prefHeight="26.0" prefWidth="150.0" promptText="Localisation" />
+            <TextField fx:id="localisation" prefHeight="26.0" prefWidth="150.0" promptText="Localisation">
+               <contextMenu>
+                  <ContextMenu fx:id="suggestions" prefHeight="300.0">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu></TextField>
             <TextField fx:id="distance" prefWidth="150.0" promptText="Distance (km)" />
          </children>
       </HBox>
@@ -52,9 +61,10 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="265.0">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Button fx:id="valider" mnemonicParsing="false" onAction="#validerCreation" prefHeight="26.0" text="Valider" />
+            <Button fx:id="valider" mnemonicParsing="false" onAction="#validerCreation" prefHeight="26.0" prefWidth="59.0" text="Valider" />
+            <Label fx:id="errorMessage" prefHeight="18.0" prefWidth="246.0" textFill="#e10e0e" />
             <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMain" text="Retour" />
          </children>
       </HBox>

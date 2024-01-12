@@ -3,8 +3,10 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -14,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.MainScreenController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.MainScreenController">
    <children>
    <fx:include source="DirectDealingMenu.fxml" />
       <fx:include source="header.fxml" />
@@ -28,16 +30,14 @@
          </children>
       </HBox>
       <GridPane hgap="5">
-         <padding><Insets left="195" /></padding>
+         <padding><Insets left="195.0" /></padding>
          <children>
-         <Label text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-         <Label text="Coût" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-         <Label text="Distance" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-         <Label style="-fx-padding: 0 12 0 0;" text="Type" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-         <Label style="-fx-padding: 0 19 0 0;" text="DateStart" GridPane.columnIndex="4" GridPane.rowIndex="0" />
-         <Label text="DateEnd" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+         <Label prefHeight="18.0" prefWidth="77.0" text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+         <Label prefHeight="18.0" prefWidth="87.0" text="Coût" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+         <Label prefHeight="18.0" prefWidth="171.0" text="Ville" GridPane.columnIndex="6" />
          </children>
          <columnConstraints>
+            <ColumnConstraints />
             <ColumnConstraints />
             <ColumnConstraints />
             <ColumnConstraints />
@@ -67,15 +67,22 @@
                <children>
                   <Label text="Nom" GridPane.rowIndex="0" />
                   <Label text="Type" GridPane.rowIndex="1" />
-                  <Label text="Distance" GridPane.rowIndex="2" />
+                  <Label text="Ville" GridPane.rowIndex="2" />
                   <Label text="Coût" GridPane.rowIndex="3" />
                   <Label text="Dates" GridPane.rowIndex="4" />
-                  <Label text="Evaluation" GridPane.rowIndex="5" />
+                  <Label text="Distance" GridPane.rowIndex="5" />
                   <TextField fx:id="nomFiltre" prefHeight="26.0" prefWidth="91.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                  <TextField fx:id="distanceFiltre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="villeFiltre" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <contextMenu>
+                        <ContextMenu fx:id="suggestions">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu></TextField>
                   <TextField fx:id="coutFiltre" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <ComboBox fx:id="typeFiltre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="evaluationFiltre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="distanceFiltre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
                         <DatePicker fx:id="dateDebutFiltre" promptText="Début" />
