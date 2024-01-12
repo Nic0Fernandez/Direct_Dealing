@@ -53,7 +53,7 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="265.0">
          <children>
-            <Button fx:id="valider" mnemonicParsing="false" onAction="#validerCreation" prefHeight="26.0" prefWidth="59.0" text="Valider" />
+            <Button fx:id="valider" mnemonicParsing="false" onAction="#validerCreation" prefHeight="26.0" text="Valider" />
             <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMain" text="Retour" />
          </children>
       </HBox>

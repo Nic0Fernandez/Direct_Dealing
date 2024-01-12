@@ -167,9 +167,7 @@ public class Main extends Application {
         controller.setMain(this);
         controller.initializeItems();
 
-        Scene scene = new Scene(root, 600, 600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(root);
     }
 
     public void editOfferScreen(User user, Ad offer) throws IOException {
@@ -190,9 +188,7 @@ public class Main extends Application {
         controller.initializeItems();
         controller.setOfferData(offer);
 
-        Scene scene = new Scene(root, 400, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(root);
     }
     public void setCurrentUser(User user) {
         this.currentUser = user;
