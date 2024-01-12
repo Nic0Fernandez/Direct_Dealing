@@ -139,7 +139,22 @@ public class ViewCompteController {
             loadUserPhoto();
         }
     }
-
+    @FXML
+    private void editPhoto() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose a new photo");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg")
+        );
+        File file = fileChooser.showOpenDialog(null);
+    
+        if (file != null) {
+            user.imgpath = file.getAbsolutePath();
+    
+            loadUserPhoto();
+        }
+    }
+    
     @FXML
     private void backToMain() throws IOException {
         main.mainScreen(user);
