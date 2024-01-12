@@ -246,7 +246,7 @@ public class MainScreenController {
         nameLabel.setMinWidth(100);
         Label coutLabel = new Label(String.valueOf(ad.cost) + " florains");
         coutLabel.setMinWidth(100);
-        Label dateFinLabel = new Label(String.valueOf(ad.getEnd().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
+        Label dateFinLabel = new Label(ad.address);
         dateFinLabel.setMinWidth(100);
         adBox.getChildren().add(nameLabel);
         adBox.getChildren().add(coutLabel);

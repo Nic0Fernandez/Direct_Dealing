@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.MainScreenController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.MainScreenController">
    <children>
    <fx:include source="DirectDealingMenu.fxml" />
       <fx:include source="header.fxml" />
@@ -30,11 +30,11 @@
          </children>
       </HBox>
       <GridPane hgap="5">
-         <padding><Insets left="170" /></padding>
+         <padding><Insets left="195.0" /></padding>
          <children>
          <Label prefHeight="18.0" prefWidth="77.0" text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="0" />
          <Label prefHeight="18.0" prefWidth="87.0" text="Coût" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-         <Label prefHeight="18.0" prefWidth="171.0" text="Date de fin" GridPane.columnIndex="6" />
+         <Label prefHeight="18.0" prefWidth="171.0" text="Ville" GridPane.columnIndex="6" />
          </children>
          <columnConstraints>
             <ColumnConstraints />
