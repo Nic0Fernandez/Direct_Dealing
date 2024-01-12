@@ -131,7 +131,7 @@ public class ViewOfferController {
                     }
                 });
             }
-        } else if (user.florains < 0 && offer.isOffer()) {
+        } else if (user.getFlorains() < 0 && offer.isOffer()) {
             reserveButton.setDisable(true);
             reservationLabel.setText("pas permi de reserver une offre avec solde negatif!");
         }

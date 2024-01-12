@@ -63,6 +63,8 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(MainScreenController.class))
                 return new MainScreenController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
             else if (ic.equals(DirectDealingMenuController.class))
                 return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.MAIN);
             return null;
@@ -82,6 +84,8 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(ViewCreateOfferController.class))
                 return new ViewCreateOfferController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
             else if (ic.equals(DirectDealingMenuController.class))
                 return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.CREATE);
             return null;
@@ -93,9 +97,9 @@ public class Main extends Application {
         controller.setUser(user);
         controller.setMain(this);
         controller.initializeItems();
-        
+
         show(root);
-        
+
     }
 
     public void inboxScreen(User user, Ad offer, User receiver) throws IOException {
@@ -103,6 +107,8 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(InboxScreen.class))
                 return new InboxScreen(this, user, offer, receiver);
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
             else if (ic.equals(ConversationView.class))
                 return new ConversationView(this, user);
             else if (ic.equals(DirectDealingMenuController.class))
@@ -118,6 +124,8 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(ViewCompteController.class))
                 return new ViewCompteController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
             else if (ic.equals(DirectDealingMenuController.class))
                 return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.PROFILE);
             return null;
@@ -136,6 +144,9 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(ViewOfferController.class))
                 return new ViewOfferController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
+
             else if (ic.equals(DirectDealingMenuController.class))
                 return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.VIEW);
             return null;
@@ -150,11 +161,14 @@ public class Main extends Application {
 
         show(root);
     }
-	public void viewOfferProfil(User user, Ad offer) throws IOException {
+
+    public void viewOfferProfil(User user, Ad offer) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/ViewOfferProfil.fxml"));
         loader.setControllerFactory((ic) -> {
             if (ic.equals(ViewOfferProfilController.class))
                 return new ViewOfferProfilController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
             else if (ic.equals(DirectDealingMenuController.class))
                 return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.VIEW);
             return null;
@@ -175,6 +189,8 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(EditOfferController.class))
                 return new EditOfferController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
             else if (ic.equals(DirectDealingMenuController.class))
                 return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.CREATE);
             return null;
@@ -190,6 +206,7 @@ public class Main extends Application {
 
         show(root);
     }
+
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }

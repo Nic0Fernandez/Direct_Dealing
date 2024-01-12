@@ -14,7 +14,6 @@ import java.util.function.IntSupplier;
 
 import org.apache.commons.lang3.SystemUtils;
 
-import eu.telecomnancy.labfx.ViewCompteController;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
@@ -368,7 +367,7 @@ public class JSONDatabase implements Database {
 
   @Override
   public void saveStatus(Transaction transaction, StatusType statusType) {
-    if (transaction.statusType != StatusType.COMPLETED && statusType == StatusType.COMPLETED) {
+    if (statusType == StatusType.COMPLETED) {
       transferFunds(transaction);
     }
     transaction.statusType = statusType;
@@ -387,8 +386,8 @@ public class JSONDatabase implements Database {
       payer = getUser(ad.userID);
       receiver = getUser(t.UID);
     }
-    payer.florains -= ad.cost;
-    receiver.florains += ad.cost;
+    payer.setFlorains(payer.getFlorains() - ad.cost);
+    receiver.setFlorains(receiver.getFlorains() + ad.cost);
   }
 
   @Override

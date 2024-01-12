@@ -17,6 +17,7 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.MainScreenController">
    <children>
    <fx:include source="DirectDealingMenu.fxml" />
+      <fx:include source="header.fxml" />
       <HBox alignment="CENTER" prefHeight="109.0" prefWidth="600.0">
          <children>
             <Label alignment="CENTER" text="Tableau de bord">
@@ -32,8 +33,8 @@
          <Label text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="0" />
          <Label text="Coût" GridPane.columnIndex="1" GridPane.rowIndex="0" />
          <Label text="Distance" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-         <Label text="Type" GridPane.columnIndex="3" GridPane.rowIndex="0" style="-fx-padding: 0 12 0 0;"/>
-         <Label text="DateStart" GridPane.columnIndex="4" GridPane.rowIndex="0" style="-fx-padding: 0 19 0 0;"/>
+         <Label style="-fx-padding: 0 12 0 0;" text="Type" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+         <Label style="-fx-padding: 0 19 0 0;" text="DateStart" GridPane.columnIndex="4" GridPane.rowIndex="0" />
          <Label text="DateEnd" GridPane.columnIndex="5" GridPane.rowIndex="0" />
          </children>
          <columnConstraints>

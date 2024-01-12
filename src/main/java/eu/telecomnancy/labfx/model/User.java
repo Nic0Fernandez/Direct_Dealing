@@ -1,9 +1,12 @@
 package eu.telecomnancy.labfx.model;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.*;
+
+import jakarta.json.bind.annotation.JsonbProperty;
 
 public class User {
   public int UID;
@@ -11,7 +14,8 @@ public class User {
   public String password;
   public String address;
   public String email;
-  public int florains;
+  @JsonbProperty
+  public SimpleIntegerProperty florains;
   public boolean sleepMode;
   public ObservableList<Integer> conversations;
   public String imgpath;
@@ -24,6 +28,7 @@ public class User {
     sleepMode = false;
     conversations = FXCollections.observableArrayList();
     pendingNotifications = FXCollections.observableArrayList();
+    florains = new SimpleIntegerProperty();
   }
 
   public int createTransaction(Ad ad) {
@@ -31,4 +36,14 @@ public class User {
     JSONDatabase.getInstance().addTransaction(transaction);
     return transaction.ID;
   }
+
+  public int getFlorains() {
+    return florains.get();
+  }
+
+  public void setFlorains(int florains) {
+    this.florains.set(florains);
+  }
+
+
 }
