@@ -63,7 +63,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Button fx:id="valider" mnemonicParsing="false" onAction="#validerCreation" prefHeight="26.0" prefWidth="59.0" text="Valider" />
+            <Button fx:id="valider" mnemonicParsing="false" onAction="#validerCreation" prefHeight="26.0" text="Valider" />
             <Label fx:id="errorMessage" prefHeight="18.0" prefWidth="246.0" textFill="#e10e0e" />
             <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMain" text="Retour" />
          </children>

@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -237,20 +238,26 @@ public class MainScreenController {
 
     private HBox createAdBox(Ad ad) {
         HBox adBox = new HBox(0);
-        adBox.setPrefWidth(400);
+        adBox.setMaxWidth(Double.POSITIVE_INFINITY);
         ImageView image = new ImageView();
         image.setImage(loadImage(ad));
         image.setFitHeight(100);
         image.setFitWidth(100);
         Label nameLabel = new Label(ad.name);
-        nameLabel.setMinWidth(100);
+        nameLabel.setMaxWidth(Double.POSITIVE_INFINITY);
+        nameLabel.setPrefWidth(100);
+        HBox.setHgrow(nameLabel, Priority.ALWAYS);
         Label coutLabel = new Label(String.valueOf(ad.cost) + " florains");
-        coutLabel.setMinWidth(100);
-        Label dateFinLabel = new Label(ad.address);
-        dateFinLabel.setMinWidth(100);
+        coutLabel.setMaxWidth(Double.POSITIVE_INFINITY);
+        coutLabel.setPrefWidth(100);
+        HBox.setHgrow(coutLabel, Priority.ALWAYS);
+        Label cityLabel = new Label(ad.address);
+        cityLabel.setMaxWidth(Double.POSITIVE_INFINITY);
+        cityLabel.setPrefWidth(100);
+        HBox.setHgrow(cityLabel, Priority.ALWAYS);
         adBox.getChildren().add(nameLabel);
         adBox.getChildren().add(coutLabel);
-        adBox.getChildren().add(dateFinLabel);
+        adBox.getChildren().add(cityLabel);
         adBox.getChildren().add(image);
 
         return adBox;

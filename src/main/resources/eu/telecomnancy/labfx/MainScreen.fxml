@@ -12,11 +12,12 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.MainScreenController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.MainScreenController">
    <children>
    <fx:include source="DirectDealingMenu.fxml" />
       <fx:include source="header.fxml" />
@@ -29,27 +30,7 @@
             </Label>
          </children>
       </HBox>
-      <GridPane hgap="5">
-         <padding><Insets left="195.0" /></padding>
-         <children>
-         <Label prefHeight="18.0" prefWidth="77.0" text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-         <Label prefHeight="18.0" prefWidth="87.0" text="Coût" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-         <Label prefHeight="18.0" prefWidth="171.0" text="Ville" GridPane.columnIndex="6" />
-         </children>
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-         </rowConstraints>
-      </GridPane>
-      <HBox prefHeight="410.0" prefWidth="600.0">
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="410.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
          <children>
             <GridPane prefHeight="333.0" prefWidth="194.0">
               <columnConstraints>
@@ -97,11 +78,23 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </GridPane>
-            <ScrollPane prefHeight="338.0" prefWidth="450.0">
-               <content>
-                  <VBox fx:id="adContainer" prefHeight="344.0" prefWidth="408.0" />
-               </content>
-            </ScrollPane>
+            <VBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox maxWidth="1.7976931348623157E308" prefWidth="200.0" VBox.vgrow="NEVER">
+                     <children>
+                     <Label maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="100.0" text="Nom" HBox.hgrow="ALWAYS" />
+                     <Label maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="100.0" text="Coût" HBox.hgrow="ALWAYS" />
+                     <Label maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="100.0" text="Ville" HBox.hgrow="ALWAYS" />
+                        <Region maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="338.0" prefWidth="450.0" VBox.vgrow="ALWAYS">
+                     <content>
+                        <VBox fx:id="adContainer" maxWidth="1.7976931348623157E308" prefHeight="344.0" prefWidth="590.0" spacing="2.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
          </children>
       </HBox>
       <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
