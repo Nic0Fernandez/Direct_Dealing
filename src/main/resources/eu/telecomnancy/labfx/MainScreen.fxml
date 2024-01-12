@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.MainScreenController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.MainScreenController" style="-fx-background-color: #fff0f5;">
    <children>
    <fx:include source="DirectDealingMenu.fxml" />
       <fx:include source="header.fxml" />
@@ -108,9 +108,9 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="boutonAjouter" mnemonicParsing="false" onAction="#ajouterOffre" text="Ajouter" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Button fx:id="boutonProfil" mnemonicParsing="false" onAction="#displayCompte" text="Profil" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Button fx:id="boutonMessagerie" mnemonicParsing="false" onAction="#displayMessagerie" text="Messagerie" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button fx:id="boutonAjouter" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" mnemonicParsing="false" onAction="#ajouterOffre" text="Ajouter" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button fx:id="boutonProfil" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" mnemonicParsing="false" onAction="#displayCompte" text="Profil" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button fx:id="boutonMessagerie" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" mnemonicParsing="false" onAction="#displayMessagerie" text="Messagerie" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <Label fx:id="notificationsLabel" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
