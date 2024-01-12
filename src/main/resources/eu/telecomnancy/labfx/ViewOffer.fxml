@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="641.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewOfferController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"  style="-fx-background-color: #fff0f5;" minHeight="-Infinity" minWidth="-Infinity" prefHeight="641.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewOfferController">
    <children>
       <fx:include source="DirectDealingMenu.fxml" />
             <fx:include source="header.fxml" />
@@ -200,12 +200,12 @@
          <children>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMainScreen" prefHeight="26.0" prefWidth="80.0" text="Retour" />
+                  <Button fx:id="retour" mnemonicParsing="false" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" onAction="#retourMainScreen" prefHeight="26.0" prefWidth="80.0" text="Retour" />
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="71.0" prefWidth="257.0">
                <children>
-                  <Button fx:id="reserveButton" mnemonicParsing="false" onAction="#reserve" prefHeight="26.0" prefWidth="173.0" text="Réserver" />
+                  <Button fx:id="reserveButton" mnemonicParsing="false" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" onAction="#reserve" prefHeight="26.0" prefWidth="173.0" text="Réserver" />
                   <Label fx:id="reservationLabel" textFill="#949494" />
                </children>
                <HBox.margin>
@@ -214,7 +214,7 @@
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="messageButton" mnemonicParsing="false" onAction="#sendMessage" prefHeight="26.0" prefWidth="80.0" text="Message" />
+                  <Button fx:id="messageButton" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" mnemonicParsing="false" onAction="#sendMessage" prefHeight="26.0" prefWidth="80.0" text="Message" />
                </children>
             </VBox>
          </children>
