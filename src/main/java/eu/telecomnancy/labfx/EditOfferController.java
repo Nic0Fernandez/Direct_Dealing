@@ -33,6 +33,7 @@ public class EditOfferController {
     @FXML private Button valider;
     @FXML private Button retour;
     @FXML private Label imagePath;
+    private Ad existingOffer;
 
     private Main main;
     private Ad offre = new Ad();;
@@ -105,6 +106,24 @@ public class EditOfferController {
     public Date localDateToDate(LocalDate localDate){
         ZoneId defaultZoneId = ZoneId.systemDefault();
         return Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+    }
+
+    public void setOfferData(Ad existingOffer) {
+        this.existingOffer = existingOffer;
+        
+        nom.setText(existingOffer.name);
+        type.setValue(existingOffer.isOffer ? "Offre" : "Demande");
+        nature.setValue(existingOffer.type == AdType.SERVICE ? "Service" : "Bien");
+        description.setText(existingOffer.description);
+        cout.setText(String.valueOf(existingOffer.cost));
+        localisation.setText(existingOffer.address);
+        distance.setText(String.valueOf(existingOffer.maxDistance));
+        dateDebut.setValue(existingOffer.start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        dateFin.setValue(existingOffer.end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        duree.setText(String.valueOf(existingOffer.duration));
+        disponibilites.setText(existingOffer.disponibilities);
+        
+        imagePath.setText(existingOffer.imagePath);
     }
 
     @FXML
@@ -196,8 +215,12 @@ public class EditOfferController {
                 offre.maxDistance = Integer.parseInt(distance.getText());
             }
             
-            JSONDatabase.getInstance().addAd(offre);
-            main.mainScreen(user);
+            JSONDatabase.getInstance().updateAd(existingOffer);
+
+           
+            showErrorMessage("Vous devez remplir tous les champs");
+        
+    
         } catch (NumberFormatException e) {
             showErrorMessage("Vous devez remplir tous les champs");
             return;
