@@ -33,6 +33,7 @@ public class ViewOfferController {
     @FXML private Label duree;
     @FXML private Label disponibilites;
     @FXML private Label reservationLabel;
+    @FXML private Label userLabel;
     @FXML private Button messageButton;
     @FXML private Button reserveButton;
     @FXML private ImageView image;
@@ -101,6 +102,7 @@ public class ViewOfferController {
             duree.setText("");
         }
         disponibilites.setText(offer.disponibilities);
+        userLabel.setText(JSONDatabase.getInstance().getUser(offer.getUserID()).username);
         image.setImage(loadImage());
         checkStatus();
     }

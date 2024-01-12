@@ -29,6 +29,20 @@
          <children>
             <VBox prefHeight="370.0" prefWidth="183.0">
                <children>
+                  <HBox prefHeight="39.0" prefWidth="183.0" spacing="10.0">
+                     <children>
+                        <Label text="User:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="userLabel" prefHeight="26.0" prefWidth="79.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
                   <HBox prefHeight="46.0" prefWidth="183.0" spacing="10.0">
                      <children>
                         <Label text="Type :">
