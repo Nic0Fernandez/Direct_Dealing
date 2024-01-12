@@ -126,12 +126,14 @@ public class ViewOfferController {
                     public void handle(ActionEvent event){
                         transaction.statusType = StatusType.COMPLETED;
                         updateDatabase(transaction,StatusType.COMPLETED);
-                        //transfert florains
                         reservationLabel.setText("Complétée ! Les florains ont été transférés");
                     }
                 });
             }
-        }        
+        } else if (user.florains < 0 && offer.isOffer()) {
+            reserveButton.setDisable(true);
+            reservationLabel.setText("pas permi de reserver une offre avec solde negatif!");
+        }
     }
 
     public void updateDatabase(Transaction transaction, StatusType statusType){

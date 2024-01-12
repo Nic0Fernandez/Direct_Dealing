@@ -75,6 +75,7 @@ public class ViewCompteController {
 
         offersListView.setItems(FXCollections.observableArrayList(userOffers));
         demandsListView.setItems(FXCollections.observableArrayList(userDemands));
+        notificationsView.setItems(user.pendingNotifications);
 
         offersListView.setCellFactory(param -> new ListCell<Ad>() {
             @Override
@@ -101,29 +102,6 @@ public class ViewCompteController {
                 }
             }
         });
-
-        offersListView.setOnMouseClicked(event -> {
-            Ad selectedAd = offersListView.getSelectionModel().getSelectedItem();
-            if (selectedAd != null) {
-                try {
-                    main.viewOffer(user, selectedAd);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        demandsListView.setOnMouseClicked(event -> {
-            Ad selectedAd = demandsListView.getSelectionModel().getSelectedItem();
-            if (selectedAd != null) {
-                try {
-                    main.viewOffer(user, selectedAd);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        notificationsView.setItems(user.pendingNotifications);
 
         notificationsView.setCellFactory(param -> new ListCell<Integer>() {
             @Override
@@ -154,7 +132,7 @@ public class ViewCompteController {
             private Node createNotification(Transaction t) throws IOException {
              switch (t.statusType) {
                 case RESERVED:
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/Inbox.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/reservationNotification.fxml"));
                     loader.setControllerFactory((ic) -> new ReservationNotification(main, t));
                     return loader.load();
                 case ACCEPTED:
@@ -164,6 +142,28 @@ public class ViewCompteController {
                 default:
                     return null;
              }
+            }
+        });
+
+        offersListView.setOnMouseClicked(event -> {
+            Ad selectedAd = offersListView.getSelectionModel().getSelectedItem();
+            if (selectedAd != null) {
+                try {
+                    main.viewOffer(user, selectedAd);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        demandsListView.setOnMouseClicked(event -> {
+            Ad selectedAd = demandsListView.getSelectionModel().getSelectedItem();
+            if (selectedAd != null) {
+                try {
+                    main.viewOffer(user, selectedAd);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
