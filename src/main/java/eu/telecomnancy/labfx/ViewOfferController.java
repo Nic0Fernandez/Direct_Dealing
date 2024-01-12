@@ -5,14 +5,10 @@ import eu.telecomnancy.labfx.model.*;
 import javafx.fxml.FXML;
 
 import java.io.File;
-import java.io.IOError;
 import java.io.IOException;
-import java.io.ObjectInputFilter.Status;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.imageio.ImageIO;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -112,7 +108,8 @@ public class ViewOfferController {
     public void checkStatus(){
         if(user.transactionsExt.containsKey(offer.ID)){
             int transactionID = user.transactionsExt.get(offer.ID);
-            Transaction transaction = JSONDatabase.getInstance().getTransaction(transactionID);
+            Database db = JSONDatabase.getInstance();
+            Transaction transaction = db.getTransaction(transactionID);
             if(transaction.statusType == StatusType.RESERVED){
                 reserveButton.setText("Waiting for answer...");
                 reserveButton.setDisable(true);
@@ -124,6 +121,8 @@ public class ViewOfferController {
             if(transaction.statusType == StatusType.ACCEPTED){
                 reserveButton.setText("Complete");
                 reserveButton.setDisable(false);
+                db.addNotification(getOtherUser(transaction), transaction.ID);
+                db.removeNotification(user, transaction.ID);
                 reserveButton.setOnAction(new EventHandler<ActionEvent>(){
                     public void handle(ActionEvent event){
                         transaction.statusType = StatusType.COMPLETED;
@@ -135,6 +134,14 @@ public class ViewOfferController {
         } else if (user.florains < 0 && offer.isOffer()) {
             reserveButton.setDisable(true);
             reservationLabel.setText("pas permi de reserver une offre avec solde negatif!");
+        }
+    }
+
+    private User getOtherUser(Transaction t) {
+        if (user.UID == offer.userID) {
+            return JSONDatabase.getInstance().getUser(t.UID);
+        } else {
+            return JSONDatabase.getInstance().getUser(offer.userID);
         }
     }
 

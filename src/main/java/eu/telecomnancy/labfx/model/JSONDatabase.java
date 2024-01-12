@@ -218,11 +218,11 @@ public class JSONDatabase implements Database {
     Path path = getPathToFile("db.json");
     if (path == null)
       return;
-    // try {
-    // Files.write(path, asJSON().getBytes());
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
+    try {
+      Files.write(path, asJSON().getBytes());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
   }
 
