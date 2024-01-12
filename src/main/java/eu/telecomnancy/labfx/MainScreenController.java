@@ -73,6 +73,7 @@ public class MainScreenController {
         distanceFiltre.textProperty().addListener((observable, oldValue, newValue) -> updateAds());
         dateDebutFiltre.valueProperty().addListener((observable, oldValue, newValue) -> updateAds());
         dateFinFiltre.valueProperty().addListener((observable, oldValue, newValue) -> updateAds());
+        typeFiltre.getSelectionModel().select(2);
         updateAds();
     }
 
