@@ -54,12 +54,17 @@ public class ViewOfferProfilController {
         this.user=user;
     }
 
-    public String dateToString(Date date){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
-        String strDate = dateFormat.format(date);  
-        return strDate; 
+   
+    public String dateToString(Date date) {
+        if (date != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+            return dateFormat.format(date);
+        } else {
+            
+            return "N/A";
+        }
     }
-
+    
     public Image loadImage(){
         String imagePath = offer.imagePath;
         if(imagePath!=null && !imagePath.isEmpty()){
