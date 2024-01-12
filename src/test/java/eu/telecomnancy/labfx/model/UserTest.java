@@ -18,7 +18,7 @@ public class UserTest {
     user.password = "password";
     user.address = "193 Av. Paul Muller, 54600 Villers-lès-Nancy";
     user.email = "e2455u@telecomnancy.net";
-    user.florains = 10;
+    user.setFlorains(10);
     user.conversations.add(1);
     user.transactionsExt.put(1, 2);
     user.transactionsExt.put(2, 1);
@@ -46,7 +46,7 @@ public class UserTest {
     expectedUser.password = "b";
     expectedUser.address = "c";
     expectedUser.email = "d";
-    expectedUser.florains = 500;
+    expectedUser.setFlorains(500);
     expectedUser.sleepMode = false;
     expectedUser.conversations.add(1);
     expectedUser.conversations.add(2);
@@ -62,7 +62,7 @@ public class UserTest {
     assertEquals(expectedUser.password, user.password);
     assertEquals(expectedUser.address, user.address);
     assertEquals(expectedUser.email, user.email);
-    assertEquals(expectedUser.florains, user.florains);
+    assertEquals(expectedUser.getFlorains(), user.getFlorains());
     assertEquals(expectedUser.sleepMode, user.sleepMode);
     assertEquals(expectedUser.conversations, user.conversations);
     assertEquals(expectedUser.transactionsExt, user.transactionsExt);
