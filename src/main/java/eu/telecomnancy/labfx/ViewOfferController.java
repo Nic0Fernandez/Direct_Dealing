@@ -156,9 +156,15 @@ public class ViewOfferController {
 
     @FXML 
     public void reserve(){
-        int transactionID = user.createTransaction(offer);
-        reservationLabel.setText("Offre réservée");
-        reserveButton.setText("Waiting for answer");
-        reserveButton.setDisable(true);
+        if(user.username.equals(JSONDatabase.getInstance().getUser(offer.getUserID()).username)) {
+                reserveButton.setText("Invalidée");
+                reserveButton.setDisable(true);
+                reservationLabel.setText("Vous ne pouvez pas réserver votre propre offre");
+        } else {
+            int transactionID = user.createTransaction(offer);
+            reservationLabel.setText("Offre réservée");
+            reserveButton.setText("Waiting for answer");
+            reserveButton.setDisable(true);
+        }
     }
 }
