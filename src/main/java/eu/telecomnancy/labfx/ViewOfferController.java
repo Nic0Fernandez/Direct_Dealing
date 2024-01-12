@@ -5,14 +5,10 @@ import eu.telecomnancy.labfx.model.*;
 import javafx.fxml.FXML;
 
 import java.io.File;
-import java.io.IOError;
 import java.io.IOException;
-import java.io.ObjectInputFilter.Status;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.imageio.ImageIO;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,6 +29,7 @@ public class ViewOfferController {
     @FXML private Label duree;
     @FXML private Label disponibilites;
     @FXML private Label reservationLabel;
+    @FXML private Label userLabel;
     @FXML private Button messageButton;
     @FXML private Button reserveButton;
     @FXML private ImageView image;
@@ -101,6 +98,7 @@ public class ViewOfferController {
             duree.setText("");
         }
         disponibilites.setText(offer.disponibilities);
+        userLabel.setText(JSONDatabase.getInstance().getUser(offer.getUserID()).username);
         image.setImage(loadImage());
         checkStatus();
     }
@@ -110,7 +108,8 @@ public class ViewOfferController {
     public void checkStatus(){
         if(user.transactionsExt.containsKey(offer.ID)){
             int transactionID = user.transactionsExt.get(offer.ID);
-            Transaction transaction = JSONDatabase.getInstance().getTransaction(transactionID);
+            Database db = JSONDatabase.getInstance();
+            Transaction transaction = db.getTransaction(transactionID);
             if(transaction.statusType == StatusType.RESERVED){
                 reserveButton.setText("Waiting for answer...");
                 reserveButton.setDisable(true);
@@ -122,16 +121,28 @@ public class ViewOfferController {
             if(transaction.statusType == StatusType.ACCEPTED){
                 reserveButton.setText("Complete");
                 reserveButton.setDisable(false);
+                db.addNotification(getOtherUser(transaction), transaction.ID);
+                db.removeNotification(user, transaction.ID);
                 reserveButton.setOnAction(new EventHandler<ActionEvent>(){
                     public void handle(ActionEvent event){
                         transaction.statusType = StatusType.COMPLETED;
                         updateDatabase(transaction,StatusType.COMPLETED);
-                        //transfert florains
                         reservationLabel.setText("Complétée ! Les florains ont été transférés");
                     }
                 });
             }
-        }        
+        } else if (user.getFlorains() < 0 && offer.isOffer()) {
+            reserveButton.setDisable(true);
+            reservationLabel.setText("pas permi de reserver une offre avec solde negatif!");
+        }
+    }
+
+    private User getOtherUser(Transaction t) {
+        if (user.UID == offer.userID) {
+            return JSONDatabase.getInstance().getUser(t.UID);
+        } else {
+            return JSONDatabase.getInstance().getUser(offer.userID);
+        }
     }
 
     public void updateDatabase(Transaction transaction, StatusType statusType){
@@ -140,8 +151,6 @@ public class ViewOfferController {
     
     @FXML
     public void retourMainScreen() throws IOException{
-        System.out.println(user.transactionsExt);
-        System.out.println(user.transactionsIn);
         main.mainScreen(user);
     }
 
@@ -152,9 +161,15 @@ public class ViewOfferController {
 
     @FXML 
     public void reserve(){
-        int transactionID = user.createTransaction(offer);
-        reservationLabel.setText("Offre réservée");
-        reserveButton.setText("Waiting for answer");
-        reserveButton.setDisable(true);
+        if(user.username.equals(JSONDatabase.getInstance().getUser(offer.getUserID()).username)) {
+                reserveButton.setText("Invalidée");
+                reserveButton.setDisable(true);
+                reservationLabel.setText("Vous ne pouvez pas réserver votre propre offre");
+        } else {
+            int transactionID = user.createTransaction(offer);
+            reservationLabel.setText("Offre réservée");
+            reserveButton.setText("Waiting for answer");
+            reserveButton.setDisable(true);
+        }
     }
 }

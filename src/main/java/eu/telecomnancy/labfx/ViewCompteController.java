@@ -64,7 +64,6 @@ public class ViewCompteController {
                 .filter(ad -> ad.userID == user.UID)
                 .collect(Collectors.toList());
 
-        
         List<Ad> userOffers = userAds.stream()
                 .filter(ad -> ad.offer)
                 .collect(Collectors.toList());
@@ -75,6 +74,7 @@ public class ViewCompteController {
 
         offersListView.setItems(FXCollections.observableArrayList(userOffers));
         demandsListView.setItems(FXCollections.observableArrayList(userDemands));
+        notificationsView.setItems(user.pendingNotifications);
 
         offersListView.setCellFactory(param -> new ListCell<Ad>() {
             @Override
@@ -101,36 +101,13 @@ public class ViewCompteController {
                 }
             }
         });
-
-        offersListView.setOnMouseClicked(event -> {
-            Ad selectedAd = offersListView.getSelectionModel().getSelectedItem();
-            if (selectedAd != null) {
-                try {
-                    main.viewOffer(user, selectedAd);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        demandsListView.setOnMouseClicked(event -> {
-            Ad selectedAd = demandsListView.getSelectionModel().getSelectedItem();
-            if (selectedAd != null) {
-                try {
-                    main.viewOffer(user, selectedAd);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        notificationsView.setItems(user.pendingNotifications);
-
         notificationsView.setCellFactory(param -> new ListCell<Integer>() {
             @Override
             protected void updateItem(Integer transactionID, boolean empty) {
                 super.updateItem(transactionID, empty);
 
                 if (empty || transactionID == null) {
+                    setGraphic(null);
                     return;
                 } else {
                     Transaction t = JSONDatabase.getInstance().getTransaction(transactionID);
@@ -152,18 +129,44 @@ public class ViewCompteController {
             }
 
             private Node createNotification(Transaction t) throws IOException {
-             switch (t.statusType) {
+                FXMLLoader loader;
+                switch (t.statusType) {
                 case RESERVED:
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/Inbox.fxml"));
+                    loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/reservationNotification.fxml"));
                     loader.setControllerFactory((ic) -> new ReservationNotification(main, t));
                     return loader.load();
                 case ACCEPTED:
                 case COMPLETED:
-                case NEUTRAL:
                 case REFUSED:
+                    loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/DismissableNotification.fxml"));
+                    loader.setControllerFactory((ic) -> new DismissableNotification(main, t, user));
+                    return loader.load();
+                case NEUTRAL:
                 default:
                     return null;
              }
+            }
+        });
+
+        offersListView.setOnMouseClicked(event -> {
+            Ad selectedAd = offersListView.getSelectionModel().getSelectedItem();
+            if (selectedAd != null) {
+                try {
+                    main.viewOfferProfil(user, selectedAd);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        demandsListView.setOnMouseClicked(event -> {
+            Ad selectedAd = demandsListView.getSelectionModel().getSelectedItem();
+            if (selectedAd != null) {
+                try {
+                    main.viewOfferProfil(user, selectedAd);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -183,7 +186,22 @@ public class ViewCompteController {
             loadUserPhoto();
         }
     }
-
+    @FXML
+    private void editPhoto() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose a new photo");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg")
+        );
+        File file = fileChooser.showOpenDialog(null);
+    
+        if (file != null) {
+            user.imgpath = file.getAbsolutePath();
+    
+            loadUserPhoto();
+        }
+    }
+    
     @FXML
     private void backToMain() throws IOException {
         main.mainScreen(user);

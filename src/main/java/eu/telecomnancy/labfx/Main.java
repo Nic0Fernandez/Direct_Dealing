@@ -14,6 +14,9 @@ public class Main extends Application {
     private Stage primaryStage;
     private User currentUser;
 
+    private final int width = 800;
+    private final int height = 600;
+
     public static void main(String[] args) {
         Application.launch(args);
     }
@@ -35,23 +38,24 @@ public class Main extends Application {
         });
     }
 
+    private void show(Parent p) {
+        Scene scene = new Scene(p, width, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
     public void loginScreen() throws IOException {
         FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/Login.fxml"));
 
         fxmloader.setControllerFactory(ic -> new Login(this));
-
-        Scene scene = new Scene(fxmloader.load(), 400, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(fxmloader.load());
     }
 
     public void createAccountScreen() throws IOException {
         FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/create_compte.fxml"));
         fxmloader.setControllerFactory(ic -> new CreateAccount(this));
 
-        Scene scene = new Scene(fxmloader.load(), 400, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(fxmloader.load());
     }
 
     public void mainScreen(User user) throws IOException {
@@ -59,6 +63,8 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(MainScreenController.class))
                 return new MainScreenController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
             else if (ic.equals(DirectDealingMenuController.class))
                 return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.MAIN);
             return null;
@@ -70,9 +76,7 @@ public class Main extends Application {
         controller.setUser(user);
         controller.setMain(this);
 
-        Scene scene = new Scene(root, 600, 600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(root);
     }
 
     public void viewCreateOffer(User user) throws IOException {
@@ -80,6 +84,8 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(ViewCreateOfferController.class))
                 return new ViewCreateOfferController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
             else if (ic.equals(DirectDealingMenuController.class))
                 return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.CREATE);
             return null;
@@ -92,9 +98,8 @@ public class Main extends Application {
         controller.setMain(this);
         controller.initializeItems();
 
-        Scene scene = new Scene(root, 400, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(root);
+
     }
 
     public void inboxScreen(User user, Ad offer, User receiver) throws IOException {
@@ -102,6 +107,8 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(InboxScreen.class))
                 return new InboxScreen(this, user, offer, receiver);
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
             else if (ic.equals(ConversationView.class))
                 return new ConversationView(this, user);
             else if (ic.equals(DirectDealingMenuController.class))
@@ -109,9 +116,7 @@ public class Main extends Application {
             return null;
         });
 
-        Scene scene = new Scene(loader.load());
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(loader.load());
     }
 
     public void ViewCompteController(User user) throws IOException {
@@ -119,6 +124,8 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(ViewCompteController.class))
                 return new ViewCompteController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
             else if (ic.equals(DirectDealingMenuController.class))
                 return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.PROFILE);
             return null;
@@ -129,9 +136,7 @@ public class Main extends Application {
         controller.setUser(user);
         controller.setMain(this);
 
-        Scene scene = new Scene(root, 400, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(root);
     }
 
     public void viewOffer(User user, Ad offer) throws IOException {
@@ -139,6 +144,9 @@ public class Main extends Application {
         loader.setControllerFactory((ic) -> {
             if (ic.equals(ViewOfferController.class))
                 return new ViewOfferController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
+
             else if (ic.equals(DirectDealingMenuController.class))
                 return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.VIEW);
             return null;
@@ -151,9 +159,52 @@ public class Main extends Application {
         controller.setMain(this);
         controller.initializeItems();
 
-        Scene scene = new Scene(root, 600, 600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(root);
+    }
+
+    public void viewOfferProfil(User user, Ad offer) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/ViewOfferProfil.fxml"));
+        loader.setControllerFactory((ic) -> {
+            if (ic.equals(ViewOfferProfilController.class))
+                return new ViewOfferProfilController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
+            else if (ic.equals(DirectDealingMenuController.class))
+                return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.VIEW);
+            return null;
+        });
+        Parent root = loader.load();
+
+        ViewOfferProfilController controller = loader.getController();
+        controller.setUser(user);
+        controller.setAd(offer);
+        controller.setMain(this);
+        controller.initializeItems();
+
+        show(root);
+    }
+
+    public void editOfferScreen(User user, Ad offer) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/EditOffer.fxml"));
+        loader.setControllerFactory((ic) -> {
+            if (ic.equals(EditOfferController.class))
+                return new EditOfferController();
+            else if (ic.equals(HeaderController.class))
+                return new HeaderController(this, user, false);
+            else if (ic.equals(DirectDealingMenuController.class))
+                return new DirectDealingMenuController(this, user, DirectDealingMenuController.Screen.CREATE);
+            return null;
+        });
+
+        Parent root = loader.load();
+
+        EditOfferController controller = loader.getController();
+        controller.setUser(user);
+        controller.setMain(this);
+        controller.initializeItems();
+        controller.setOfferData(offer);
+
+        show(root);
     }
 
     public void setCurrentUser(User user) {

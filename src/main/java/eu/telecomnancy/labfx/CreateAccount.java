@@ -57,7 +57,7 @@ public class CreateAccount {
     user.password = motdepasse.getText();
     user.email = email.getText();
     user.address = adresse.getText();
-    user.florains = 500;
+    user.florains.set(500);
 
     int result = JSONDatabase.getInstance().addUser(user);
 

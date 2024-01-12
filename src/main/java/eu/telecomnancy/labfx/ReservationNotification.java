@@ -9,9 +9,7 @@ import eu.telecomnancy.labfx.model.StatusType;
 import eu.telecomnancy.labfx.model.Transaction;
 import eu.telecomnancy.labfx.model.User;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.text.Font;
 
 public class ReservationNotification {
   private final Main main;
@@ -41,14 +39,14 @@ public class ReservationNotification {
 
   @FXML
   private void acceptReservation() {
-    db.saveStatus(t, StatusType.ACCEPTED);
     updateNotifications();
+    db.saveStatus(t, StatusType.ACCEPTED);
   }
 
   @FXML
   private void refuseReservation() {
-    db.saveStatus(t, StatusType.REFUSED);
     updateNotifications();
+    db.saveStatus(t, StatusType.REFUSED);
   }
 
   @FXML
@@ -66,8 +64,8 @@ public class ReservationNotification {
   }
 
   private void updateNotifications() {
-    reserver.addNotification(t.ID);
-    adPublisher.removeNotification(t.ID);
+    db.addNotification(reserver, t.ID);
+    db.removeNotification(adPublisher, t.ID);
   }
 
 }
