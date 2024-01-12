@@ -32,4 +32,8 @@ public interface Database {
   Transaction getTransaction(int ID);
 
   void saveStatus(Transaction transaction, StatusType statusType);
+
+  void addNotification(User u, Integer tid);
+
+  void removeNotification(User u, Integer tid);
 }

@@ -142,8 +142,6 @@ public class ViewOfferController {
     
     @FXML
     public void retourMainScreen() throws IOException{
-        System.out.println(user.transactionsExt);
-        System.out.println(user.transactionsIn);
         main.mainScreen(user);
     }
 

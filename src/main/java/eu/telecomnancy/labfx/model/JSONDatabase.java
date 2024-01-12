@@ -14,6 +14,7 @@ import java.util.function.IntSupplier;
 
 import org.apache.commons.lang3.SystemUtils;
 
+import eu.telecomnancy.labfx.ViewCompteController;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
@@ -134,11 +135,10 @@ public class JSONDatabase implements Database {
     Ad ad = getAd(transaction.adID);
     User user = getUser(transaction.UID);
     User otherUser = getUser(ad.userID);
-    otherUser.addNotification(transaction.ID);
+    addNotification(otherUser, transaction.ID);
     user.transactionsExt.put(ad.ID, transaction.ID);
     otherUser.transactionsIn.put(ad.ID, transaction.ID);
     save();
-    System.out.println("Transaction " + transaction.ID + " saved");
     return id;
   }
 
@@ -159,7 +159,6 @@ public class JSONDatabase implements Database {
 
   @Override
   public Transaction getTransaction(int ID) {
-    System.out.println(transactions.size());
     return transactions.getOrDefault(ID, null);
   }
 
@@ -219,11 +218,11 @@ public class JSONDatabase implements Database {
     Path path = getPathToFile("db.json");
     if (path == null)
       return;
-    try {
-      Files.write(path, asJSON().getBytes());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    // try {
+    // Files.write(path, asJSON().getBytes());
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
 
   }
 
@@ -400,5 +399,23 @@ public class JSONDatabase implements Database {
     if (!convo.isPresent())
       return null;
     return convo.get();
+  }
+
+  @Override
+  public void addNotification(User u, Integer tid) {
+    if (!u.pendingNotifications.contains(tid)) {
+      u.pendingNotifications.add(tid);
+      save();
+    }
+
+  }
+
+  @Override
+  public void removeNotification(User u, Integer tid) {
+    System.out.println(u.pendingNotifications.size());
+    if (u.pendingNotifications.remove(Integer.valueOf(tid))) {
+      save();
+    }
+
   }
 }

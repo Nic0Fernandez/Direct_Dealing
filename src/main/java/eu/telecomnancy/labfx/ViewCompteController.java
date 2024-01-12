@@ -102,13 +102,13 @@ public class ViewCompteController {
                 }
             }
         });
-
         notificationsView.setCellFactory(param -> new ListCell<Integer>() {
             @Override
             protected void updateItem(Integer transactionID, boolean empty) {
                 super.updateItem(transactionID, empty);
 
                 if (empty || transactionID == null) {
+                    setGraphic(null);
                     return;
                 } else {
                     Transaction t = JSONDatabase.getInstance().getTransaction(transactionID);
@@ -130,15 +130,19 @@ public class ViewCompteController {
             }
 
             private Node createNotification(Transaction t) throws IOException {
-             switch (t.statusType) {
+                FXMLLoader loader;
+                switch (t.statusType) {
                 case RESERVED:
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/reservationNotification.fxml"));
+                    loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/reservationNotification.fxml"));
                     loader.setControllerFactory((ic) -> new ReservationNotification(main, t));
                     return loader.load();
                 case ACCEPTED:
                 case COMPLETED:
-                case NEUTRAL:
                 case REFUSED:
+                    loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/DismissableNotification.fxml"));
+                    loader.setControllerFactory((ic) -> new DismissableNotification(main, t, user));
+                    return loader.load();
+                case NEUTRAL:
                 default:
                     return null;
              }

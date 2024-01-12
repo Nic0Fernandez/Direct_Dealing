@@ -14,6 +14,9 @@ public class Main extends Application {
     private Stage primaryStage;
     private User currentUser;
 
+    private final int width = 800;
+    private final int height = 600;
+
     public static void main(String[] args) {
         Application.launch(args);
     }
@@ -35,23 +38,24 @@ public class Main extends Application {
         });
     }
 
+    private void show(Parent p) {
+        Scene scene = new Scene(p, width, height);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
     public void loginScreen() throws IOException {
         FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/Login.fxml"));
 
         fxmloader.setControllerFactory(ic -> new Login(this));
-
-        Scene scene = new Scene(fxmloader.load(), 400, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(fxmloader.load());
     }
 
     public void createAccountScreen() throws IOException {
         FXMLLoader fxmloader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/create_compte.fxml"));
         fxmloader.setControllerFactory(ic -> new CreateAccount(this));
 
-        Scene scene = new Scene(fxmloader.load(), 400, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(fxmloader.load());
     }
 
     public void mainScreen(User user) throws IOException {
@@ -70,9 +74,7 @@ public class Main extends Application {
         controller.setUser(user);
         controller.setMain(this);
 
-        Scene scene = new Scene(root, 600, 600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(root);
     }
 
     public void viewCreateOffer(User user) throws IOException {
@@ -91,10 +93,9 @@ public class Main extends Application {
         controller.setUser(user);
         controller.setMain(this);
         controller.initializeItems();
-
-        Scene scene = new Scene(root, 400, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        
+        show(root);
+        
     }
 
     public void inboxScreen(User user, Ad offer, User receiver) throws IOException {
@@ -109,9 +110,7 @@ public class Main extends Application {
             return null;
         });
 
-        Scene scene = new Scene(loader.load());
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(loader.load());
     }
 
     public void ViewCompteController(User user) throws IOException {
@@ -129,9 +128,7 @@ public class Main extends Application {
         controller.setUser(user);
         controller.setMain(this);
 
-        Scene scene = new Scene(root, 400, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(root);
     }
 
     public void viewOffer(User user, Ad offer) throws IOException {
@@ -151,9 +148,7 @@ public class Main extends Application {
         controller.setMain(this);
         controller.initializeItems();
 
-        Scene scene = new Scene(root, 600, 600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        show(root);
     }
 
     public void setCurrentUser(User user) {

@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.*;
+
 public class User {
   public int UID;
   public String username;
@@ -13,10 +14,10 @@ public class User {
   public int florains;
   public boolean sleepMode;
   public ObservableList<Integer> conversations;
-  public String imgpath ;
-  public Map<Integer,Integer> transactionsExt = new HashMap<>(); //les offres qu'on a réservées 
-  public Map<Integer,Integer> transactionsIn = new HashMap<>(); //nos offres qui sont réservées
-  
+  public String imgpath;
+  public Map<Integer, Integer> transactionsExt = new HashMap<>(); // les offres qu'on a réservées
+  public Map<Integer, Integer> transactionsIn = new HashMap<>(); // nos offres qui sont réservées
+
   public ObservableList<Integer> pendingNotifications;
 
   public User() {
@@ -25,21 +26,9 @@ public class User {
     pendingNotifications = FXCollections.observableArrayList();
   }
 
-  public int createTransaction(Ad ad){
-    Transaction transaction = new Transaction(ad,this.UID, StatusType.RESERVED);
+  public int createTransaction(Ad ad) {
+    Transaction transaction = new Transaction(ad, this.UID, StatusType.RESERVED);
     JSONDatabase.getInstance().addTransaction(transaction);
     return transaction.ID;
   }
-
-  public void addNotification(int ID) {
-    if (!pendingNotifications.contains(ID)) pendingNotifications.add(ID);
-  }
-
-  public void removeNotification(int ID) {
-    // cast to Integer because we want to remove the value "ID" from the list
-    // if we passed just the int, it would remove the value at that index
-    pendingNotifications.remove(Integer.valueOf(ID));
-  }
 }
-
-

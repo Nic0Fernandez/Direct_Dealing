@@ -13,17 +13,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Arrays;
 
 public class MainScreenController {
 
@@ -51,6 +47,9 @@ public class MainScreenController {
     @FXML
     private TextField evaluationFiltre;
 
+    @FXML
+    private Label notificationsLabel;
+
     private Main main;
     private User user;
 
@@ -62,6 +61,15 @@ public class MainScreenController {
     public void setUser(User user) {
         this.user = user;
         updateAds();
+        int notifications = user.pendingNotifications.size();
+        String notificationsText = "";
+        if (notifications == 1) {
+            notificationsText = "1 nouvelle notification";
+        }
+        else if (notifications > 1) {
+            notificationsText = String.valueOf(notifications) + " nouvelles notifications!";
+        }
+        notificationsLabel.setText(notificationsText);
     }
 
     @FXML
@@ -141,35 +149,6 @@ public class MainScreenController {
                     .collect(Collectors.toList());
         }
         return ads;
-    }
-
-    private List<Ad> createExampleAds() {
-        List<Ad> exampleAds = new ArrayList<>();
-
-        Ad ad1 = new Ad();
-        ad1.name = "Example Ad 1";
-        ad1.type = AdType.GOOD;
-        ad1.cost = 50;
-        ad1.maxDistance = 10;
-        ad1.start = new Date();
-        ad1.end = new Date();
-        ad1.disponibilities = "Example disponibilities";
-        exampleAds.add(ad1);
-
-        Ad ad2 = new Ad();
-        ad2.name = "Example Ad 2";
-        ad2.type = AdType.SERVICE;
-        ad2.cost = 100;
-        ad2.maxDistance = 20;
-        ad2.start = new Date();
-        ad2.end = new Date();
-        ad2.disponibilities = "Example disponibilities";
-        exampleAds.add(ad2);
-
-        
-        JSONDatabase.getInstance().getAdsAsList().addAll(exampleAds);
-
-        return exampleAds;
     }
 
     private void displayAds(List<Ad> ads) {
