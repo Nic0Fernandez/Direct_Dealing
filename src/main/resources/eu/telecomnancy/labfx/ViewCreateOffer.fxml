@@ -12,64 +12,70 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewCreateOfferController">
-   <children>
-      <fx:include source="DirectDealingMenu.fxml"/>
-            <fx:include source="header.fxml" />   
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="578.0" text="Créer une offre/demande">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Label>
-      <TextField fx:id="nom" promptText="Nom " />
-      <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="600.0" spacing="100.0">
-         <children>
-            <ComboBox fx:id="type" prefWidth="150.0" promptText="Type" visibleRowCount="2" />
-            <ComboBox fx:id="nature" prefWidth="150.0" promptText="Nature" />
-         </children>
-      </HBox>
-      <TextField fx:id="description" prefHeight="200.0" prefWidth="200.0" promptText="Courte description" />
-      <TextField fx:id="cout" promptText="Coût" />
-      <HBox prefHeight="9.0" prefWidth="600.0" spacing="100.0">
-         <children>
-            <TextField fx:id="localisation" prefHeight="26.0" prefWidth="150.0" promptText="Localisation">
-               <contextMenu>
-                  <ContextMenu fx:id="suggestions" prefHeight="300.0">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                    </items>
-                  </ContextMenu>
-               </contextMenu></TextField>
-            <TextField fx:id="distance" prefWidth="150.0" promptText="Distance (km)" />
-         </children>
-      </HBox>
-      <HBox prefHeight="16.0" prefWidth="600.0" spacing="10.0">
-         <children>
-            <DatePicker fx:id="dateDebut" promptText="Date du début" />
-            <DatePicker fx:id="dateFin" promptText="Date de fin " />
-            <TextField fx:id="duree" prefHeight="26.0" prefWidth="200.0" promptText="Durée du prêt en jour" />
-         </children>
-      </HBox>
-      <TextField fx:id="disponibilites" promptText="Disponibilités horaires" />
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-         <children>
-            <Button fx:id="photo" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#validerPhoto" text="Choisir une photo" />
-            <Label fx:id="imagePath" textFill="#9c9c9c">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-         <children>
-            <Button fx:id="valider" mnemonicParsing="false" onAction="#validerCreation" prefHeight="26.0" prefWidth="59.0" text="Valider" />
-            <Label fx:id="errorMessage" prefHeight="18.0" prefWidth="246.0" textFill="#e10e0e" />
-            <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMain" text="Retour" />
-         </children>
-      </HBox>
-   </children>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
+<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewCreateOfferController" style="-fx-background-color: #fff0f5;">
+    <children>
+        <!-- Include your other FXML files here (if needed) -->
+
+        <HBox alignment="CENTER" prefHeight="39.0" prefWidth="578.0">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" textFill="#7b68ee" text="Créer une offre ou une demande">
+            <font>
+                <Font size="19.0" />
+            </font>
+        </Label>
+    </children>
+</HBox>
+
+        <TextField fx:id="nom" promptText="Nom" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+
+        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="600.0" spacing="10.0">
+            <children>
+                <ComboBox fx:id="type" prefWidth="150.0" promptText="Type" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+                <ComboBox fx:id="nature" prefWidth="150.0" promptText="Nature" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+            </children>
+        </HBox>
+
+        <TextField fx:id="description" prefHeight="200.0" prefWidth="200.0" promptText="Courte description" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+
+        <TextField fx:id="cout" promptText="Coût" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+
+        <HBox prefHeight="9.0" prefWidth="600.0" spacing="10.0">
+            <children>
+                <TextField fx:id="localisation" prefHeight="26.0" prefWidth="150.0" promptText="Localisation" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+                <TextField fx:id="distance" prefWidth="150.0" promptText="Distance (km)" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+            </children>
+        </HBox>
+
+        <HBox prefHeight="16.0" prefWidth="600.0" spacing="10.0">
+            <children>
+                <DatePicker fx:id="dateDebut" promptText="Date du début" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+                <DatePicker fx:id="dateFin" promptText="Date de fin" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+                <TextField fx:id="duree" prefHeight="26.0" prefWidth="200.0" promptText="Durée du prêt en jour" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+            </children>
+        </HBox>
+
+        <TextField fx:id="disponibilites" promptText="Disponibilités horaires" style="-fx-background-color: #2e354f; -fx-text-fill: #ffffff;" />
+
+        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <children>
+                <Button fx:id="photo" mnemonicParsing="false" onAction="#validerPhoto" text="Choisir une photo" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" />
+                <Label fx:id="imagePath" textFill="#9c9c9c">
+                    <font>
+                        <Font size="13.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <children>
+                <Button fx:id="valider" mnemonicParsing="false" onAction="#validerCreation" prefHeight="26.0" prefWidth="59.0" text="Valider" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" />
+                <Label fx:id="errorMessage" prefHeight="18.0" textFill="#e10e0e" />
+                <Button fx:id="retour" mnemonicParsing="false" onAction="#retourMain" text="Retour" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" />
+            </children>
+        </HBox>
+    </children>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
 </VBox>
