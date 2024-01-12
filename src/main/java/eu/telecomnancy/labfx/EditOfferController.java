@@ -123,7 +123,7 @@ public class EditOfferController {
         duree.setText(String.valueOf(existingOffer.duration));
         disponibilites.setText(existingOffer.disponibilities);
         
-        imagePath.setText(existingOffer.imagePath);
+       
     }
 
     @FXML
@@ -237,6 +237,7 @@ public class EditOfferController {
 
     @FXML
     public void retourMain()throws IOException{
+        System.out.println(existingOffer.getName());
         main.viewOfferProfil(user, existingOffer);
     }
 

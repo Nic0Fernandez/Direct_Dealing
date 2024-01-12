@@ -193,6 +193,7 @@ public class Main extends Application {
         controller.setUser(user);
         controller.setMain(this);
         controller.initializeItems();
+        controller.setOfferData(offer);
 
         Scene scene = new Scene(root, 400, 400);
         primaryStage.setScene(scene);
