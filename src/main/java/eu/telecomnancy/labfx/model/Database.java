@@ -32,4 +32,5 @@ public interface Database {
   Transaction getTransaction(int ID);
 
   void saveStatus(Transaction transaction, StatusType statusType);
+  void updateAd(Ad updatedAd);
 }

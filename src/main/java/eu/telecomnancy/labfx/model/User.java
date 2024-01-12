@@ -14,6 +14,8 @@ public class User {
   public boolean sleepMode;
   public ObservableList<Integer> conversations;
   public String imgpath ;
+  public List<AdHistory> history = new ArrayList();
+
   public Map<Integer,Integer> transactionsExt = new HashMap<>(); //les offres qu'on a réservées 
   public Map<Integer,Integer> transactionsIn = new HashMap<>(); //nos offres qui sont réservées
   
@@ -39,6 +41,26 @@ public class User {
     // cast to Integer because we want to remove the value "ID" from the list
     // if we passed just the int, it would remove the value at that index
     pendingNotifications.remove(Integer.valueOf(ID));
+  }
+  public int getUID() {
+    return UID;
+  }
+
+public String getUserName() {
+    return username;
+  }
+
+public String getPhotoPath() {
+    return imgpath;
+  }
+
+  public void setPhotoPath(String pathImage) {
+    pathImage=this.imgpath ;
+  }
+
+  public void addToHistory(Ad ad){
+    AdHistory newAd = new AdHistory(ad,StatusType.RESERVED);
+    history.add(newAd);
   }
 }
 

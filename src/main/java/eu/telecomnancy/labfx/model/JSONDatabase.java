@@ -381,7 +381,7 @@ public class JSONDatabase implements Database {
     User payer;
     User receiver;
     Ad ad = getAd(t.adID);
-    if (ad.offer) {
+    if (ad.isOffer) {
       payer = getUser(t.UID);
       receiver = getUser(ad.userID);
     } else {
@@ -401,4 +401,15 @@ public class JSONDatabase implements Database {
       return null;
     return convo.get();
   }
+  public void updateAd(Ad updatedAd) {
+    if (ads.containsKey(updatedAd.getID())) {
+       
+        ads.put(updatedAd.getID(), updatedAd);
+        save();
+    } else {
+        System.out.println("Ad with ID " + updatedAd.getID() + " not found for updating.");
+        
+    }
+}
+
 }

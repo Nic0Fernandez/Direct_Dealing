@@ -64,18 +64,16 @@ public class ViewCompteController {
                 .filter(ad -> ad.userID == user.UID)
                 .collect(Collectors.toList());
 
-        
         List<Ad> userOffers = userAds.stream()
-                .filter(ad -> ad.offer)
+                .filter(ad -> ad.isOffer)
                 .collect(Collectors.toList());
 
         List<Ad> userDemands = userAds.stream()
-                .filter(ad -> !ad.offer)
+                .filter(ad -> !ad.isOffer)
                 .collect(Collectors.toList());
 
         offersListView.setItems(FXCollections.observableArrayList(userOffers));
         demandsListView.setItems(FXCollections.observableArrayList(userDemands));
-        notificationsView.setItems(user.pendingNotifications);
 
         offersListView.setCellFactory(param -> new ListCell<Ad>() {
             @Override
@@ -103,53 +101,11 @@ public class ViewCompteController {
             }
         });
 
-        notificationsView.setCellFactory(param -> new ListCell<Integer>() {
-            @Override
-            protected void updateItem(Integer transactionID, boolean empty) {
-                super.updateItem(transactionID, empty);
-
-                if (empty || transactionID == null) {
-                    return;
-                } else {
-                    Transaction t = JSONDatabase.getInstance().getTransaction(transactionID);
-                    if (t == null) return;
-                    Node n = null;
-                    try {
-                        n = createNotification(t);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (n == null) {
-                        setVisible(false);
-                        setManaged(false);
-                    } else {
-                        setGraphic(n);
-                    } 
-
-                }
-            }
-
-            private Node createNotification(Transaction t) throws IOException {
-             switch (t.statusType) {
-                case RESERVED:
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/eu/telecomnancy/labfx/reservationNotification.fxml"));
-                    loader.setControllerFactory((ic) -> new ReservationNotification(main, t));
-                    return loader.load();
-                case ACCEPTED:
-                case COMPLETED:
-                case NEUTRAL:
-                case REFUSED:
-                default:
-                    return null;
-             }
-            }
-        });
-
         offersListView.setOnMouseClicked(event -> {
             Ad selectedAd = offersListView.getSelectionModel().getSelectedItem();
             if (selectedAd != null) {
                 try {
-                    main.viewOffer(user, selectedAd);
+                    main.viewOfferProfil(user, selectedAd);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -160,7 +116,7 @@ public class ViewCompteController {
             Ad selectedAd = demandsListView.getSelectionModel().getSelectedItem();
             if (selectedAd != null) {
                 try {
-                    main.viewOffer(user, selectedAd);
+                    main.viewOfferProfil(user, selectedAd);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
