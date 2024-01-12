@@ -217,11 +217,12 @@ public class EditOfferController {
             
             // JSONDatabase.getInstance().updateAd(existingOffer);
 
-           
-            showErrorMessage("Vous devez remplir tous les champs");
+            main.viewOfferProfil(user, offre);
+            
         
     
         } catch (NumberFormatException e) {
+
             showErrorMessage("Vous devez remplir tous les champs");
             return;
         } 
