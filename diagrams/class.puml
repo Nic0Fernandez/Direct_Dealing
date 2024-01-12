@@ -3,16 +3,22 @@
 skinparam linetype polyline
 package model {
   class User {
-    + int UID
-    + String name
-    + String password
-    + String adress
-    + String email
-    + int florains
-    + boolean sleepMode
-    + ObservableList<Integer> conversations
+    + password: String
+    + florains: SimpleIntegerProperty
+    + transactionsExt: Map<Integer, Integer>
+    + pendingNotifications: ObservableList<Integer>
+    + username: String
+    + UID: int
+    + transactionsIn: Map<Integer, Integer>
+    + conversations: ObservableList<Integer>
+    + address: String
+    + sleepMode: boolean
+    + imgpath: String
+    + email: String
+    + createTransaction(Ad): int
+    + getFlorains(): int
+    + setFlorains(int): void
   }
-
   User o-- Ad
 
   Enum AdType {
@@ -21,35 +27,43 @@ package model {
   }
 
   class Ad {
-    + int ID
-    + String name
-    + boolean isOffer
-    + String description
-    + String imagePath
-    + int cost
-    + String adress
-    + double maxDistance
-    + Date start
-    + Date end
-    + Duration duration
-  }
+  + name: String
+  + disponibilities: String
+  + imagePath: String
+  + end: Date
+  + offer: boolean
+  + ID: int
+  + duration: int
+  + start: Date
+  + type: AdType
+  + description: String
+  + maxDistance: double
+  + address: String
+  + userID: int
+  + cost: int
+}
   Ad o--> AdType
 
-  interface Database {
-    + boolean isUsernameAvailable(String name)
-    + int addUser(User user)
-    + int addAd(Ad ad)
-    + User getUser(int UID)
-    + User getUser(String username)
-    + Ad getAd(int ID)
-    + int authenticate(String username, String password)
-    + ObservableList<Ad> getAdsAsList()
-    + boolean isUsernameAvailable(String name)
-    + String saveImage(String path)
-    + int sendMessage(int from, int to, String text)
-    + Conversation getConversation(int conversationID)
-    + Conversation getConversation(int UID1, int UID2)
+  interface Database << interface >> {
+    + getConversation(int): Conversation
+    + getUser(String): User
+    + removeNotification(User, Integer): void
+    + getUser(int): User
+    + authenticate(String, String): int
+    + addAd(Ad): int
+    + saveImage(String): String
+    + sendMessage(int, int, String): int
+    + getTransaction(int): Transaction
+    + addTransaction(Transaction): int
+    + addNotification(User, Integer): void
+    + isUsernameAvailable(String): boolean
+    + getAd(int): Ad
+    + getAdsAsList(): ObservableList<Ad>
+    + addUser(User): int
+    + saveStatus(Transaction, StatusType): void
+    + getConversation(int, int): Conversation
   }
+
   class JSONDatabase {
     - {static} JSONDatabase instance
     + {static} Database getInstance()
@@ -67,6 +81,20 @@ package model {
     + String asJSON()
   }
 
+  class DatabaseVilles {
+    - cities: List<Ville>
+    + getCities(): List<Ville>
+    + setCities(List<Ville>): void
+  }
+
+  class Distance {
+    - villes: Map<String, Ville>
+    + calculerDistance(String, String): double
+    - haversine(double, double, double, double): double
+    - loadCities(): void
+    + getNomsVilles(): List<String>
+  }
+
   class Message {
     + int id
     + String text
@@ -82,6 +110,38 @@ package model {
     + addMessage(int id, String message)
     + int getOtherUser(int id)
   }
+
+  enum StatusType << enumeration >> {
+    + NEUTRAL: 
+    + COMPLETED: 
+    + RESERVED: 
+    + ACCEPTED: 
+    + REFUSED: 
+    + values(): StatusType[]
+    + valueOf(String): StatusType
+  }
+
+  class Transaction {
+    + UID: int
+    + statusType: StatusType
+    + ID: int
+    + adID: int
+  }
+
+  class Ville {
+    - label: String
+    - longitude: String
+    - region_name: String
+    - city_code: String
+    - department_name: String
+    - region_geojson_name: String
+    - zip_code: String
+    - departement_number: String
+    - insee_code: String
+    - latitude: String
+  }
+
+
   Conversation --> Message
 
   JSONDatabase --> IntSupplier
