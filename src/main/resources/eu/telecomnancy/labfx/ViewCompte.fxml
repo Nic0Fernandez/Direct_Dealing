@@ -21,12 +21,14 @@
                 <Font size="19.0" />
             </font>
         </Label>
-        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="600.0" spacing="100.0">
-            <children>
-                <Button fx:id="addPhotoButton" mnemonicParsing="false" onAction="#addPhoto" text="Add Photo" />
-                <ImageView fx:id="userPhoto" fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true" />
-            </children>
-        </HBox>
+        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="600.0" spacing="10.0">
+    <children>
+        <Button fx:id="addPhotoButton" mnemonicParsing="false" onAction="#addPhoto" text="Add Photo" />
+        <Button fx:id="editPhotoButton" mnemonicParsing="false" onAction="#editPhoto" text="Edit Photo" />
+        <ImageView fx:id="userPhoto" fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true" />
+    </children>
+</HBox>
+
       <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
