@@ -36,15 +36,6 @@ public class Distance {
                     String nomVilleMaj = nomVille.substring(0, 1).toUpperCase() + nomVille.substring(1).toLowerCase();
                     villes.put(nomVilleMaj, ville);
                 } 
-                System.out.println("Aperçu des villes chargées :");
-                int count = 0;
-                for (Map.Entry<String, Ville> entry : villes.entrySet()) {
-                    System.out.println("Clé (Nom de la ville) : " + entry.getKey() + ", Valeur (Objet Ville) : " + entry.getValue());
-                    count++;
-                    if (count >= 10) { 
-                        break;
-                    }
-                }
 
         } catch (Exception e) {
             e.printStackTrace();

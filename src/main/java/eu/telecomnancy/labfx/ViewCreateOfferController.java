@@ -51,6 +51,9 @@ public class ViewCreateOfferController {
     private AdType adType;
     private User user;
 
+    Distance distanceVille = new Distance();
+    List<String> nomsVilles = distanceVille.getNomsVilles();
+
     public void setMain(Main main){
         this.main=main;
     }
@@ -112,8 +115,6 @@ public class ViewCreateOfferController {
         };
         dateFin.setDayCellFactory(dayCellFactory);
 
-        Distance distance = new Distance();
-        List<String> nomsVilles = distance.getNomsVilles();
         localisation.textProperty().addListener((observable, oldValue, newValue) -> {
             suggestions.getItems().clear();
 
@@ -187,6 +188,10 @@ public class ViewCreateOfferController {
             
             if(localisation.getText().isBlank()){
                 showErrorMessage("Vous devez remplir tous les champs");
+                return;
+            }
+            if(!nomsVilles.contains(localisation.getText())){
+                showErrorMessage("Le nom de la ville est invalide");
                 return;
             }
             else{

@@ -2,6 +2,7 @@ package eu.telecomnancy.labfx;
 
 import eu.telecomnancy.labfx.model.Ad;
 import eu.telecomnancy.labfx.model.AdType;
+import eu.telecomnancy.labfx.model.Distance;
 import eu.telecomnancy.labfx.model.JSONDatabase;
 import eu.telecomnancy.labfx.model.User;
 import javafx.collections.FXCollections;
@@ -11,6 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.geometry.Side;
 
 import java.io.IOException;
 import javafx.scene.image.Image;
@@ -51,8 +55,15 @@ public class MainScreenController {
     @FXML
     private TextField evaluationFiltre;
 
+    @FXML private TextField villeFiltre;
+
+    @FXML private ContextMenu suggestions;
+
     private Main main;
     private User user;
+
+    Distance distanceVille = new Distance();
+    List<String> nomsVilles = distanceVille.getNomsVilles();
 
     public void setMain(Main main) {
         this.main = main;
@@ -73,8 +84,36 @@ public class MainScreenController {
         distanceFiltre.textProperty().addListener((observable, oldValue, newValue) -> updateAds());
         dateDebutFiltre.valueProperty().addListener((observable, oldValue, newValue) -> updateAds());
         dateFinFiltre.valueProperty().addListener((observable, oldValue, newValue) -> updateAds());
+        villeFiltre.textProperty().addListener((observable, oldValue, newValue) -> updateAds());
         typeFiltre.getSelectionModel().select(2);
         updateAds();
+
+        villeFiltre.textProperty().addListener((observable, oldValue, newValue) -> {
+            suggestions.getItems().clear();
+
+            if (!newValue.isEmpty()) {
+                int count = 0;
+                for (String nomVille : nomsVilles) {
+                    if (nomVille.toLowerCase().startsWith(newValue.toLowerCase())) {
+                        MenuItem item = new MenuItem(nomVille);
+                        item.setOnAction(event -> villeFiltre.setText(nomVille));
+                        suggestions.getItems().add(item);
+                        count++;
+                        if (count >= 7) {  
+                            break;
+                        }
+                    }
+                }
+
+                if (!suggestions.getItems().isEmpty()) {
+                    suggestions.show(villeFiltre, Side.BOTTOM, 0, 0);
+                } else {
+                    suggestions.hide();
+                }
+            } else {
+                suggestions.hide();
+            }
+        });
     }
 
     @FXML
@@ -111,7 +150,16 @@ public class MainScreenController {
     
         AdType selectedType = typeFiltre.getValue();
         if (selectedType != null && selectedType != AdType.ALL) {
-            ads = ads.stream().filter(ad -> ad.type == selectedType).collect(Collectors.toList());
+            ads = ads.stream()
+                .filter(ad -> ad.type == selectedType)
+                .collect(Collectors.toList());
+        }
+
+        if (!villeFiltre.getText().isBlank() && (distanceFiltre.getText() == null || distanceFiltre.getText().trim().isEmpty())) {
+            String villeFilter = villeFiltre.getText().trim();
+            ads = ads.stream()
+                    .filter(ad -> ad.address.contains(villeFilter))
+                    .collect(Collectors.toList());
         }
  
         if (!coutFiltre.getText().isEmpty()) {
@@ -122,11 +170,19 @@ public class MainScreenController {
             }
         }
 
-        if (!distanceFiltre.getText().isEmpty()) {
+        if (!distanceFiltre.getText().isBlank() && !villeFiltre.getText().isBlank()) {
+            String villeDuFiltre = villeFiltre.getText();
             String dist = distanceFiltre.getText();
-            if (dist != null) {
+            if(dist != null){
                 Double distDouble = Double.parseDouble(dist);
-                ads = ads.stream().filter(ad -> ad.maxDistance <= distDouble).collect(Collectors.toList());
+                ads = ads.stream()
+                    .filter(ad -> distanceVille.calculerDistance(villeDuFiltre, ad.address) <= distDouble)
+                    .collect(Collectors.toList());
+            }
+            if(dist == null){
+                ads = ads.stream()
+                    .filter(ad -> ad.address.contains(villeDuFiltre))
+                    .collect(Collectors.toList());
             }
         }
 
@@ -202,22 +258,20 @@ public class MainScreenController {
     }
 
     private HBox createAdBox(Ad ad) {
-        HBox adBox = new HBox(10);
+        HBox adBox = new HBox(0);
+        adBox.setPrefWidth(400);
         ImageView image = new ImageView();
         image.setImage(loadImage(ad));
-        image.setFitHeight(60);
-        image.setFitWidth(60);
+        image.setFitHeight(100);
+        image.setFitWidth(100);
         Label nameLabel = new Label(ad.name);
-        Label coutLabel = new Label(String.valueOf(ad.cost));
-        Label distLabel = new Label(String.valueOf(ad.maxDistance));
-        Label typeLabel = new Label(String.valueOf(ad.type));
-        Label dateDebutLabel = new Label(String.valueOf(ad.getStart().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
+        nameLabel.setMinWidth(100);
+        Label coutLabel = new Label(String.valueOf(ad.cost) + " florains");
+        coutLabel.setMinWidth(100);
         Label dateFinLabel = new Label(String.valueOf(ad.getEnd().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
+        dateFinLabel.setMinWidth(100);
         adBox.getChildren().add(nameLabel);
         adBox.getChildren().add(coutLabel);
-        adBox.getChildren().add(distLabel);
-        adBox.getChildren().add(typeLabel);
-        adBox.getChildren().add(dateDebutLabel);
         adBox.getChildren().add(dateFinLabel);
         adBox.getChildren().add(image);
 

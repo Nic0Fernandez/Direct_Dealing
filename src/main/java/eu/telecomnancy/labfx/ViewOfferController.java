@@ -95,7 +95,7 @@ public class ViewOfferController {
             dateFin.setText("");
         }
         if(duree!=null){
-            duree.setText(Integer.toString(offer.duration));
+            duree.setText(Integer.toString(offer.duration) + " jours");
         }
         else{
             duree.setText("");
