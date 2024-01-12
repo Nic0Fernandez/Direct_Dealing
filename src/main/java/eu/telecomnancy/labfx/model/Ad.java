@@ -43,11 +43,11 @@ public class Ad {
     }
 
     public boolean isOffer() {
-        return isOffer;
+        return offer;
     }
 
     public void setOffer(boolean offer) {
-        isOffer = offer;
+        this.offer = offer;
     }
 
     public AdType getType() {

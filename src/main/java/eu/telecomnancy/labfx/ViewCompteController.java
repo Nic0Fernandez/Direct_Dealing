@@ -65,15 +65,16 @@ public class ViewCompteController {
                 .collect(Collectors.toList());
 
         List<Ad> userOffers = userAds.stream()
-                .filter(ad -> ad.isOffer)
+                .filter(ad -> ad.offer)
                 .collect(Collectors.toList());
 
         List<Ad> userDemands = userAds.stream()
-                .filter(ad -> !ad.isOffer)
+                .filter(ad -> !ad.offer)
                 .collect(Collectors.toList());
 
         offersListView.setItems(FXCollections.observableArrayList(userOffers));
         demandsListView.setItems(FXCollections.observableArrayList(userDemands));
+        notificationsView.setItems(user.pendingNotifications);
 
         offersListView.setCellFactory(param -> new ListCell<Ad>() {
             @Override

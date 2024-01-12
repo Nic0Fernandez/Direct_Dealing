@@ -112,7 +112,7 @@ public class EditOfferController {
         this.existingOffer = existingOffer;
         
         nom.setText(existingOffer.name);
-        type.setValue(existingOffer.isOffer ? "Offre" : "Demande");
+        type.setValue(existingOffer.offer ? "Offre" : "Demande");
         nature.setValue(existingOffer.type == AdType.SERVICE ? "Service" : "Bien");
         description.setText(existingOffer.description);
         cout.setText(String.valueOf(existingOffer.cost));
@@ -158,7 +158,7 @@ public class EditOfferController {
             try {
                 offre.start = localDateToDate(dateDebut.getValue());
                 offre.end = localDateToDate(dateFin.getValue());
-                offre.isOffer= Offer();
+                offre.offer= Offer();
                 offre.type = type();
             } catch (Exception e) {
                 showErrorMessage("Vous devez remplir tous les champs");
@@ -215,7 +215,7 @@ public class EditOfferController {
                 offre.maxDistance = Integer.parseInt(distance.getText());
             }
             
-            JSONDatabase.getInstance().updateAd(existingOffer);
+            // JSONDatabase.getInstance().updateAd(existingOffer);
 
            
             showErrorMessage("Vous devez remplir tous les champs");

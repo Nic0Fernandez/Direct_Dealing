@@ -380,7 +380,7 @@ public class JSONDatabase implements Database {
     User payer;
     User receiver;
     Ad ad = getAd(t.adID);
-    if (ad.isOffer) {
+    if (ad.offer) {
       payer = getUser(t.UID);
       receiver = getUser(ad.userID);
     } else {

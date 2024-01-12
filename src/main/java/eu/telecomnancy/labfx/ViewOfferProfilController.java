@@ -12,7 +12,6 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 
 import eu.telecomnancy.labfx.model.Ad;
-import eu.telecomnancy.labfx.model.AdHistory;
 import eu.telecomnancy.labfx.model.User;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -82,7 +81,7 @@ public class ViewOfferProfilController {
 
     public void initializeItems(){
         nom.setText(offer.name);
-        if(offer.isOffer){
+        if(offer.offer){
             type.setText("Offre");
         }
         else{
@@ -111,18 +110,17 @@ public class ViewOfferProfilController {
     }
 
     public void checkStatus(){
-        for(AdHistory adHistory: user.history){
-            if(adHistory.ad.userID == user.UID){
-                reserveButton.setText("Waiting...");
-                reserveButton.setDisable(true);
-            }
-        }
+        // for(AdHistory adHistory: user.history){
+        //     if(adHistory.ad.userID == user.UID){
+        //         reserveButton.setText("Waiting...");
+        //         reserveButton.setDisable(true);
+        //     }
+        // }
     }
     
 
     @FXML
     public void retourMainScreen() throws IOException{
-        System.out.println(user.history);
         main.ViewCompteController(user);
     }
 
