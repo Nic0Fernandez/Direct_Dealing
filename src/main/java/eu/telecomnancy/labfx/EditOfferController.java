@@ -36,7 +36,7 @@ public class EditOfferController {
     private Ad existingOffer;
 
     private Main main;
-    private Ad offre = new Ad();;
+    private Ad offre = new Ad();
     private String pathImage = "";
     private boolean isOffer;
     private AdType adType;
@@ -237,7 +237,7 @@ public class EditOfferController {
 
     @FXML
     public void retourMain()throws IOException{
-        main.viewOfferProfil(user, offre);
+        main.viewOfferProfil(user, existingOffer);
     }
 
 }
