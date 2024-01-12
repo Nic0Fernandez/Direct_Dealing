@@ -13,10 +13,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewCompteController">
+<VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ViewCompteController">
     <children>
-        <fx:include source="DirectDealingMenu.fxml"/>
-        <Label fx:id="userName" alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="578.0" text="User Name">
+        <fx:include source="DirectDealingMenu.fxml" />
+        <Label fx:id="userName" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="39.0" text="User Name">
             <font>
                 <Font size="19.0" />
             </font>
@@ -27,7 +27,7 @@
                 <ImageView fx:id="userPhoto" fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true" />
             </children>
         </HBox>
-      <GridPane VBox.vgrow="ALWAYS">
+      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -39,19 +39,19 @@
          <children>
               
               <!-- TitledPane for Offers -->
-              <TitledPane text="Offers" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+              <TitledPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Offers" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                   <content>
                       <ListView fx:id="offersListView" prefHeight="100.0" prefWidth="200.0" />
                   </content>
               </TitledPane>
       
               <!-- TitledPane for Demands -->
-              <TitledPane text="Demands" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+              <TitledPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Demands" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                   <content>
                       <ListView fx:id="demandsListView" prefHeight="100.0" prefWidth="200.0" />
                   </content>
               </TitledPane>
-            <TitledPane text="Notifications" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <TitledPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Notifications" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2147483647" GridPane.vgrow="ALWAYS">
                <content>
                   <ListView fx:id="notificationsView" prefHeight="100.0" prefWidth="200.0" />
                </content>

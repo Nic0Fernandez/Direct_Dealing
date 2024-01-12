@@ -41,14 +41,14 @@ public class ReservationNotification {
 
   @FXML
   private void acceptReservation() {
-    db.saveStatus(t, StatusType.ACCEPTED);
     updateNotifications();
+    db.saveStatus(t, StatusType.ACCEPTED);
   }
 
   @FXML
   private void refuseReservation() {
-    db.saveStatus(t, StatusType.REFUSED);
     updateNotifications();
+    db.saveStatus(t, StatusType.REFUSED);
   }
 
   @FXML

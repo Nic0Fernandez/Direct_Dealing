@@ -59,7 +59,7 @@ public class JSONDatabase implements Database {
 
   private final IntSupplier idProvider;
 
-   private final Map<Integer, Transaction> transactions = new HashMap<>();
+  private final Map<Integer, Transaction> transactions = new HashMap<>();
 
   // public only for testing!!
   public JSONDatabase(IntSupplier idProvider, String linuxPath, String windowsPath) {
@@ -89,7 +89,7 @@ public class JSONDatabase implements Database {
     return getUniqueID(ads.keySet());
   }
 
-  private int getNewTransactionID(){
+  private int getNewTransactionID() {
     return getUniqueID(transactions.keySet());
   }
 
@@ -134,8 +134,9 @@ public class JSONDatabase implements Database {
     Ad ad = getAd(transaction.adID);
     User user = getUser(transaction.UID);
     User otherUser = getUser(ad.userID);
-    user.transactionsExt.put(ad.ID,transaction.ID);
-    otherUser.transactionsIn.put(ad.ID,transaction.ID);
+    otherUser.addNotification(transaction.ID);
+    user.transactionsExt.put(ad.ID, transaction.ID);
+    otherUser.transactionsIn.put(ad.ID, transaction.ID);
     save();
     System.out.println("Transaction " + transaction.ID + " saved");
     return id;
@@ -156,8 +157,9 @@ public class JSONDatabase implements Database {
     return ads.getOrDefault(ID, null);
   }
 
-  @Override 
-  public Transaction getTransaction(int ID){
+  @Override
+  public Transaction getTransaction(int ID) {
+    System.out.println(transactions.size());
     return transactions.getOrDefault(ID, null);
   }
 
@@ -238,7 +240,6 @@ public class JSONDatabase implements Database {
       return ads;
     }
 
-
     public Collection<Conversation> getConversations() {
       return conversations;
     }
@@ -254,7 +255,8 @@ public class JSONDatabase implements Database {
     public JSONDatabaseMemento() {
     }
 
-    public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users, Collection<Conversation> conversations, Collection<Transaction> transactions) {
+    public JSONDatabaseMemento(Collection<Ad> ads, Collection<User> users, Collection<Conversation> conversations,
+        Collection<Transaction> transactions) {
       this.ads = ads;
       this.users = users;
       this.conversations = conversations;
@@ -366,10 +368,28 @@ public class JSONDatabase implements Database {
   }
 
   @Override
-  public void saveStatus(Transaction transaction, StatusType statusType){
+  public void saveStatus(Transaction transaction, StatusType statusType) {
+    if (transaction.statusType != StatusType.COMPLETED && statusType == StatusType.COMPLETED) {
+      transferFunds(transaction);
+    }
     transaction.statusType = statusType;
     save();
     System.out.println("mise à jour");
+  }
+
+  public void transferFunds(Transaction t) {
+    User payer;
+    User receiver;
+    Ad ad = getAd(t.adID);
+    if (ad.offer) {
+      payer = getUser(t.UID);
+      receiver = getUser(ad.userID);
+    } else {
+      payer = getUser(ad.userID);
+      receiver = getUser(t.UID);
+    }
+    payer.florains -= ad.cost;
+    receiver.florains += ad.cost;
   }
 
   @Override
