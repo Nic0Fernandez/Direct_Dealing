@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" style="-fx-background-color: #fff0f5;" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ConversationView">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.ConversationView">
    <children>
       <Label fx:id="userLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text=" " textAlignment="CENTER">
          <font>
@@ -18,7 +18,7 @@
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
             <TextArea fx:id="messageField" disable="true" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Button fx:id="sendMessageButton" disable="true" minWidth="-Infinity" mnemonicParsing="false" style="-fx-background-color: #800080; -fx-text-fill: #fefefe;" onAction="#sendMessage" prefWidth="100.0" text="Envoyer" />
+            <Button fx:id="sendMessageButton" disable="true" minWidth="-Infinity" mnemonicParsing="false" onAction="#sendMessage" prefWidth="100.0" text="Envoyer" />
          </children>
       </HBox>
    </children>
