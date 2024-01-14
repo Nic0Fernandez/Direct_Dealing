@@ -11,3 +11,7 @@ java --module-path ${JAVAFX_HOME}/lib/  --add-modules javafx.controls,javafx.fxm
 ```
 
 Il n'y a aucune configuration requise, seules les dépendances externes JavaFX sont nécessaires.
+
+# Lien video présentation
+
+[tapez ici pour le vidéo de présentation](https://www.youtube.com/watch?v=x0T_tx-od6g)
